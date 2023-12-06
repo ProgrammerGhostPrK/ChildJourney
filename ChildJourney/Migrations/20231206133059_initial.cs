@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,9 +22,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,7 +163,9 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    BadgeId = table.Column<int>(type: "int", nullable: false)
+                    BadgeId = table.Column<int>(type: "int", nullable: false),
+                    BadgeLevel = table.Column<int>(type: "int", nullable: false),
+                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,7 +312,6 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     OwnedHouseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -388,7 +387,8 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    AnimalId = table.Column<int>(type: "int", nullable: false)
+                    AnimalId = table.Column<int>(type: "int", nullable: false),
+                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

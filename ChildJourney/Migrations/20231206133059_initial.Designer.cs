@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChildJourney.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20231206123909_Initial")]
-    partial class Initial
+    [Migration("20231206133059_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,6 @@ namespace ChildJourney.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -51,15 +48,9 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -293,6 +284,9 @@ namespace ChildJourney.Migrations
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -313,6 +307,12 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("BadgeId")
                         .HasColumnType("int");
+
+                    b.Property<int>("BadgeLevel")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
