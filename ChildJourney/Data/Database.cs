@@ -3,13 +3,12 @@ using ChildJourney.Models;
 using System.Numerics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Patatzaak_t_frietje.Data
+namespace ChildJourney.Data
 {
     public class Database : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Badge> Badges { get; set; }
-        public DbSet<Body> Body { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Clothing> Clothing { get; set; }
         public DbSet<Decoration> Decoration { get; set; }
@@ -17,6 +16,10 @@ namespace Patatzaak_t_frietje.Data
         public DbSet<SeasonReward> SeasonRewards { get; set; }
         public DbSet<WeekRewards> WeekRewards { get; set; }
         public DbSet<BodyPart> BodyParts { get; set; }
+        public DbSet<House> Houses { get; set; }
+        public DbSet<Outfit> Outfits { get; set; }
+        public DbSet<Body> Bodies { get; set; }
+        public DbSet<Mood> Moods { get; set; }
         public DbSet<User_Badge> UsersBadges { get; set; }
         public DbSet<User_Animal> UsersAnimals { get; set; }
         public DbSet<User_Clothing> UsersClothing { get; set; }
@@ -29,7 +32,7 @@ namespace Patatzaak_t_frietje.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;database=library;user=user;password=password");
+            optionsBuilder.UseMySQL("Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;");
         }
     }
 }

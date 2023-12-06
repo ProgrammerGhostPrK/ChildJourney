@@ -7,6 +7,6 @@
         public string Description { get; set; }
         public DateTime Day { get; set; }
         public int Level { get; set; }
-        public ICollection<User_Badges> UserBadges { get; set; }
+        public ICollection<User_Badge> UserBadges { get; set; }
     }
 }
