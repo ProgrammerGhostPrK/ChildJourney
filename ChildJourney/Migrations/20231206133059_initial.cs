@@ -36,7 +36,7 @@ namespace ChildJourney.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "Longtext", nullable: false),
                     Worth = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "longtext", nullable: false),
                     WeekRewardsId = table.Column<int>(type: "int", nullable: true),
@@ -312,7 +312,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    OwnedHouseId = table.Column<int>(type: "int", nullable: false)
+                    OwnedHouseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
