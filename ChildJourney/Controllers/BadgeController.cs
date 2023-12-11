@@ -19,6 +19,12 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        public HomeController HomeController()
+        {
+            var Hc = new HomeController(_context);
+            return Hc;
+        }
+
         // GET: Badge
         public async Task<IActionResult> Index()
         {
@@ -60,7 +66,7 @@ namespace ChildJourney.Controllers
         {
                 _context.Add(badge);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Badge/Edit/5
@@ -91,27 +97,9 @@ namespace ChildJourney.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(badge);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BadgeExists(badge.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(badge);
+            _context.Update(badge);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Badge/Delete/5
@@ -148,7 +136,7 @@ namespace ChildJourney.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool BadgeExists(int id)

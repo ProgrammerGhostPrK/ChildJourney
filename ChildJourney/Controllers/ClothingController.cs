@@ -19,6 +19,12 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        public HomeController HomeController()
+        {
+            var Hc = new HomeController(_context);
+            return Hc;
+        }
+
         // GET: Clothing
         public async Task<IActionResult> Index()
         {
@@ -58,9 +64,9 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Type,Price")] Clothing clothing)
         {
-                _context.Add(clothing);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            _context.Add(clothing);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Clothing/Edit/5
@@ -91,27 +97,10 @@ namespace ChildJourney.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(clothing);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClothingExists(clothing.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(clothing);
+           
+            _context.Update(clothing);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Clothing/Delete/5
@@ -148,7 +137,7 @@ namespace ChildJourney.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool ClothingExists(int id)

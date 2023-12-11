@@ -19,6 +19,12 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        public HomeController HomeController()
+        {
+            var Hc = new HomeController(_context);
+            return Hc;
+        }
+
         // GET: BodyPart
         public async Task<IActionResult> Index()
         {
@@ -58,9 +64,9 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Type,Price")] BodyPart bodyPart)
         {
-                _context.Add(bodyPart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            _context.Add(bodyPart);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: BodyPart/Edit/5
@@ -91,27 +97,10 @@ namespace ChildJourney.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(bodyPart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BodyPartExists(bodyPart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(bodyPart);
+            _context.Update(bodyPart);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+
         }
 
         // GET: BodyPart/Delete/5
@@ -148,7 +137,7 @@ namespace ChildJourney.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool BodyPartExists(int id)

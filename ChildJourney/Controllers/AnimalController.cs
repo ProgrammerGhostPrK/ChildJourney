@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using ChildJourney.ViewModels;
 
 namespace ChildJourney.Controllers
 {
@@ -17,6 +18,11 @@ namespace ChildJourney.Controllers
         public AnimalController(Database context)
         {
             _context = context;
+        }
+        public HomeController HomeController()
+        {
+            var Hc = new HomeController(_context);
+            return Hc;
         }
 
         // GET: Animal
@@ -60,7 +66,7 @@ namespace ChildJourney.Controllers
         {
                 _context.Add(animal);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Animal/Edit/5
@@ -91,27 +97,9 @@ namespace ChildJourney.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(animal);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AnimalExists(animal.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(animal);
+            _context.Update(animal);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Animal/Delete/5
@@ -148,7 +136,7 @@ namespace ChildJourney.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool AnimalExists(int id)

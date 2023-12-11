@@ -19,6 +19,12 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        public HomeController HomeController()
+        {
+            var Hc = new HomeController(_context);
+            return Hc;
+        }
+
         // GET: Decoration
         public async Task<IActionResult> Index()
         {
@@ -58,9 +64,9 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Type")] Decoration decoration)
         {
-                _context.Add(decoration);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            _context.Add(decoration);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Decoration/Edit/5
@@ -91,27 +97,9 @@ namespace ChildJourney.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(decoration);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DecorationExists(decoration.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(decoration);
+            _context.Update(decoration);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Decoration/Delete/5
@@ -148,7 +136,7 @@ namespace ChildJourney.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool DecorationExists(int id)

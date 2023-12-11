@@ -1,0 +1,335 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+
+@{
+    ViewData["Title"] = "AdminDashboard";
+}
+
+<h1>Users</h1>
+<a asp-action="Create" asp-controller="User" style="color:black;text-decoration:underline">Create New User</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Coins
+            </th>
+            <th>
+                Daystreak
+            </th>
+            <th>
+                Dailystreak
+            </th>
+            <th>
+                UnlockedIslands
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coins)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Daystreak)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DailyStreak)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnlockedIslands)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="User" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="User" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Animals</h1>
+<a asp-action="Create" asp-controller="Animal" style="color:black;text-decoration:underline">Create New Animal</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th></th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Animals)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Animal" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Animal" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Animal" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Badges</h1>
+<a asp-action="Create" asp-controller="Badge" style="color:black;text-decoration:underline">Create New Badge</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th></th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Badges)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Badge" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Badge" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Badge" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Bodyparts</h1>
+<a asp-action="Create" asp-controller="BodyPart" style="color:black;text-decoration:underline">Create New Bodypart</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.bodyParts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="BodyPart" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="BodyPart" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="BodyPart" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Clothing</h1>
+<a asp-action="Create" asp-controller="Clothing" style="color:black;text-decoration:underline">Create New Clothingpiece</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.clothing)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Clothing" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Clothing" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Clothing" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Decoration</h1>
+<a asp-action="Create" asp-controller="Decoration" style="color:black;text-decoration:underline">Create New Decoration</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.decorations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Decoration" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Decoration" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Decoration" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<h1>Rewards</h1>
+<a asp-action="Create" asp-controller="Reward" style="color:black;text-decoration:underline">Create New Reward</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Worth
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.rewards)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worth)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Reward" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-controller="Reward" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Reward" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
