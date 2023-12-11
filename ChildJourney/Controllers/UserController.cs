@@ -59,20 +59,18 @@ namespace ChildJourney.Controllers
             return View();
         }
 
-        // POST: User/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Registreer([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands,Email,Admin")] User user)
         {
             user.Coins = 0;
             user.Daystreak = 0;
             user.DailyStreak = 0;
             user.UnlockedIslands = 0;
+            user.Admin = false;
             _context.Add(user);
             await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            return View("../User/Login");
         }
 
         // GET: User/Edit/5
@@ -143,6 +141,11 @@ namespace ChildJourney.Controllers
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+        }
+
+        public IActionResult Registreer()
+        {
+            return View();
         }
 
         public IActionResult Login()

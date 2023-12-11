@@ -1,0 +1,48 @@
+﻿@model ChildJourney.Models.User
+
+@{
+    ViewData["Title"] = "Registreren";
+}
+<style>
+    body {
+        background-image: url(https://happywall-img-gallery.imgix.net/52354/pink_sunset_sky_on_ocean_display.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<body>
+    <div style="border-style: solid;margin: 70px" align="center">
+        <H3 align="center" style="border-style: solid; padding: 20px"> ChildJounrey </H3>
+        <p align="center"> Enter user information to create an account. Allready have an account? Click <a style="color: black" href="../User/Login">here</a>!</p>
+        <div class="row">
+        <div class="col-md-4" style="margin: 0 auto;">
+        <form asp-action="Registreer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" type="number" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Registreer" class="btn btn-primary" style="color:lightgray;border-color:grey;margin:10px" />
+            </div>
+        </form>
+        </div>
+        </div>
+    </div>
+</body>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
