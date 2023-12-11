@@ -10,11 +10,11 @@ using ChildJourney.Models;
 
 namespace ChildJourney.Controllers
 {
-    public class UserController : Controller
+    public class RewardController : Controller
     {
         private readonly Database _context;
 
-        public UserController(Database context)
+        public RewardController(Database context)
         {
             _context = context;
         }
@@ -25,123 +25,123 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
-        // GET: User
+        // GET: Reward
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
+              return _context.Rewards != null ? 
+                          View(await _context.Rewards.ToListAsync()) :
+                          Problem("Entity set 'Database.Rewards'  is null.");
         }
 
-        // GET: User/Details/5
+        // GET: Reward/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Rewards == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var reward = await _context.Rewards
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (reward == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(reward);
         }
 
-        // GET: User/Create
+        // GET: Reward/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Reward/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Type,Worth")] Reward reward)
         {
-            _context.Add(user);
+            _context.Add(reward);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Edit/5
+        // GET: Reward/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Rewards == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var reward = await _context.Rewards.FindAsync(id);
+            if (reward == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(reward);
         }
 
-        // POST: User/Edit/5
+        // POST: Reward/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Worth")] Reward reward)
         {
-            if (id != user.Id)
+            if (id != reward.Id)
             {
                 return NotFound();
             }
 
-            _context.Update(user);
+            _context.Update(reward);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Delete/5
+        // GET: Reward/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Rewards == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var reward = await _context.Rewards
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (reward == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(reward);
         }
 
-        // POST: User/Delete/5
+        // POST: Reward/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (_context.Rewards == null)
             {
-                return Problem("Entity set 'Database.Users'  is null.");
+                return Problem("Entity set 'Database.Rewards'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var reward = await _context.Rewards.FindAsync(id);
+            if (reward != null)
             {
-                _context.Users.Remove(user);
+                _context.Rewards.Remove(reward);
             }
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        private bool RewardExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Rewards?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

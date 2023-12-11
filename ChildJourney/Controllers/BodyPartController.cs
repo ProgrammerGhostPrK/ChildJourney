@@ -10,11 +10,11 @@ using ChildJourney.Models;
 
 namespace ChildJourney.Controllers
 {
-    public class UserController : Controller
+    public class BodyPartController : Controller
     {
         private readonly Database _context;
 
-        public UserController(Database context)
+        public BodyPartController(Database context)
         {
             _context = context;
         }
@@ -25,123 +25,124 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
-        // GET: User
+        // GET: BodyPart
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
+              return _context.BodyParts != null ? 
+                          View(await _context.BodyParts.ToListAsync()) :
+                          Problem("Entity set 'Database.BodyParts'  is null.");
         }
 
-        // GET: User/Details/5
+        // GET: BodyPart/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.BodyParts == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var bodyPart = await _context.BodyParts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (bodyPart == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(bodyPart);
         }
 
-        // GET: User/Create
+        // GET: BodyPart/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: BodyPart/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type,Price")] BodyPart bodyPart)
         {
-            _context.Add(user);
+            _context.Add(bodyPart);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Edit/5
+        // GET: BodyPart/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.BodyParts == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var bodyPart = await _context.BodyParts.FindAsync(id);
+            if (bodyPart == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(bodyPart);
         }
 
-        // POST: User/Edit/5
+        // POST: BodyPart/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Price")] BodyPart bodyPart)
         {
-            if (id != user.Id)
+            if (id != bodyPart.Id)
             {
                 return NotFound();
             }
 
-            _context.Update(user);
+            _context.Update(bodyPart);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+
         }
 
-        // GET: User/Delete/5
+        // GET: BodyPart/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.BodyParts == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var bodyPart = await _context.BodyParts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (bodyPart == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(bodyPart);
         }
 
-        // POST: User/Delete/5
+        // POST: BodyPart/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (_context.BodyParts == null)
             {
-                return Problem("Entity set 'Database.Users'  is null.");
+                return Problem("Entity set 'Database.BodyParts'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var bodyPart = await _context.BodyParts.FindAsync(id);
+            if (bodyPart != null)
             {
-                _context.Users.Remove(user);
+                _context.BodyParts.Remove(bodyPart);
             }
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        private bool BodyPartExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.BodyParts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

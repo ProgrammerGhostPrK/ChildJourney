@@ -10,11 +10,11 @@ using ChildJourney.Models;
 
 namespace ChildJourney.Controllers
 {
-    public class UserController : Controller
+    public class ClothingController : Controller
     {
         private readonly Database _context;
 
-        public UserController(Database context)
+        public ClothingController(Database context)
         {
             _context = context;
         }
@@ -25,123 +25,124 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
-        // GET: User
+        // GET: Clothing
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
+              return _context.Clothing != null ? 
+                          View(await _context.Clothing.ToListAsync()) :
+                          Problem("Entity set 'Database.Clothing'  is null.");
         }
 
-        // GET: User/Details/5
+        // GET: Clothing/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Clothing == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var clothing = await _context.Clothing
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (clothing == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(clothing);
         }
 
-        // GET: User/Create
+        // GET: Clothing/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Clothing/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type,Price")] Clothing clothing)
         {
-            _context.Add(user);
+            _context.Add(clothing);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Edit/5
+        // GET: Clothing/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Clothing == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var clothing = await _context.Clothing.FindAsync(id);
+            if (clothing == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(clothing);
         }
 
-        // POST: User/Edit/5
+        // POST: Clothing/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Price")] Clothing clothing)
         {
-            if (id != user.Id)
+            if (id != clothing.Id)
             {
                 return NotFound();
             }
 
-            _context.Update(user);
+           
+            _context.Update(clothing);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Delete/5
+        // GET: Clothing/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Clothing == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var clothing = await _context.Clothing
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (clothing == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(clothing);
         }
 
-        // POST: User/Delete/5
+        // POST: Clothing/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (_context.Clothing == null)
             {
-                return Problem("Entity set 'Database.Users'  is null.");
+                return Problem("Entity set 'Database.Clothing'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var clothing = await _context.Clothing.FindAsync(id);
+            if (clothing != null)
             {
-                _context.Users.Remove(user);
+                _context.Clothing.Remove(clothing);
             }
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        private bool ClothingExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Clothing?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

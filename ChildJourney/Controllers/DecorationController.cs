@@ -10,11 +10,11 @@ using ChildJourney.Models;
 
 namespace ChildJourney.Controllers
 {
-    public class UserController : Controller
+    public class DecorationController : Controller
     {
         private readonly Database _context;
 
-        public UserController(Database context)
+        public DecorationController(Database context)
         {
             _context = context;
         }
@@ -25,123 +25,123 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
-        // GET: User
+        // GET: Decoration
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
+              return _context.Decoration != null ? 
+                          View(await _context.Decoration.ToListAsync()) :
+                          Problem("Entity set 'Database.Decoration'  is null.");
         }
 
-        // GET: User/Details/5
+        // GET: Decoration/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Decoration == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var decoration = await _context.Decoration
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (decoration == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(decoration);
         }
 
-        // GET: User/Create
+        // GET: Decoration/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Decoration/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Type")] Decoration decoration)
         {
-            _context.Add(user);
+            _context.Add(decoration);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Edit/5
+        // GET: Decoration/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Decoration == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var decoration = await _context.Decoration.FindAsync(id);
+            if (decoration == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(decoration);
         }
 
-        // POST: User/Edit/5
+        // POST: Decoration/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Type")] Decoration decoration)
         {
-            if (id != user.Id)
+            if (id != decoration.Id)
             {
                 return NotFound();
             }
 
-            _context.Update(user);
+            _context.Update(decoration);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Delete/5
+        // GET: Decoration/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Decoration == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var decoration = await _context.Decoration
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (decoration == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(decoration);
         }
 
-        // POST: User/Delete/5
+        // POST: Decoration/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (_context.Decoration == null)
             {
-                return Problem("Entity set 'Database.Users'  is null.");
+                return Problem("Entity set 'Database.Decoration'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var decoration = await _context.Decoration.FindAsync(id);
+            if (decoration != null)
             {
-                _context.Users.Remove(user);
+                _context.Decoration.Remove(decoration);
             }
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        private bool DecorationExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Decoration?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

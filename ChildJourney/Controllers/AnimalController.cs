@@ -7,141 +7,141 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using ChildJourney.ViewModels;
 
 namespace ChildJourney.Controllers
 {
-    public class UserController : Controller
+    public class AnimalController : Controller
     {
         private readonly Database _context;
 
-        public UserController(Database context)
+        public AnimalController(Database context)
         {
             _context = context;
         }
-
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: User
+        // GET: Animal
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
+              return _context.Animals != null ? 
+                          View(await _context.Animals.ToListAsync()) :
+                          Problem("Entity set 'Database.Animals'  is null.");
         }
 
-        // GET: User/Details/5
+        // GET: Animal/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Animals == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var animal = await _context.Animals
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (animal == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(animal);
         }
 
-        // GET: User/Create
+        // GET: Animal/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Animal/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Animal animal)
         {
-            _context.Add(user);
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+                _context.Add(animal);
+                await _context.SaveChangesAsync();
+                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Edit/5
+        // GET: Animal/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Animals == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var animal = await _context.Animals.FindAsync(id);
+            if (animal == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(animal);
         }
 
-        // POST: User/Edit/5
+        // POST: Animal/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Animal animal)
         {
-            if (id != user.Id)
+            if (id != animal.Id)
             {
                 return NotFound();
             }
 
-            _context.Update(user);
+            _context.Update(animal);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        // GET: User/Delete/5
+        // GET: Animal/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Animals == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var animal = await _context.Animals
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (animal == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(animal);
         }
 
-        // POST: User/Delete/5
+        // POST: Animal/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (_context.Animals == null)
             {
-                return Problem("Entity set 'Database.Users'  is null.");
+                return Problem("Entity set 'Database.Animals'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var animal = await _context.Animals.FindAsync(id);
+            if (animal != null)
             {
-                _context.Users.Remove(user);
+                _context.Animals.Remove(animal);
             }
             
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        private bool AnimalExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Animals?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
