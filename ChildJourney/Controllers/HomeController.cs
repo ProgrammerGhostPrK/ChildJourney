@@ -36,6 +36,11 @@ namespace ChildJourney.Controllers
             return View();
         }
 
+        public IActionResult Playgame()
+        {
+            return View();
+        }
+
         public IActionResult AdminDashboard()
         {
             return View(AdminViewModel());
