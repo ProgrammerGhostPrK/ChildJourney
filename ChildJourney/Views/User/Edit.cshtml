@@ -20,27 +20,36 @@
             </div>
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
+                <input asp-for="Age" type="number" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Admin" class="control-label"></label>
+            </div>
+            @Html.DisplayFor(model => model.Admin)
+            <div class="form-group">
                 <label asp-for="Coins" class="control-label"></label>
-                <input asp-for="Coins" class="form-control" />
+                <input asp-for="Coins" type="number" class="form-control" />
                 <span asp-validation-for="Coins" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Daystreak" class="control-label"></label>
-                <input asp-for="Daystreak" class="form-control" />
+                <input asp-for="Daystreak" type="number" class="form-control" />
                 <span asp-validation-for="Daystreak" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DailyStreak" class="control-label"></label>
-                <input asp-for="DailyStreak" class="form-control" />
+                <input asp-for="DailyStreak" type="number" class="form-control" />
                 <span asp-validation-for="DailyStreak" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UnlockedIslands" class="control-label"></label>
-                <input asp-for="UnlockedIslands" class="form-control" />
+                <input asp-for="UnlockedIslands" type="number" class="form-control" />
                 <span asp-validation-for="UnlockedIslands" class="text-danger"></span>
             </div>
             <div class="form-group">
