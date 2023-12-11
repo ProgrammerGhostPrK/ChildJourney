@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
+using System.Numerics;
 
 namespace ChildJourney.Controllers
 {
@@ -57,16 +59,18 @@ namespace ChildJourney.Controllers
             return View();
         }
 
-        // POST: User/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Registreer([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands,Email,Admin")] User user)
         {
+            user.Coins = 0;
+            user.Daystreak = 0;
+            user.DailyStreak = 0;
+            user.UnlockedIslands = 0;
+            user.Admin = false;
             _context.Add(user);
             await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            return View("../User/Login");
         }
 
         // GET: User/Edit/5
@@ -139,9 +143,46 @@ namespace ChildJourney.Controllers
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool UserExists(int id)
+        public IActionResult Registreer()
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            if (_context.Users.Count() == 0)
+            {
+                User user = new User()
+                {
+                    Id = 0,
+                    Name = "Admin",
+                    Email = "Admin@Admin.Admin",
+                    DailyStreak = 0,
+                    Daystreak = 0,
+                    Age = 0,
+                    Coins = 0,
+                    UnlockedIslands = 0,
+                    Admin = true,
+                };
+                _context.Add(user);
+                _context.SaveChanges();
+            }
+            HttpContext.Session.SetString("CurrentUser", "");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(User User)
+        {
+            var user = _context.Users.FirstOrDefault(a => a.Email.Equals(User.Email) && a.Name.Equals(User.Name));
+            if (user != null)
+            {
+                var userJson = JsonConvert.SerializeObject(user);
+                HttpContext.Session.SetString("CurrentUser", userJson);
+                return View("../Home/Index");
+            }
+            else { return View(user); }
         }
     }
 }

@@ -1,0 +1,21 @@
+﻿@model ChildJourney.Models.User
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Play";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+}
+
+<style>
+    body {
+        background-image: url("/images/1_4.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div style="margin: 70px" align="center" class="wrapper">
+    <div class="inner">
+        <button>Play as @response.Name</button>
+    </div>
+</div>

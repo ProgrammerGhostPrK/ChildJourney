@@ -1,0 +1,38 @@
+﻿@model ChildJourney.Models.User
+@{
+    ViewData["Title"] = "Inlog";
+}
+
+<style>
+    body {
+        background-image: url(https://happywall-img-gallery.imgix.net/52354/pink_sunset_sky_on_ocean_display.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div style="border-style: solid;margin: 70px" align="center">
+    <H3 align="center" style="border-style: solid; padding: 20px"> ChildJourney </H3>
+    <p align="center"> Enter your Email and Name to sign in. Dont have an account? Click <a style="color: black" href="../User/Registreer">here</a>!</p>
+    <div class="row">
+        <div class="col-md-4" style="margin: 0 auto">
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" type="text" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-primary" style="color:lightgray;border-color:grey;margin:10px" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
