@@ -1,0 +1,56 @@
+﻿@model ChildJourney.Models.User
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    List<string> Dialoguelist = new List<string>();
+    GameController gc = new GameController();
+}
+
+<style>
+    body {
+        background-image: url("/images/1_4.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div align="center" class="wrapper">
+    <div class="inner" style="border-radius: 25px; border-color:lightgray">
+        <label id="Dwindow">Hello there @response.Name, Are you new here?</label>
+        <button id="Yes" onclick="Yesbutton()">Yes</button>
+        <button id="No" onclick="Nobutton()">No</button>
+    </div>
+</div>
+
+<script>
+    const dialoguelist = [];
+    let Count = 0;
+
+    function Yesbutton() {
+
+        if (Count == 0) {
+            AddToArray("Lets start with the basics!", dialoguelist)
+            AddToArray("Step 2", dialoguelist)
+            document.getElementById("Dwindow").innerHTML = dialoguelist[0]
+            document.getElementById("Yes").innerHTML = "Next";
+            document.getElementById("No").hidden = true;
+            Count += 1;
+        }
+        else if (Count == 1) {
+            const index = dialoguelist.indexOf(document.getElementById("Dwindow").innerHTML);
+            document.getElementById("Dwindow").innerHTML = dialoguelist[index + 1];
+        }
+    }
+
+    function Nobutton() {
+        AddToArray("Lets start creating your character then!", dialoguelist)
+        AddToArray("Hair", dialoguelist)
+        document.getElementById("Dwindow").innerHTML = dialoguelist[0]
+        document.getElementById("Yes").innerHTML = "Next";
+        document.getElementById("No").hidden = true;
+        Count += 1;
+    }
+</script>
