@@ -8,6 +8,7 @@ namespace ChildJourney.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string? Image { get; set; }
         public Decoration? OwnedHouse { get; set; }
         [Required]
         public ICollection<User_Animal>? UserAnimals { get; set; }

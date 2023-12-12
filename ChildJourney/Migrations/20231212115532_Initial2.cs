@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
@@ -36,7 +37,8 @@ namespace ChildJourney.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<string>(type: "Longtext", nullable: false),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Worth = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "longtext", nullable: false),
                     WeekRewardsId = table.Column<int>(type: "int", nullable: true),
@@ -61,6 +63,8 @@ namespace ChildJourney.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Email = table.Column<string>(type: "longtext", nullable: false),
+                    Admin = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Coins = table.Column<int>(type: "int", nullable: false),
@@ -219,6 +223,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Type = table.Column<string>(type: "longtext", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     BodyId = table.Column<int>(type: "int", nullable: true)
@@ -241,6 +246,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "longtext", nullable: false),
                     HouseId = table.Column<int>(type: "int", nullable: true)
@@ -263,6 +269,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Type = table.Column<string>(type: "longtext", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     OutfitId = table.Column<int>(type: "int", nullable: true)
@@ -312,6 +319,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     OwnedHouseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -321,8 +329,7 @@ namespace ChildJourney.Migrations
                         name: "FK_Animals_Decoration_OwnedHouseId",
                         column: x => x.OwnedHouseId,
                         principalTable: "Decoration",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

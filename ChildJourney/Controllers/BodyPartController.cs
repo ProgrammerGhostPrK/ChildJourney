@@ -62,7 +62,7 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,Price")] BodyPart bodyPart)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type,Price,Image")] BodyPart bodyPart)
         {
             _context.Add(bodyPart);
             await _context.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Price")] BodyPart bodyPart)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Price,Image")] BodyPart bodyPart)
         {
             if (id != bodyPart.Id)
             {

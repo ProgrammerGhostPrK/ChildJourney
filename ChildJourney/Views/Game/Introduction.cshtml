@@ -1,11 +1,10 @@
-﻿@model ChildJourney.Models.User
+﻿@model ChildJourney.ViewModels.AdminViewModel
 @using ChildJourney.Controllers;
 @using Newtonsoft.Json
 @{
     ViewData["Title"] = "Introduction";
     User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
     List<string> Dialoguelist = new List<string>();
-    GameController gc = new GameController();
 }
 
 <style>
@@ -17,13 +16,36 @@
     }
 </style>
 
-<div align="center" class="wrapper">
-    <div class="inner" style="border-radius: 25px; border-color:lightgray">
-        <label id="Dwindow">Hello there @response.Name, Are you new here?</label>
-        <button id="Yes" onclick="Yesbutton()">Yes</button>
-        <button id="No" onclick="Nobutton()">No</button>
+<div id="Centerwrapper">
+    <div id="wrapper" align="center" class="wrapper">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?</label>
+            <button id="Yes" onclick="Yesbutton()">Yes</button>
+            <button id="No" onclick="Nobutton()">No</button>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9" style="height:700px">
+                @foreach (var item in Model.bodyParts)
+                {
+                    <div style="display:inline-block ; width:250px ; margin:0 0 30px 0; background-color:white">
+                        <table>
+                            <tr>
+                                <td> @item.Name </td>
+                            </tr>
+                            <tr>
+                                <td> @item.Type</td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 <script>
     const dialoguelist = [];
@@ -32,9 +54,11 @@
     function Yesbutton() {
 
         if (Count == 0) {
-            AddToArray("Lets start with the basics!", dialoguelist)
-            AddToArray("Step 2", dialoguelist)
-            document.getElementById("Dwindow").innerHTML = dialoguelist[0]
+            AddToArray("Lets start with the basics!", dialoguelist);
+            AddToArray("Step 2", dialoguelist);
+
+            document.getElementById("Centerwrapper").className = "center-container";
+            document.getElementById("Dwindow").innerHTML = dialoguelist[0];
             document.getElementById("Yes").innerHTML = "Next";
             document.getElementById("No").hidden = true;
             Count += 1;
@@ -46,11 +70,23 @@
     }
 
     function Nobutton() {
-        AddToArray("Lets start creating your character then!", dialoguelist)
-        AddToArray("Hair", dialoguelist)
-        document.getElementById("Dwindow").innerHTML = dialoguelist[0]
-        document.getElementById("Yes").innerHTML = "Next";
-        document.getElementById("No").hidden = true;
-        Count += 1;
+        if (Count == 0) {
+            AddToArray("Lets start creating your character then!", dialoguelist)
+            AddToArray("Now let's start by picking some beautiful looking eyes!", dialoguelist)
+            AddToArray("Don't forget to pick a nice haircut!", dialoguelist)
+            AddToArray("Now finish it off with a mouth!", dialoguelist)
+            AddToArray("You look amazing!!!", dialoguelist)
+            AddToArray("Next up is creating an outfit for your character!", dialoguelist)
+            AddToArray("What a great look!", dialoguelist)
+
+            document.getElementById("Dwindow").innerHTML = dialoguelist[0]
+            document.getElementById("Yes").hidden = true;
+            document.getElementById("No").innerHTML = "Next";
+            Count += 1;
+        }
+            else if (Count == 1) {
+            const index = dialoguelist.indexOf(document.getElementById("Dwindow").innerHTML);
+            document.getElementById("Dwindow").innerHTML = dialoguelist[index + 1];
+        }
     }
 </script>
