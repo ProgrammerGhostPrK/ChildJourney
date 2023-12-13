@@ -13,5 +13,6 @@ namespace ChildJourney.Models
         public int Price { get; set; }
         [Required]
         public ICollection<User_Clothing>? UserClothing { get; set; }
+        public ICollection<Outfit_Clothing>? OutfitClothing{ get; set; }
     }
 }

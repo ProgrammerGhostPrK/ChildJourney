@@ -29,6 +29,8 @@ namespace ChildJourney.Models
         [Required]
         public ICollection<Mood>? Moods { get; set; }
         public int UnlockedIslands { get; set; }
+        public int? OutfitId { get; set; }  
+        public int? BodyId { get; set; }
         [Required]
         public Outfit? Outfit { get; set; }
         [Required]

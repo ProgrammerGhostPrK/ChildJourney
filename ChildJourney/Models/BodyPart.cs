@@ -13,5 +13,6 @@ namespace ChildJourney.Models
         public int Price { get; set; }
         [Required]
         public ICollection<User_BodyPart>? UserBodyParts { get; set; }
+        public ICollection<Body_Bodypartcs>? Body_BodyParts { get; set; }
     }
 }

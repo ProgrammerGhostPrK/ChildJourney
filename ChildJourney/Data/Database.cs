@@ -2,6 +2,7 @@
 using ChildJourney.Models;
 using System.Numerics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Diagnostics.Metrics;
 
 namespace ChildJourney.Data
 {
@@ -26,6 +27,8 @@ namespace ChildJourney.Data
         public DbSet<User_Decoration> UsersDecorations { get; set; }
         public DbSet<User_Reward> UsersRewards { get; set; }
         public DbSet<User_BodyPart> UsersBodyParts { get; set; }
+        public DbSet<Body_Bodypartcs> BodyBodyParts { get; set; }
+        public DbSet<Outfit_Clothing> OutfitClothing { get; set; }
 
         public Database(DbContextOptions<Database> options) : base(options)
         {
@@ -35,6 +38,21 @@ namespace ChildJourney.Data
             // ConnectionstringPC: "Server=DESKTOP-RP2I2GQ;Database=ChildJourney;Uid=root;Pwd=Axel17042004;"
             // ConnectionstringLaptop: "Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;"
             optionsBuilder.UseMySQL("Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+            .HasOne(a => a.Outfit)
+            .WithOne(a => a.User)
+            .HasForeignKey<Outfit>(c => c.UserId);
+
+            modelBuilder.Entity<User>()
+            .HasOne(a => a.Body)
+            .WithOne(a => a.User)
+            .HasForeignKey<Body>(c => c.UserId);
         }
     }
 }

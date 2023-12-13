@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial2 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,40 @@ namespace ChildJourney.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Badges", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "BodyParts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BodyParts", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Clothing",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clothing", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -190,6 +224,60 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "UsersBodyParts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BodyPartId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersBodyParts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersBodyParts_BodyParts_BodyPartId",
+                        column: x => x.BodyPartId,
+                        principalTable: "BodyParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersBodyParts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UsersClothing",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ClothingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersClothing", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersClothing_Clothing_ClothingId",
+                        column: x => x.ClothingId,
+                        principalTable: "Clothing",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersClothing_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UsersRewards",
                 columns: table => new
                 {
@@ -217,25 +305,29 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "BodyParts",
+                name: "BodyBodyParts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Image = table.Column<string>(type: "longtext", nullable: true),
-                    Type = table.Column<string>(type: "longtext", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    BodyId = table.Column<int>(type: "int", nullable: true)
+                    BodyId = table.Column<int>(type: "int", nullable: false),
+                    BodyPartId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BodyParts", x => x.Id);
+                    table.PrimaryKey("PK_BodyBodyParts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BodyParts_Bodies_BodyId",
+                        name: "FK_BodyBodyParts_Bodies_BodyId",
                         column: x => x.BodyId,
                         principalTable: "Bodies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BodyBodyParts_BodyParts_BodyPartId",
+                        column: x => x.BodyPartId,
+                        principalTable: "BodyParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -263,50 +355,27 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Clothing",
+                name: "OutfitClothing",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Image = table.Column<string>(type: "longtext", nullable: true),
-                    Type = table.Column<string>(type: "longtext", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    OutfitId = table.Column<int>(type: "int", nullable: true)
+                    OutfitId = table.Column<int>(type: "int", nullable: false),
+                    ClothingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clothing", x => x.Id);
+                    table.PrimaryKey("PK_OutfitClothing", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clothing_Outfits_OutfitId",
-                        column: x => x.OutfitId,
-                        principalTable: "Outfits",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "UsersBodyParts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    BodyPartId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersBodyParts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersBodyParts_BodyParts_BodyPartId",
-                        column: x => x.BodyPartId,
-                        principalTable: "BodyParts",
+                        name: "FK_OutfitClothing_Clothing_ClothingId",
+                        column: x => x.ClothingId,
+                        principalTable: "Clothing",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UsersBodyParts_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_OutfitClothing_Outfits_OutfitId",
+                        column: x => x.OutfitId,
+                        principalTable: "Outfits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -361,33 +430,6 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "UsersClothing",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ClothingId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersClothing", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersClothing_Clothing_ClothingId",
-                        column: x => x.ClothingId,
-                        principalTable: "Clothing",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersClothing_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "UsersAnimals",
                 columns: table => new
                 {
@@ -427,14 +469,14 @@ namespace ChildJourney.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BodyParts_BodyId",
-                table: "BodyParts",
+                name: "IX_BodyBodyParts_BodyId",
+                table: "BodyBodyParts",
                 column: "BodyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clothing_OutfitId",
-                table: "Clothing",
-                column: "OutfitId");
+                name: "IX_BodyBodyParts_BodyPartId",
+                table: "BodyBodyParts",
+                column: "BodyPartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Decoration_HouseId",
@@ -451,6 +493,16 @@ namespace ChildJourney.Migrations
                 name: "IX_Moods_UserId",
                 table: "Moods",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutfitClothing_ClothingId",
+                table: "OutfitClothing",
+                column: "ClothingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutfitClothing_OutfitId",
+                table: "OutfitClothing",
+                column: "OutfitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Outfits_UserId",
@@ -528,7 +580,13 @@ namespace ChildJourney.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BodyBodyParts");
+
+            migrationBuilder.DropTable(
                 name: "Moods");
+
+            migrationBuilder.DropTable(
+                name: "OutfitClothing");
 
             migrationBuilder.DropTable(
                 name: "UsersAnimals");
@@ -549,6 +607,12 @@ namespace ChildJourney.Migrations
                 name: "UsersRewards");
 
             migrationBuilder.DropTable(
+                name: "Bodies");
+
+            migrationBuilder.DropTable(
+                name: "Outfits");
+
+            migrationBuilder.DropTable(
                 name: "Animals");
 
             migrationBuilder.DropTable(
@@ -565,12 +629,6 @@ namespace ChildJourney.Migrations
 
             migrationBuilder.DropTable(
                 name: "Decoration");
-
-            migrationBuilder.DropTable(
-                name: "Bodies");
-
-            migrationBuilder.DropTable(
-                name: "Outfits");
 
             migrationBuilder.DropTable(
                 name: "Houses");

@@ -26,7 +26,9 @@ namespace ChildJourney.Controllers
                 bodyParts = _context.BodyParts.ToList(),
                 clothing = _context.Clothing.ToList(),
                 decorations = _context.Decoration.ToList(),
-                rewards = _context.Rewards.ToList()
+                rewards = _context.Rewards.ToList(),
+                Outfit_Clothings = _context.OutfitClothing.ToList(),
+                Body_BodyParts = _context.BodyBodyParts.ToList()
             };
             return viewModel;
         }

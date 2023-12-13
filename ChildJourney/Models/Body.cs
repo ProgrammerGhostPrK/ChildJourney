@@ -11,6 +11,6 @@ namespace ChildJourney.Models
         [Required]
         public User User { get; set; }
         [Required]
-        public ICollection<BodyPart> BodyParts { get; set; }
+        public ICollection<Body_Bodypartcs>? BodyParts { get; set; }
     }
 }

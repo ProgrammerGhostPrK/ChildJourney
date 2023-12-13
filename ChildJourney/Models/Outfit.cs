@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChildJourney.Models
 {
@@ -11,6 +12,6 @@ namespace ChildJourney.Models
         [Required]
         public User User { get; set; }
         [Required]
-        public ICollection<Clothing> Clothing { get; set; }
+        public ICollection<Outfit_Clothing>? Clothing { get; set; }
     }
 }
