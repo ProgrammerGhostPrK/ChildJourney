@@ -27,7 +27,7 @@ namespace ChildJourney.Data
         public DbSet<User_Decoration> UsersDecorations { get; set; }
         public DbSet<User_Reward> UsersRewards { get; set; }
         public DbSet<User_BodyPart> UsersBodyParts { get; set; }
-        public DbSet<Body_Bodypartcs> BodyBodyParts { get; set; }
+        public DbSet<BodyBodyParts> BodyBodyParts { get; set; }
         public DbSet<Outfit_Clothing> OutfitClothing { get; set; }
 
         public Database(DbContextOptions<Database> options) : base(options)
@@ -53,6 +53,26 @@ namespace ChildJourney.Data
             .HasOne(a => a.Body)
             .WithOne(a => a.User)
             .HasForeignKey<Body>(c => c.UserId);
+
+            modelBuilder.Entity<Body>()
+            .HasMany(u => u.BodyParts)
+            .WithMany(o => o.Bodies)
+            .UsingEntity(j => j.ToTable("BodyPartBody"));
+
+            modelBuilder.Entity<BodyPart>()
+            .HasMany(bp => bp.Bodies)
+            .WithMany(b => b.BodyParts)
+            .UsingEntity(j => j.ToTable("BodyBodyPart"));
+
+            modelBuilder.Entity<Outfit>()
+            .HasMany(u => u.Clothing)
+            .WithMany(o => o.Outfits)
+            .UsingEntity(j => j.ToTable("OutfitClothings"));
+
+            modelBuilder.Entity<Clothing>()
+            .HasMany(bp => bp.Outfits)
+            .WithMany(b => b.Clothing)
+            .UsingEntity(j => j.ToTable("OutfitClothings"));
         }
     }
 }

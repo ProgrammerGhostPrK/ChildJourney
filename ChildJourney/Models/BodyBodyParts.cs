@@ -2,7 +2,7 @@
 
 namespace ChildJourney.Models
 {
-    public class Body_Bodypartcs
+    public class BodyBodyParts
     {
         public int Id { get; set; }
         public int BodyId { get; set; }

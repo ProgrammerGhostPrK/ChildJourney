@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChildJourney.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20231213142736_Initial")]
+    [Migration("20231214103845_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,6 +21,21 @@ namespace ChildJourney.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("BodyBodyPart", b =>
+                {
+                    b.Property<int>("BodiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BodyPartsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BodiesId", "BodyPartsId");
+
+                    b.HasIndex("BodyPartsId");
+
+                    b.ToTable("BodyBodyPart", (string)null);
+                });
 
             modelBuilder.Entity("ChildJourney.Models.Animal", b =>
                 {
@@ -84,6 +99,27 @@ namespace ChildJourney.Migrations
                     b.ToTable("Bodies");
                 });
 
+            modelBuilder.Entity("ChildJourney.Models.BodyBodyParts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("BodyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BodyPartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BodyId");
+
+                    b.HasIndex("BodyPartId");
+
+                    b.ToTable("BodyBodyParts");
+                });
+
             modelBuilder.Entity("ChildJourney.Models.BodyPart", b =>
                 {
                     b.Property<int>("Id")
@@ -107,27 +143,6 @@ namespace ChildJourney.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BodyParts");
-                });
-
-            modelBuilder.Entity("ChildJourney.Models.Body_Bodypartcs", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("BodyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BodyPartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BodyId");
-
-                    b.HasIndex("BodyPartId");
-
-                    b.ToTable("BodyBodyParts");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.Clothing", b =>
@@ -308,6 +323,9 @@ namespace ChildJourney.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BodyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Coins")
                         .HasColumnType("int");
 
@@ -324,6 +342,9 @@ namespace ChildJourney.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("OutfitId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UnlockedIslands")
                         .HasColumnType("int");
@@ -468,6 +489,21 @@ namespace ChildJourney.Migrations
                     b.ToTable("UsersRewards");
                 });
 
+            modelBuilder.Entity("ClothingOutfit", b =>
+                {
+                    b.Property<int>("ClothingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OutfitsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClothingId", "OutfitsId");
+
+                    b.HasIndex("OutfitsId");
+
+                    b.ToTable("OutfitClothings", (string)null);
+                });
+
             modelBuilder.Entity("ChildJourney.Models.SeasonReward", b =>
                 {
                     b.HasBaseType("ChildJourney.Models.Reward");
@@ -491,6 +527,21 @@ namespace ChildJourney.Migrations
                     b.HasDiscriminator().HasValue("WeekRewards");
                 });
 
+            modelBuilder.Entity("BodyBodyPart", b =>
+                {
+                    b.HasOne("ChildJourney.Models.Body", null)
+                        .WithMany()
+                        .HasForeignKey("BodiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChildJourney.Models.BodyPart", null)
+                        .WithMany()
+                        .HasForeignKey("BodyPartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChildJourney.Models.Animal", b =>
                 {
                     b.HasOne("ChildJourney.Models.Decoration", "OwnedHouse")
@@ -511,16 +562,16 @@ namespace ChildJourney.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ChildJourney.Models.Body_Bodypartcs", b =>
+            modelBuilder.Entity("ChildJourney.Models.BodyBodyParts", b =>
                 {
                     b.HasOne("ChildJourney.Models.Body", "Body")
-                        .WithMany("BodyParts")
+                        .WithMany()
                         .HasForeignKey("BodyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChildJourney.Models.BodyPart", "BodyPart")
-                        .WithMany("Body_BodyParts")
+                        .WithMany()
                         .HasForeignKey("BodyPartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -573,13 +624,13 @@ namespace ChildJourney.Migrations
             modelBuilder.Entity("ChildJourney.Models.Outfit_Clothing", b =>
                 {
                     b.HasOne("ChildJourney.Models.Clothing", "Clothing")
-                        .WithMany("OutfitClothing")
+                        .WithMany()
                         .HasForeignKey("ClothingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChildJourney.Models.Outfit", "Outfit")
-                        .WithMany("Clothing")
+                        .WithMany()
                         .HasForeignKey("OutfitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -710,6 +761,21 @@ namespace ChildJourney.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ClothingOutfit", b =>
+                {
+                    b.HasOne("ChildJourney.Models.Clothing", null)
+                        .WithMany()
+                        .HasForeignKey("ClothingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChildJourney.Models.Outfit", null)
+                        .WithMany()
+                        .HasForeignKey("OutfitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChildJourney.Models.Animal", b =>
                 {
                     b.Navigation("UserAnimals");
@@ -720,22 +786,13 @@ namespace ChildJourney.Migrations
                     b.Navigation("UserBadges");
                 });
 
-            modelBuilder.Entity("ChildJourney.Models.Body", b =>
-                {
-                    b.Navigation("BodyParts");
-                });
-
             modelBuilder.Entity("ChildJourney.Models.BodyPart", b =>
                 {
-                    b.Navigation("Body_BodyParts");
-
                     b.Navigation("UserBodyParts");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.Clothing", b =>
                 {
-                    b.Navigation("OutfitClothing");
-
                     b.Navigation("UserClothing");
                 });
 
@@ -747,11 +804,6 @@ namespace ChildJourney.Migrations
             modelBuilder.Entity("ChildJourney.Models.House", b =>
                 {
                     b.Navigation("HouseParts");
-                });
-
-            modelBuilder.Entity("ChildJourney.Models.Outfit", b =>
-                {
-                    b.Navigation("Clothing");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.Reward", b =>

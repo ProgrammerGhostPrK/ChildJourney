@@ -104,7 +104,9 @@ namespace ChildJourney.Migrations
                     Coins = table.Column<int>(type: "int", nullable: false),
                     Daystreak = table.Column<int>(type: "int", nullable: false),
                     DailyStreak = table.Column<int>(type: "int", nullable: false),
-                    UnlockedIslands = table.Column<int>(type: "int", nullable: false)
+                    UnlockedIslands = table.Column<int>(type: "int", nullable: false),
+                    OutfitId = table.Column<int>(type: "int", nullable: true),
+                    BodyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -305,6 +307,31 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "BodyBodyPart",
+                columns: table => new
+                {
+                    BodiesId = table.Column<int>(type: "int", nullable: false),
+                    BodyPartsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BodyBodyPart", x => new { x.BodiesId, x.BodyPartsId });
+                    table.ForeignKey(
+                        name: "FK_BodyBodyPart_Bodies_BodiesId",
+                        column: x => x.BodiesId,
+                        principalTable: "Bodies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BodyBodyPart_BodyParts_BodyPartsId",
+                        column: x => x.BodyPartsId,
+                        principalTable: "BodyParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "BodyBodyParts",
                 columns: table => new
                 {
@@ -375,6 +402,31 @@ namespace ChildJourney.Migrations
                     table.ForeignKey(
                         name: "FK_OutfitClothing_Outfits_OutfitId",
                         column: x => x.OutfitId,
+                        principalTable: "Outfits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "OutfitClothings",
+                columns: table => new
+                {
+                    ClothingId = table.Column<int>(type: "int", nullable: false),
+                    OutfitsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutfitClothings", x => new { x.ClothingId, x.OutfitsId });
+                    table.ForeignKey(
+                        name: "FK_OutfitClothings_Clothing_ClothingId",
+                        column: x => x.ClothingId,
+                        principalTable: "Clothing",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OutfitClothings_Outfits_OutfitsId",
+                        column: x => x.OutfitsId,
                         principalTable: "Outfits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -469,6 +521,11 @@ namespace ChildJourney.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BodyBodyPart_BodyPartsId",
+                table: "BodyBodyPart",
+                column: "BodyPartsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BodyBodyParts_BodyId",
                 table: "BodyBodyParts",
                 column: "BodyId");
@@ -503,6 +560,11 @@ namespace ChildJourney.Migrations
                 name: "IX_OutfitClothing_OutfitId",
                 table: "OutfitClothing",
                 column: "OutfitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutfitClothings_OutfitsId",
+                table: "OutfitClothings",
+                column: "OutfitsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Outfits_UserId",
@@ -580,6 +642,9 @@ namespace ChildJourney.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BodyBodyPart");
+
+            migrationBuilder.DropTable(
                 name: "BodyBodyParts");
 
             migrationBuilder.DropTable(
@@ -587,6 +652,9 @@ namespace ChildJourney.Migrations
 
             migrationBuilder.DropTable(
                 name: "OutfitClothing");
+
+            migrationBuilder.DropTable(
+                name: "OutfitClothings");
 
             migrationBuilder.DropTable(
                 name: "UsersAnimals");

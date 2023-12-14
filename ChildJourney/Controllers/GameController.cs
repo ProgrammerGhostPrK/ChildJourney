@@ -28,6 +28,10 @@ namespace ChildJourney.Controllers
         {
             return View(HomeController().AdminViewModel());
         }
+        public IActionResult Islandpicking()
+        {
+            return View();
+        }
 
         public IActionResult AddToOutfit(int Id)
         {
@@ -61,6 +65,20 @@ namespace ChildJourney.Controllers
                 };
                 _context.OutfitClothing.Add(OutfitC);
                 _context.SaveChanges();
+                foreach (var item in _context.OutfitClothing.ToList())
+                {
+                    Clothing FoundClothing = _context.Clothing.Find(item.ClothingId);
+                    if (FoundClothing.Type == Clothingpiece.Type && user.OutfitId == item.OutfitId)
+                    {
+                        _context.OutfitClothing.Remove(OutfitC);
+                        Outfit_Clothing OutfitClothes =_context.OutfitClothing.Find(item.Id);
+                        OutfitClothes.ClothingId = OutfitC.ClothingId;
+                        _context.OutfitClothing.Update(OutfitClothes);
+                        _context.SaveChanges();
+                        return Json(new { success = true, refreshPage = true });
+                    }
+                }
+                _context.SaveChanges();
             }
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
@@ -77,7 +95,7 @@ namespace ChildJourney.Controllers
                 {
                     User = user,
                 };
-                Body_Bodypartcs BodyB = new Body_Bodypartcs()
+                BodyBodyParts BodyB = new BodyBodyParts()
                 {
                     Body = body,
                     BodyPart = Bodypart
@@ -90,12 +108,26 @@ namespace ChildJourney.Controllers
             else
             {
                 body = _context.Bodies.Find(user.BodyId);
-                Body_Bodypartcs BodyB = new Body_Bodypartcs()
+                BodyBodyParts BodyB = new BodyBodyParts()
                 {
                     Body = body,
                     BodyPart = Bodypart
                 };
                 _context.BodyBodyParts.Add(BodyB);
+                _context.SaveChanges();
+                foreach (var item in _context.BodyBodyParts.ToList())
+                {
+                    if (_context.BodyParts.Find(item.BodyPartId).Type == Bodypart.Type && user.BodyId == item.BodyId)
+                    {
+                        _context.BodyBodyParts.Remove(BodyB);
+                        BodyBodyParts BBP = _context.BodyBodyParts.Find(item.Id);
+                        BBP.BodyPartId = BodyB.BodyPartId;
+                        _context.BodyBodyParts.Update(BBP);
+                        _context.SaveChanges();
+                        return Json(new { success = true, refreshPage = true });
+                    }
+                }
+                body = _context.Bodies.Find(user.BodyId);
                 _context.SaveChanges();
             }
             _context.SaveChanges();

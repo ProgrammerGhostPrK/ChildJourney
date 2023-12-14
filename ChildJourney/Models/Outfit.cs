@@ -12,6 +12,6 @@ namespace ChildJourney.Models
         [Required]
         public User User { get; set; }
         [Required]
-        public ICollection<Outfit_Clothing>? Clothing { get; set; }
+        public ICollection<Clothing>? Clothing { get; set; }
     }
 }
