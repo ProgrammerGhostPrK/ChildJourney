@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 
 namespace ChildJourney.Models
@@ -10,8 +11,8 @@ namespace ChildJourney.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-        public Color primaryThemeColour { get; set; }
-        public Color secondaryThemeColour { get; set; }
+        public string PrimaryColor { get; set; }
+        public string SecondaryColor { get; set;}
         [Required]
         public ICollection<User_Island> User_Islands { get; set; }
 

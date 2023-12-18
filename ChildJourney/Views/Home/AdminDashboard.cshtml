@@ -345,3 +345,57 @@
     </tbody>
 </table>
 </div>
+
+<h1>Islands</h1>
+<a asp-action="Create" asp-controller="Island" style="color:black;text-decoration:underline">Create New Island</a>
+<div class="scrollable-content" style="height: 150px ; background-color: white">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Primary Color
+                </th>
+                <th>
+                    Secondary Color
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Islands)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td style="color: @item.PrimaryColor;">
+                        @Html.DisplayFor(modelItem => item.PrimaryColor)
+                    </td>
+                    <td style="color: @item.SecondaryColor;">
+                        @Html.DisplayFor(modelItem => item.SecondaryColor)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Island" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-controller="Island" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-controller="Island" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

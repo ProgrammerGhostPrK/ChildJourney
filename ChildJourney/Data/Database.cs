@@ -3,6 +3,8 @@ using ChildJourney.Models;
 using System.Numerics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Drawing;
 
 namespace ChildJourney.Data
 {
@@ -27,8 +29,12 @@ namespace ChildJourney.Data
         public DbSet<User_Decoration> UsersDecorations { get; set; }
         public DbSet<User_Reward> UsersRewards { get; set; }
         public DbSet<User_BodyPart> UsersBodyParts { get; set; }
+        public DbSet<User_Island> UserIslands { get; set; }
         public DbSet<BodyBodyParts> BodyBodyParts { get; set; }
         public DbSet<Outfit_Clothing> OutfitClothing { get; set; }
+        public DbSet<HouseDeco> HouseDecoration { get; set; }
+        public DbSet<Island> Islands { get; set; }
+
 
         public Database(DbContextOptions<Database> options) : base(options)
         {

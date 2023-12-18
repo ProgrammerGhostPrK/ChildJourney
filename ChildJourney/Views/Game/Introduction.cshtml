@@ -24,6 +24,11 @@
 
 <div class="row">
     <div class="block">
+        <h1>Create Your Character!</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="block">
         <button id="1" onclick="menupicker(this.id)">Eyes</button>
     </div>
     <div class="block">
@@ -162,7 +167,7 @@
     <div Id="pickwrapper4" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?4</label>
+            <label id="Dwindow"> Selected bodypieces @bodycheck.Count out of 3!</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.Body_BodyParts)
@@ -271,7 +276,7 @@
     <div Id="pickwrapper8" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label>Hello there @response.Name, Are you new here?8</label>
+            <label>Selected clothingpieces @Clothingcheck.Count out of 3!</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.Outfit_Clothings)

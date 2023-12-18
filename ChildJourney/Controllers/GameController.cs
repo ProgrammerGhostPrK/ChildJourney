@@ -30,7 +30,7 @@ namespace ChildJourney.Controllers
         }
         public IActionResult Islandpicking()
         {
-            return View();
+            return View(HomeController().AdminViewModel());
         }
 
         public IActionResult AddToOutfit(int Id)
