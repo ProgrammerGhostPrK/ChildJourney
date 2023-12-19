@@ -24,22 +24,22 @@
 <div class="row">
     <div class="block">
         <h1>Store</h1>
-    </div>
-    @Model.User.Coins
-</div>
-<div class="row">
-    <div class="block">
-        <button id="11" onclick="menupicker(this.id)">BodyParts</button>
-    </div>
-    <div class="block">
-        <button id="21" onclick="menupicker(this.id)">CLothing</button>
-    </div>
-    <div class="block">
-        <button id="31" onclick="menupicker(this.id)">Decoration</button>
+        @Model.User.Coins Coins
     </div>
 </div>
 <div class="row">
-    <div id="Mainmenu1">
+    <div class="block">
+        <button id="1" onclick="mainmenupicker(this.id)">BodyParts</button>
+    </div>
+    <div class="block">
+        <button id="2" onclick="mainmenupicker(this.id)">Clothing</button>
+    </div>
+    <div class="block">
+        <button id="3">Decorations</button>
+    </div>
+</div>
+<div class="row">
+    <div class="row" id="mainmenupicker1">
         <div class="block">
             <button id="1" onclick="menupicker(this.id)">Eyes</button>
         </div>
@@ -50,16 +50,19 @@
             <button id="3" onclick="menupicker(this.id)">Hair</button>
         </div>
     </div>
-    <div class="block">
-        <button id="15" onclick="menupicker(this.id)">Hat</button>
+    <div class="row" id="mainmenupicker2" style="display:none;">
+        <div class="block">
+            <button id="4" onclick="menupicker(this.id)">Hat</button>
+        </div>
+        <div class="block">
+            <button id="5" onclick="menupicker(this.id)">Shirt</button>
+        </div>
+        <div class="block">
+            <button id="6" onclick="menupicker(this.id)">Pants</button>
+        </div>
     </div>
     <div class="block">
-        <button id="16" onclick="menupicker(this.id)">Shirt</button>
-    </div>
-    <div class="block">
-        <button id="17" onclick="menupicker(this.id)">Pants</button>
-    </div>
-    <div class="block">
+
         @{
             if (Context.Session.GetString("HomeIsland") == "Active")
             {
@@ -73,8 +76,7 @@
         }
     </div>
 </div>
-</div>
-<div class="row"></div>
+<div class="row">
 <div Id="pickwrapper1" class="container-fluid" style="display:none;">
     <div class="row">
         <div class="inner" style="border-radius: 25px; border-color:lightgray">
@@ -161,34 +163,6 @@
 <div Id="pickwrapper4" class="container-fluid" style="display:none;">
     <div class="row">
         <div class="inner" style="border-radius: 25px; border-color:lightgray">
-            <label id="Dwindow"> Selected bodypieces @bodycheck.Count out of 3!</label>
-        </div>
-        <div style="height:500px">
-            @foreach (var item in Model.Body_BodyParts)
-            {
-                if (response.BodyId != null)
-                {
-                    if (item.BodyId == response.BodyId)
-                    {
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <table class="table">
-                                <tr>
-                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
-                                </tr>
-                                <tr>
-                                    <td><label align="center"> @item.BodyPart.Name @item.BodyPart.Type</label></td>
-                                </tr>
-                            </table>
-                        </div>
-                    }
-                }
-            }
-        </div>
-    </div>
-</div>
-<div Id="pickwrapper5" class="container-fluid" style="display:none;">
-    <div class="row">
-        <div class="inner" style="border-radius: 25px; border-color:lightgray">
             <label id="Dwindow">Hello there @response.Name, Are you new here?5</label>
         </div>
         <div style="height:500px">
@@ -213,7 +187,7 @@
         </div>
     </div>
 </div>
-<div Id="pickwrapper6" class="container-fluid" style="display:none;">
+<div Id="pickwrapper5" class="container-fluid" style="display:none;">
     <div class="row">
         <div class="inner" style="border-radius: 25px; border-color:lightgray">
             <label id="Dwindow">Hello there @response.Name, Are you new here?6</label>
@@ -240,7 +214,7 @@
         </div>
     </div>
 </div>
-<div Id="pickwrapper7" class="container-fluid" style="display:none;">
+<div Id="pickwrapper6" class="container-fluid" style="display:none;">
     <div class="row">
         <div class="inner" style="border-radius: 25px; border-color:lightgray">
             <label id="Dwindow">Hello there @response.Name, Are you new here?7</label>
@@ -267,34 +241,6 @@
         </div>
     </div>
 </div>
-<div Id="pickwrapper8" class="container-fluid" style="display:none;">
-    <div class="row">
-        <div class="inner" style="border-radius: 25px; border-color:lightgray">
-            <label>Selected clothingpieces @Clothingcheck.Count out of 3!</label>
-        </div>
-        <div style="height:500px">
-            @foreach (var item in Model.Outfit_Clothings)
-            {
-                if (response.OutfitId != null)
-                {
-                    if (item.OutfitId == response.OutfitId)
-                    {
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <table class="table">
-                                <tr>
-                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
-                                </tr>
-                                <tr>
-                                    <td><label align="center"> @item.Clothing.Name @item.Clothing.Type</label></td>
-                                </tr>
-                            </table>
-                        </div>
-                    }
-                }
-            }
-        </div>
-    </div>
-</div>
 </div>
 
 <script>
@@ -305,8 +251,11 @@
         document.getElementById("pickwrapper4").style.display = "none";
         document.getElementById("pickwrapper5").style.display = "none";
         document.getElementById("pickwrapper6").style.display = "none";
-        document.getElementById("pickwrapper7").style.display = "none";
-        document.getElementById("pickwrapper8").style.display = "none";
         document.getElementById("pickwrapper" + ButtonId).style.display = "block";
+    }
+    function mainmenupicker(ButtonId) {
+        document.getElementById("mainmenupicker1").style.display = "none";
+        document.getElementById("mainmenupicker2").style.display = "none";
+        document.getElementById("mainmenupicker" + ButtonId).style.display = "block";
     }
 </script>
