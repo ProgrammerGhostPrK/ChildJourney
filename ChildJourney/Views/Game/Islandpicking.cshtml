@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Introduction";
     User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    Context.Session.SetString("HomeIsland", "InActive");
 }
 
 <style>
@@ -21,17 +22,24 @@
     </div>
 </div>
 <div class="center-container">
-    <div class="row">
-        @foreach (var Island in Model.Islands)
-        {
-        <div class="block">
-            <button style="background-color:@Island.SecondaryColor">
-                @Island.Id 
-                @Island.Name
-            </button>
-        Price: @Island.Price
-        </div>
-        }
-        
-    </div>
+    @foreach (var Island in Model.Islands)
+    {
+        <table class="table" style="border:none">
+            <tr>
+                <td>
+                    <a asp-action="HomeIsland" asp-controller="Game" asp-route-id="@Island.Id" style="background-color:@Island.PrimaryColor; color: black; text-decoration: none">
+                        @Island.Id
+                        @Island.Name
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        Price: @Island.Price
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
 </div>

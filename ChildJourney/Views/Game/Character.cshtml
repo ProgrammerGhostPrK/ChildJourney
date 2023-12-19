@@ -12,7 +12,6 @@
         }
     }
 }
-
 <style>
     body {
         background-image: url("");
@@ -71,7 +70,11 @@
                     Clothingcheck.Add(item);
                 }
             }
-            if (Clothingcheck.Count == 3 && bodycheck.Count == 3)
+            if (Clothingcheck.Count == 3 && bodycheck.Count == 3 && Context.Session.GetString("HomeIsland") == "Active")
+            {
+                        <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else if (Clothingcheck.Count == 3 && bodycheck.Count == 3)
             {
                 <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
             }
@@ -314,5 +317,5 @@
         document.getElementById("pickwrapper7").style.display = "none";
         document.getElementById("pickwrapper8").style.display = "none";
         document.getElementById("pickwrapper" + ButtonId).style.display = "block";
-    }
+    }     
 </script>

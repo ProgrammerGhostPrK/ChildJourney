@@ -1,0 +1,21 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "HomeIsland";
+    Context.Session.SetString("HomeIsland", "Active");
+    if (Model.CurrentIsland != null)
+    {
+        var islandJson = JsonConvert.SerializeObject(Model.CurrentIsland);
+        Context.Session.SetString("CurrentIsland", islandJson);
+    }
+}
+
+
+<body style="background-color: @Model.CurrentIsland.PrimaryColor">
+    <button>Rewards</button>
+    <a asp-action="IslandPicking" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">Islands</a>
+    <button>Inventory</button>
+    <button>Store</button>
+    <button>Play Minigame</button>
+    <a asp-action="Character" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">Home</a>
+</body>

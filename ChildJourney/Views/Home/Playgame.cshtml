@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Play";
     User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    Context.Session.SetString("HomeIsland", "InActive");
 }
 
 <style>
@@ -16,6 +17,6 @@
 
 <div align="center" class="wrapper">
     <div class="inner" style="border-radius: 25px; border-color:lightgray">
-        <a asp-action="Introduction" asp-controller="Game">Play game</a>
+        <a asp-action="Character" asp-controller="Game">Play game</a>
     </div>
 </div>

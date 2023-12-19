@@ -13,5 +13,6 @@ namespace ChildJourney.ViewModels
         public List<Outfit_Clothing> Outfit_Clothings { get; set; }
         public List<BodyBodyParts> Body_BodyParts { get; set; }
         public List<Island> Islands { get; set; }
+        public Island? CurrentIsland { get; set; }
     }
 }
