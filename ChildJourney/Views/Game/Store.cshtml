@@ -1,0 +1,312 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        <h1>Store</h1>
+    </div>
+    @Model.User.Coins
+</div>
+<div class="row">
+    <div class="block">
+        <button id="11" onclick="menupicker(this.id)">BodyParts</button>
+    </div>
+    <div class="block">
+        <button id="21" onclick="menupicker(this.id)">CLothing</button>
+    </div>
+    <div class="block">
+        <button id="31" onclick="menupicker(this.id)">Decoration</button>
+    </div>
+</div>
+<div class="row">
+    <div id="Mainmenu1">
+        <div class="block">
+            <button id="1" onclick="menupicker(this.id)">Eyes</button>
+        </div>
+        <div class="block">
+            <button id="2" onclick="menupicker(this.id)">Mouth</button>
+        </div>
+        <div class="block">
+            <button id="3" onclick="menupicker(this.id)">Hair</button>
+        </div>
+    </div>
+    <div class="block">
+        <button id="15" onclick="menupicker(this.id)">Hat</button>
+    </div>
+    <div class="block">
+        <button id="16" onclick="menupicker(this.id)">Shirt</button>
+    </div>
+    <div class="block">
+        <button id="17" onclick="menupicker(this.id)">Pants</button>
+    </div>
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else
+            {
+                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+            }
+
+        }
+    </div>
+</div>
+</div>
+<div class="row"></div>
+<div Id="pickwrapper1" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?1</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+
+                if (item.Type == "Eyes")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToBody('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper2" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?2</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+                if (item.Type == "Mouth")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToBody('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper3" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?3</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+                if (item.Type == "Hair")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToBody('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper4" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow"> Selected bodypieces @bodycheck.Count out of 3!</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.Body_BodyParts)
+            {
+                if (response.BodyId != null)
+                {
+                    if (item.BodyId == response.BodyId)
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.BodyPart.Name @item.BodyPart.Type</label></td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper5" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?5</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.clothing)
+            {
+                if (item.Type == "Hat")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToOutfit('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper6" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?6</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.clothing)
+            {
+                if (item.Type == "Shirt")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToOutfit('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper7" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?7</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.clothing)
+            {
+                if (item.Type == "Pants")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="AddToOutfit('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper8" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label>Selected clothingpieces @Clothingcheck.Count out of 3!</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.Outfit_Clothings)
+            {
+                if (response.OutfitId != null)
+                {
+                    if (item.OutfitId == response.OutfitId)
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Clothing.Name @item.Clothing.Type</label></td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    function menupicker(ButtonId) {
+        document.getElementById("pickwrapper1").style.display = "none";
+        document.getElementById("pickwrapper2").style.display = "none";
+        document.getElementById("pickwrapper3").style.display = "none";
+        document.getElementById("pickwrapper4").style.display = "none";
+        document.getElementById("pickwrapper5").style.display = "none";
+        document.getElementById("pickwrapper6").style.display = "none";
+        document.getElementById("pickwrapper7").style.display = "none";
+        document.getElementById("pickwrapper8").style.display = "none";
+        document.getElementById("pickwrapper" + ButtonId).style.display = "block";
+    }
+</script>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ChildJourney.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace ChildJourney.Controllers
 {
@@ -30,7 +31,7 @@ namespace ChildJourney.Controllers
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
                 Islands = _context.Islands.ToList(),
-            };
+        };
             return viewModel;
         }
 

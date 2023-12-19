@@ -32,8 +32,9 @@ namespace ChildJourney.Controllers
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
                 Islands = _context.Islands.ToList(),
-                CurrentIsland = island
-            };
+                CurrentIsland = island,
+                User = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"))
+        };
             return viewModel;
         }
         public HomeController HomeController()
@@ -50,6 +51,18 @@ namespace ChildJourney.Controllers
         {
             return View(HomeController().AdminViewModel());
         }
+        public IActionResult Store(int? Id)
+        {
+            Island island;
+            if (Id == null)
+            {
+                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = response as Island;
+            }
+            else { island = _context.Islands.Find(Id); }
+
+            return View(AdminViewModel(island));
+        }
         public IActionResult HomeIsland(int? Id)
         {
             Island island;
@@ -58,11 +71,10 @@ namespace ChildJourney.Controllers
                 Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
                 island = response as Island;
             }
-            else {island = _context.Islands.Find(Id); }
+            else { island = _context.Islands.Find(Id);}
             
             return View(AdminViewModel(island));
         }
-
         public IActionResult AddToOutfit(int Id)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -113,7 +125,6 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
         }
-
         public IActionResult AddToBody(int Id)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
