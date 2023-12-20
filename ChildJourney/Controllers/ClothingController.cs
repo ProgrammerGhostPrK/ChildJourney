@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
 
 namespace ChildJourney.Controllers
 {
@@ -64,7 +65,16 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Type,Price,Image")] Clothing clothing)
         {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
             _context.Add(clothing);
+            User_Clothing user_Clothing = new User_Clothing()
+            {
+                User = user,
+                Type = clothing.Type,
+                Clothing = clothing
+            };
+            _context.UsersClothing.Add(user_Clothing);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }

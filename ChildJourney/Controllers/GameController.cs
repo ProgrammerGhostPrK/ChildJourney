@@ -115,6 +115,66 @@ namespace ChildJourney.Controllers
 
             return View(AdminViewModel(island));
         }
+        public IActionResult BuyClothing(int? Id)
+        {
+                var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+                User user = _context.Users.Find(response.Id);
+                var Clothingpiece = _context.Clothing.Find(Id);
+                if (user.Coins >= Clothingpiece.Price)
+                {
+                    foreach (var item in _context.UsersClothing)
+                    {
+                        if (item.UserId == user.Id && item.ClothingId == Clothingpiece.Id)
+                        {
+                            return Json(new { success = true, refreshPage = false });
+                        }
+                    }
+                    User_Clothing user_Clothing = new User_Clothing()
+                    {
+                        User = user,
+                        Type = Clothingpiece.Type,
+                        Clothing = Clothingpiece
+                    };
+                    user.Coins -= Clothingpiece.Price;
+                    _context.UsersClothing.Add(user_Clothing);
+                    _context.SaveChanges();
+                    return Json(new { success = true, refreshPage = true });
+                }
+                else
+                {
+                    return Json(new { success = true, refreshPage = false });
+                }
+        }
+        public IActionResult BuyBodyPart(int? Id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            var Bodypart = _context.BodyParts.Find(Id);
+            if (user.Coins >= Bodypart.Price)
+            {
+                foreach(var item in _context.UsersBodyParts)
+                {
+                    if (item.UserId == user.Id && item.BodyPartId == Bodypart.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_BodyPart user_BodyPart = new User_BodyPart()
+                {
+                    User = user,
+                    Type = Bodypart.Type,
+                    BodyPart = Bodypart
+                };
+                user.Coins -= Bodypart.Price;
+                _context.UsersBodyParts.Add(user_BodyPart);
+                _context.SaveChanges();
+                return Json(new { success = true, refreshPage = true });
+            }
+            else
+            {
+                return Json(new { success = true, refreshPage = false });
+            }
+        }
         public IActionResult AddClothing(Clothing piece, User user)
         {
             User_Clothing user_Clothing = new User_Clothing()
@@ -151,7 +211,8 @@ namespace ChildJourney.Controllers
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
-            var Clothingpiece = _context.Clothing.Find(Id);
+            var UserClothingpiece = _context.UsersClothing.Find(Id);
+            var Clothingpiece = _context.Clothing.Find(UserClothingpiece.ClothingId);
             if (user.OutfitId == null)
             {
                 outfit  = new Outfit()
@@ -201,7 +262,8 @@ namespace ChildJourney.Controllers
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
-            var Bodypart = _context.BodyParts.Find(Id);
+            var UserBodypart = _context.UsersBodyParts.Find(Id);
+            var Bodypart = _context.BodyParts.Find(UserBodypart.BodyPartId);
             if (user.BodyId == null)
             {
                 body = new Body()

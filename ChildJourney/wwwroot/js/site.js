@@ -22,6 +22,26 @@ function AddToBody(Id) {
         }
     });
 }
+function BuyBodyPart(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/BuyBodyPart",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
+function BuyClothing(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/BuyClothing",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function AddCoins(Amount) {
     $.ajax({
         type: "POST",
