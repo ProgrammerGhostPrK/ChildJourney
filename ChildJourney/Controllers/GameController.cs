@@ -31,6 +31,8 @@ namespace ChildJourney.Controllers
                 rewards = _context.Rewards.ToList(),
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
+                UserBodyPart = _context.UsersBodyParts.ToList(),
+                UserClothing = _context.UsersClothing.ToList(),
                 Islands = _context.Islands.ToList(),
                 CurrentIsland = island,
                 User = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"))
@@ -45,6 +47,44 @@ namespace ChildJourney.Controllers
 
         public IActionResult Character()
         {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            int Clothingcount = 0;
+            int Bodypartcount = 0;
+            foreach(var clothingpiece in _context.UsersClothing.ToList())
+            {
+                if (clothingpiece.UserId == user.Id) 
+                {
+                    Clothingcount += 1;
+                }
+            }
+            foreach (var Bodypart in _context.UsersBodyParts.ToList())
+            {
+                if (Bodypart.UserId == user.Id)
+                {
+                    Bodypartcount += 1;
+                }
+            }
+            if (Clothingcount == 0)
+            {
+                foreach(var Clothing in _context.Clothing.ToList())
+                {
+                    if (Clothing.Price == 0) 
+                    { 
+                        AddClothing(Clothing, user);
+                    }
+                }
+            }
+            if (Bodypartcount == 0)
+            {
+                foreach (var Bodypart in _context.BodyParts.ToList())
+                {
+                    if (Bodypart.Price == 0)
+                    {
+                        AddBodyPart(Bodypart, user);
+                    }
+                }
+            }
             return View(HomeController().AdminViewModel());
         }
         public IActionResult Islandpicking()
@@ -71,9 +111,41 @@ namespace ChildJourney.Controllers
                 Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
                 island = response as Island;
             }
-            else { island = _context.Islands.Find(Id);}
-            
+            else { island = _context.Islands.Find(Id); }
+
             return View(AdminViewModel(island));
+        }
+        public IActionResult AddClothing(Clothing piece, User user)
+        {
+            User_Clothing user_Clothing = new User_Clothing()
+            {
+                User = user,
+                Type = piece.Type,
+                Clothing = piece
+            };
+            _context.UsersClothing.Add(user_Clothing);
+            _context.SaveChanges();
+            return View();
+        }
+        public IActionResult AddBodyPart(BodyPart piece, User user)
+        {
+            User_BodyPart user_Bodypart = new User_BodyPart()
+            {
+                User = user,
+                Type = piece.Type,
+                BodyPart = piece
+            };
+            _context.UsersBodyParts.Add(user_Bodypart);
+            _context.SaveChanges();
+            return View();
+        }
+        public IActionResult AddCoins(int Amount)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            user.Coins += Amount;
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
         }
         public IActionResult AddToOutfit(int Id)
         {

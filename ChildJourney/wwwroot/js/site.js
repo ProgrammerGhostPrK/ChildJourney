@@ -22,6 +22,16 @@ function AddToBody(Id) {
         }
     });
 }
+function AddCoins(Amount) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/AddCoins",
+        data: { Amount: Amount },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function handleSuccessResponse(response) {
     if (response.success) {
         console.log(response.message);

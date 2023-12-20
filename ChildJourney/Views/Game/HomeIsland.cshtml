@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "HomeIsland";
     Context.Session.SetString("HomeIsland", "Active");
+    User user = null;
+    foreach(var User in Model.Users)
+    {
+        if (User.Id == Model.User.Id)
+        {
+            user = User;
+        }
+    }
     if (Model.CurrentIsland != null)
     {
         var islandJson = JsonConvert.SerializeObject(Model.CurrentIsland);
@@ -17,4 +25,5 @@
     <a asp-action="Store" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">Store</a>
     <button>Play Minigame</button>
     <a asp-action="Character" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">House /Edit Character</a>
+    <label>@user.Coins Coins</label>
 </body>

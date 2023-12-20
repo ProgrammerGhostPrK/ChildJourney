@@ -90,19 +90,19 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?1</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.bodyParts)
+                @foreach (var item in Model.UserBodyPart)
                 {
 
-                    if (item.Type == "Eyes")
+                if (item.Type == "Eyes" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                        <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>
@@ -119,18 +119,18 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?2</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.bodyParts)
+            @foreach (var item in Model.UserBodyPart)
                 {
-                    if (item.Type == "Mouth")
+                if (item.Type == "Mouth" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>
@@ -146,18 +146,18 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?3</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.bodyParts)
+            @foreach (var item in Model.UserBodyPart)
                 {
-                    if (item.Type == "Hair")
+                if (item.Type == "Hair" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>
@@ -201,18 +201,18 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?5</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.clothing)
+                @foreach (var item in Model.UserClothing)
                 {
-                    if (item.Type == "Hat")
+                    if (item.Type == "Hat" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>
@@ -228,18 +228,18 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?6</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.clothing)
+                @foreach (var item in Model.UserClothing)
                 {
-                    if (item.Type == "Shirt")
+                if (item.Type == "Shirt" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>
@@ -255,18 +255,18 @@
                 <label id="Dwindow">Hello there @response.Name, Are you new here?7</label>
             </div>
             <div style="height:500px">
-                @foreach (var item in Model.clothing)
+                @foreach (var item in Model.UserClothing)
                 {
-                    if (item.Type == "Pants")
+                if (item.Type == "Pants" && item.UserId == response.Id)
                     {
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
                                     <tr>
-                                        <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                        <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                        <td><label align="center"> @item.Name @item.Type</label></td>
+                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
                                     </tr>
                                 </table>
                             </button>

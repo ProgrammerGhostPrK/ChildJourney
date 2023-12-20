@@ -30,6 +30,8 @@ namespace ChildJourney.Controllers
                 rewards = _context.Rewards.ToList(),
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
+                UserBodyPart = _context.UsersBodyParts.ToList(),
+                UserClothing = _context.UsersClothing.ToList(),
                 Islands = _context.Islands.ToList(),
         };
             return viewModel;
