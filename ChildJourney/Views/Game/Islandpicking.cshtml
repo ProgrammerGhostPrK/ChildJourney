@@ -24,22 +24,19 @@
 <div class="center-container">
     @foreach (var Island in Model.Islands)
     {
-        <table class="table" style="border:none">
-            <tr>
-                <td>
-                    <a asp-action="HomeIsland" asp-controller="Game" asp-route-id="@Island.Id" style="background-color:@Island.PrimaryColor; color: black; text-decoration: none">
-                        @Island.Id
-                        @Island.Name
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        Price: @Island.Price
-                    </div>
-                </td>
-            </tr>
-        </table>
+        @foreach (var item in Model.User_Island)
+        {
+            if (item.UserId == response.Id && item.IslandId == Island.Id) {
+                <table class="table" style="border:none">
+                    <tr>
+                    <td>
+                        <a asp-action="HomeIsland" asp-controller="Game" asp-route-id="@item.IslandId" style="background-color:@item.Island.PrimaryColor; color: black; text-decoration: none">
+                            @Island.Name
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            }
+        }
     }
 </div>

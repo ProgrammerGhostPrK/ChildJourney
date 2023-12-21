@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
 
 namespace ChildJourney.Controllers
 {
@@ -61,10 +62,34 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,PrimaryColor,SecondaryColor")] Island island)
+        public async Task<IActionResult> Create([Bind("Id,Name,Image,Price,PrimaryColor,SecondaryColor")] Island island)
         {
-                _context.Add(island);
-                await _context.SaveChangesAsync();
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User User = _context.Users.Find(response.Id);
+            _context.Add(island);
+            User_Island user_Island = new User_Island()
+            {
+                User = User,
+                Island = island
+            };
+            if (island.Price == 0)
+            {
+                foreach (var user in _context.Users.ToList())
+                {
+                    if (user != User)
+                    {
+                        User_Island User_Island = new User_Island()
+                        {
+                            User = user,
+                            Island = island
+                        };
+                        _context.UserIslands.Add(User_Island);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            _context.UserIslands.Add(user_Island);
+            await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
@@ -89,7 +114,7 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,PrimaryColor,SecondaryColor")] Island island)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Price,PrimaryColor,SecondaryColor")] Island island)
         {
 
             _context.Update(island);

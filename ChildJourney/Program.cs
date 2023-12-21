@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+{
+    Formatting = Newtonsoft.Json.Formatting.Indented,
+    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+};
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

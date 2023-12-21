@@ -81,20 +81,19 @@
 
          }
     </div>
-    </div>
 </div>
 <div class="row"></div>
     <div Id="pickwrapper1" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?1</label>
+                <label id="Dwindow">Eyes</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.UserBodyPart)
                 {
-
-                if (item.Type == "Eyes" && item.UserId == response.Id)
-                    {
+                    if (item.Type == "Eyes" && item.UserId == response.Id)
+                        {
+                        var count = 0;
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
@@ -104,11 +103,21 @@
                                     <tr>
                                     <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
                                     </tr>
+                                    <tr>
+                                    <label> </label>
+                                    @foreach (var Object in Model.Body_BodyParts)
+                                    {
+                                        if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                        {
+                                            count += 1;
+                                            <label style="color:green">Selected</label>
+                                        }
+                                    }
+                                    </tr>
                                 </table>
                             </button>
                         </div>
                     }
-
                 }
             </div>
         </div>
@@ -116,13 +125,14 @@
     <div Id="pickwrapper2" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?2</label>
+                <label id="Dwindow">Mouth</label>
             </div>
             <div style="height:500px">
             @foreach (var item in Model.UserBodyPart)
                 {
                 if (item.Type == "Mouth" && item.UserId == response.Id)
                     {
+                    var count = 0;
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
@@ -131,6 +141,17 @@
                                     </tr>
                                     <tr>
                                     <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                    <label> </label>
+                                    @foreach (var Object in Model.Body_BodyParts)
+                                    {
+                                        if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                        {
+                                            count += 1;
+                                            <label style="color:green">Selected</label>
+                                        }
+                                    }
                                     </tr>
                                 </table>
                             </button>
@@ -143,14 +164,15 @@
     <div Id="pickwrapper3" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?3</label>
+                <label id="Dwindow">Hair</label>
             </div>
             <div style="height:500px">
             @foreach (var item in Model.UserBodyPart)
                 {
                 if (item.Type == "Hair" && item.UserId == response.Id)
                     {
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                    var count = 0;
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToBody('@item.Id')">
                                 <table class="table">
                                     <tr>
@@ -158,6 +180,17 @@
                                     </tr>
                                     <tr>
                                     <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.Body_BodyParts)
+                                        {
+                                            if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                            {
+                                            count += 1;
+                                            <label style="color:green">Selected</label>
+                                            }
+                                        }
                                     </tr>
                                 </table>
                             </button>
@@ -198,13 +231,14 @@
     <div Id="pickwrapper5" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?5</label>
+                <label id="Dwindow">Hats</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.UserClothing)
                 {
                     if (item.Type == "Hat" && item.UserId == response.Id)
                     {
+                        var count = 0;
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
@@ -213,6 +247,17 @@
                                     </tr>
                                     <tr>
                                         <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                    <label> </label>
+                                        @foreach (var Object in Model.Outfit_Clothings)
+                                        {
+                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
                                     </tr>
                                 </table>
                             </button>
@@ -225,13 +270,14 @@
     <div Id="pickwrapper6" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?6</label>
+                <label id="Dwindow">Shirts</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.UserClothing)
                 {
-                if (item.Type == "Shirt" && item.UserId == response.Id)
-                    {
+                    if (item.Type == "Shirt" && item.UserId == response.Id)
+                        {
+                        var count = 0;
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
@@ -240,6 +286,17 @@
                                     </tr>
                                     <tr>
                                         <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                    <label> </label>
+                                        @foreach (var Object in Model.Outfit_Clothings)
+                                        {
+                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
                                     </tr>
                                 </table>
                             </button>
@@ -252,13 +309,14 @@
     <div Id="pickwrapper7" class="container-fluid" style="display:none;">
         <div class="row">
             <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hello there @response.Name, Are you new here?7</label>
+                <label id="Dwindow">Pants</label>
             </div>
             <div style="height:500px">
                 @foreach (var item in Model.UserClothing)
                 {
                 if (item.Type == "Pants" && item.UserId == response.Id)
                     {
+                        var count = 0;
                         <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
                             <button onclick="AddToOutfit('@item.Id')">
                                 <table class="table">
@@ -267,6 +325,17 @@
                                     </tr>
                                     <tr>
                                         <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                    <label> </label>
+                                        @foreach (var Object in Model.Outfit_Clothings)
+                                        {
+                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
                                     </tr>
                                 </table>
                             </button>

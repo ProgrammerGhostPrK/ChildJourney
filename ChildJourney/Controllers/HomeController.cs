@@ -33,6 +33,7 @@ namespace ChildJourney.Controllers
                 UserBodyPart = _context.UsersBodyParts.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
                 Islands = _context.Islands.ToList(),
+                User_Island = _context.UserIslands.ToList(),
         };
             return viewModel;
         }

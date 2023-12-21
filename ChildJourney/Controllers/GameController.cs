@@ -35,6 +35,7 @@ namespace ChildJourney.Controllers
                 UserClothing = _context.UsersClothing.ToList(),
                 Islands = _context.Islands.ToList(),
                 CurrentIsland = island,
+                User_Island = _context.UserIslands.ToList(),
                 User = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"))
         };
             return viewModel;
@@ -51,7 +52,8 @@ namespace ChildJourney.Controllers
             User user = _context.Users.Find(response.Id);
             int Clothingcount = 0;
             int Bodypartcount = 0;
-            foreach(var clothingpiece in _context.UsersClothing.ToList())
+            int Islandcount = 0;
+            foreach (var clothingpiece in _context.UsersClothing.ToList())
             {
                 if (clothingpiece.UserId == user.Id) 
                 {
@@ -63,6 +65,13 @@ namespace ChildJourney.Controllers
                 if (Bodypart.UserId == user.Id)
                 {
                     Bodypartcount += 1;
+                }
+            }
+            foreach (var Island in _context.UserIslands.ToList())
+            {
+                if (Island.UserId == user.Id)
+                {
+                    Islandcount += 1;
                 }
             }
             if (Clothingcount == 0)
@@ -82,6 +91,16 @@ namespace ChildJourney.Controllers
                     if (Bodypart.Price == 0)
                     {
                         AddBodyPart(Bodypart, user);
+                    }
+                }
+            }
+            if (Islandcount == 0)
+            {
+                foreach (var Island in _context.Islands.ToList())
+                {
+                    if (Island.Price == 0)
+                    {
+                        AddIsland(Island, user);
                     }
                 }
             }
@@ -147,32 +166,64 @@ namespace ChildJourney.Controllers
         }
         public IActionResult BuyBodyPart(int? Id)
         {
-            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
-            User user = _context.Users.Find(response.Id);
-            var Bodypart = _context.BodyParts.Find(Id);
-            if (user.Coins >= Bodypart.Price)
             {
-                foreach(var item in _context.UsersBodyParts)
+                var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+                User user = _context.Users.Find(response.Id);
+                var BodyPart = _context.BodyParts.Find(Id);
+                if (user.Coins >= BodyPart.Price)
                 {
-                    if (item.UserId == user.Id && item.BodyPartId == Bodypart.Id)
+                    foreach (var item in _context.UsersBodyParts)
                     {
-                        return Json(new { success = true, refreshPage = false });
+                        if (item.UserId == user.Id && item.BodyPartId == BodyPart.Id)
+                        {
+                            return Json(new { success = true, refreshPage = false });
+                        }
                     }
+                    User_BodyPart user_BodyPart = new User_BodyPart()
+                    {
+                        User = user,
+                        BodyPart = BodyPart
+                    };
+                    user.Coins -= BodyPart.Price;
+                    _context.UsersBodyParts.Add(user_BodyPart);
+                    _context.SaveChanges();
+                    return Json(new { success = true, refreshPage = true });
                 }
-                User_BodyPart user_BodyPart = new User_BodyPart()
+                else
                 {
-                    User = user,
-                    Type = Bodypart.Type,
-                    BodyPart = Bodypart
-                };
-                user.Coins -= Bodypart.Price;
-                _context.UsersBodyParts.Add(user_BodyPart);
-                _context.SaveChanges();
-                return Json(new { success = true, refreshPage = true });
+                    return Json(new { success = true, refreshPage = false });
+                }
             }
-            else
+        }
+        public IActionResult BuyIsland(int? Id)
+        {
             {
-                return Json(new { success = true, refreshPage = false });
+                var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+                User user = _context.Users.Find(response.Id);
+                var Island = _context.Islands.Find(Id);
+                if (user.Coins >= Island.Price)
+                {
+                    foreach (var item in _context.UserIslands)
+                    {
+                        if (item.UserId == user.Id && item.IslandId == Island.Id)
+                        {
+                            return Json(new { success = true, refreshPage = false });
+                        }
+                    }
+                    User_Island user_Island = new User_Island()
+                    {
+                        User = user,
+                        Island = Island
+                    };
+                    user.Coins -= Island.Price;
+                    _context.UserIslands.Add(user_Island);
+                    _context.SaveChanges();
+                    return Json(new { success = true, refreshPage = true });
+                }
+                else
+                {
+                    return Json(new { success = true, refreshPage = false });
+                }
             }
         }
         public IActionResult AddClothing(Clothing piece, User user)
@@ -184,6 +235,17 @@ namespace ChildJourney.Controllers
                 Clothing = piece
             };
             _context.UsersClothing.Add(user_Clothing);
+            _context.SaveChanges();
+            return View();
+        }
+        public IActionResult AddIsland(Island piece, User user)
+        {
+            User_Island user_Island = new User_Island()
+            {
+                User = user,
+                Island = piece
+            };
+            _context.UserIslands.Add(user_Island);
             _context.SaveChanges();
             return View();
         }

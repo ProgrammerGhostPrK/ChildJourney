@@ -42,6 +42,16 @@ function BuyClothing(Id) {
         }
     });
 }
+function BuyIsland(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/BuyIsland",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function AddCoins(Amount) {
     $.ajax({
         type: "POST",
