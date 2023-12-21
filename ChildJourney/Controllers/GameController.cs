@@ -110,7 +110,31 @@ namespace ChildJourney.Controllers
         {
             return View(HomeController().AdminViewModel());
         }
-        public IActionResult Store(int? Id)
+        public IActionResult StoreBodyPart(int? Id)
+        {
+            Island island;
+            if (Id == null)
+            {
+                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = response as Island;
+            }
+            else { island = _context.Islands.Find(Id); }
+
+            return View(AdminViewModel(island));
+        }
+        public IActionResult StoreClothing(int? Id)
+        {
+            Island island;
+            if (Id == null)
+            {
+                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = response as Island;
+            }
+            else { island = _context.Islands.Find(Id); }
+
+            return View(AdminViewModel(island));
+        }
+        public IActionResult StoreIslands(int? Id)
         {
             Island island;
             if (Id == null)

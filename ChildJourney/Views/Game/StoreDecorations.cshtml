@@ -50,7 +50,7 @@
         <button id="2" onclick="mainmenupicker(this.id)">Clothing</button>
     </div>
     <div class="block">
-        <button id="3">Decorations</button>
+        <button id="3" onclick="mainmenupicker(this.id)">Decorations</button>
     </div>
     <div class="block">
         <button id="4" onclick="mainmenupicker(this.id)">Unlock new Islands</button>
@@ -78,6 +78,30 @@
     </div>
     <div class="block">
         <button id="6" onclick="menupicker(this.id)">Pants</button>
+    </div>
+</div>
+
+<div id="mainmenupicker3" style="display:none;">
+    <div class="block">
+        <button id="7" onclick="menupicker(this.id)">Trees</button>
+    </div>
+    <div class="block">
+        <button id="8" onclick="menupicker(this.id)">Roofs (House)</button>
+    </div>
+    <div class="block">
+        <button id="9" onclick="menupicker(this.id)">Walls (House)</button>
+    </div>
+    <div class="block">
+        <button id="10" onclick="menupicker(this.id)">Fences (House)</button>
+    </div>
+    <div class="block">
+        <button id="11" onclick="menupicker(this.id)">Windows (House)</button>
+    </div>
+    <div class="block">
+        <button id="12" onclick="menupicker(this.id)">Doors (House)</button>
+    </div>
+    <div class="block">
+        <button id="13" onclick="menupicker(this.id)">Others</button>
     </div>
 </div>
 
@@ -410,6 +434,7 @@
     function mainmenupicker(ButtonId) {
         document.getElementById("mainmenupicker1").style.display = "none";
         document.getElementById("mainmenupicker2").style.display = "none";
+        document.getElementById("mainmenupicker3").style.display = "none";
         document.getElementById("mainmenupicker4").style.display = "none";
         document.getElementById("mainmenupicker" + ButtonId).style.display = "block";
     }

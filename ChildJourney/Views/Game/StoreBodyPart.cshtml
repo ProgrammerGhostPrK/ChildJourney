@@ -1,0 +1,220 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        <h1>Store</h1>
+            @response.Coins Coins
+        <button onclick="AddCoins(10)">Add 10 Coins</button>
+    </div>
+</div>
+<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else
+            {
+                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="block">
+        <button>BodyParts</button>
+    </div>
+    <div class="block">
+        <button><a asp-action="StoreClothing" asp-controller="Game">Clothing</a></button>
+    </div>
+    <div class="block">
+        <button id="3">Decorations</button>
+    </div>
+    <div class="block">
+        <button><a asp-action="StoreIslands" asp-controller="Game">Islands</a></button>
+    </div>
+</div>
+
+<div>
+    <div class="block">
+        <button id="1" onclick="menupicker(this.id)">Eyes</button>
+    </div>
+    <div class="block">
+        <button id="2" onclick="menupicker(this.id)">Mouth</button>
+    </div>
+    <div class="block">
+        <button id="3" onclick="menupicker(this.id)">Hair</button>
+    </div>
+</div>
+
+<div class="row">
+<div Id="pickwrapper1" class="container-fluid">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?1</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+                var count = 0;
+                if (item.Type == "Eyes")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button onclick="BuyBodyPart('@item.Id')">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label align="center"> @item.Name @item.Type</label></td>
+                                </tr>
+                                <tr>
+                                    @foreach (var Object in Model.UserBodyPart)
+                                    {
+                                        if (Object.UserId == response.Id && Object.BodyPartId == item.Id && count == 0)
+                                        {
+                                            count += 1;
+                                            <label style="color:green">Owned</label>
+                                        }
+                                    }
+                                    @foreach (var Object in Model.UserBodyPart)
+                                    {
+                                        if (Object.UserId != response.Id && Object.BodyPartId == item.Id && count == 0)
+                                        {
+                                            count += 1;
+                                            <label>@item.Price Coins</label>
+                                        }
+                                    }
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper2" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?2</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+                var count = 0;
+                if (item.Type == "Mouth")
+                {
+                <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                    <button onclick="BuyBodyPart('@item.Id')">
+                        <table class="table">
+                            <tr>
+                                <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                            </tr>
+                            <tr>
+                                <td><label align="center"> @item.Name @item.Type</label></td>
+                            </tr>
+                            <tr>
+                                @foreach (var Object in Model.UserBodyPart)
+                                {
+                                    if (Object.UserId == response.Id && Object.BodyPartId == item.Id && count == 0)
+                                    {
+                                        count += 1;
+                                        <label style="color:green">Owned</label>
+                                    }
+                                }
+                                @foreach (var Object in Model.UserBodyPart)
+                                {
+                                    if (Object.UserId != response.Id && Object.BodyPartId == item.Id && count == 0)
+                                    {
+                                        count += 1;
+                                        <label>@item.Price Coins</label>
+                                    }
+                                }
+                            </tr>
+                        </table>
+                    </button>
+                </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div Id="pickwrapper3" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="inner" style="border-radius: 25px; border-color:lightgray">
+            <label id="Dwindow">Hello there @response.Name, Are you new here?3</label>
+        </div>
+        <div style="height:500px">
+            @foreach (var item in Model.bodyParts)
+            {
+                var count = 0;
+                if (item.Type == "Hair")
+                {
+                <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                    <button onclick="BuyBodyPart('@item.Id')">
+                        <table class="table">
+                            <tr>
+                                <td><img src="@item.Image" style="width:100px; height:100px;" align="center" /></td>
+                            </tr>
+                            <tr>
+                                <td><label align="center"> @item.Name @item.Type</label></td>
+                            </tr>
+                            <tr>
+                                @foreach (var Object in Model.UserBodyPart)
+                                {
+                                    if (Object.UserId == response.Id && Object.BodyPartId == item.Id && count == 0)
+                                    {
+                                        count += 1;
+                                        <label style="color:green">Owned</label>
+                                    }
+                                }
+                                @foreach (var Object in Model.UserBodyPart)
+                                {
+                                    if (Object.UserId != response.Id && Object.BodyPartId == item.Id && count == 0)
+                                    {
+                                        count += 1;
+                                        <label>@item.Price Coins</label>
+                                    }
+                                }
+                            </tr>
+                        </table>
+                    </button>
+                </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    function menupicker(ButtonId) {
+        document.getElementById("pickwrapper1").style.display = "none";
+        document.getElementById("pickwrapper2").style.display = "none";
+        document.getElementById("pickwrapper3").style.display = "none";
+        document.getElementById("pickwrapper" + ButtonId).style.display = "block";
+    }
+</script>
