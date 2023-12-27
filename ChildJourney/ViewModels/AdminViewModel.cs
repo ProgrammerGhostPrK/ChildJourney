@@ -14,6 +14,7 @@ namespace ChildJourney.ViewModels
         public List<BodyBodyParts> Body_BodyParts { get; set; }
         public List<User_Clothing> UserClothing { get; set; }
         public List<User_BodyPart> UserBodyPart { get; set; }
+        public List<User_Decoration> UserDecoration { get; set; }
         public List<User_Island> User_Island { get; set; }
         public List<Island> Islands { get; set; }
         public User? User { get; set; }

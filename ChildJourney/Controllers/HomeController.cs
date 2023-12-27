@@ -32,6 +32,7 @@ namespace ChildJourney.Controllers
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
                 UserBodyPart = _context.UsersBodyParts.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
+                UserDecoration = _context.UsersDecorations.ToList(),
                 Islands = _context.Islands.ToList(),
                 User_Island = _context.UserIslands.ToList(),
         };

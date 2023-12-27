@@ -33,6 +33,7 @@ namespace ChildJourney.Controllers
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
                 UserBodyPart = _context.UsersBodyParts.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
+                UserDecoration = _context.UsersDecorations.ToList(),
                 Islands = _context.Islands.ToList(),
                 CurrentIsland = island,
                 User_Island = _context.UserIslands.ToList(),
@@ -146,6 +147,18 @@ namespace ChildJourney.Controllers
 
             return View(AdminViewModel(island));
         }
+        public IActionResult StoreDecorations(int? Id)
+        {
+            Island island;
+            if (Id == null)
+            {
+                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = response as Island;
+            }
+            else { island = _context.Islands.Find(Id); }
+
+            return View(AdminViewModel(island));
+        }
         public IActionResult HomeIsland(int? Id)
         {
             Island island;
@@ -206,6 +219,7 @@ namespace ChildJourney.Controllers
                     User_BodyPart user_BodyPart = new User_BodyPart()
                     {
                         User = user,
+                        Type = BodyPart.Type,
                         BodyPart = BodyPart
                     };
                     user.Coins -= BodyPart.Price;
@@ -241,6 +255,38 @@ namespace ChildJourney.Controllers
                     };
                     user.Coins -= Island.Price;
                     _context.UserIslands.Add(user_Island);
+                    _context.SaveChanges();
+                    return Json(new { success = true, refreshPage = true });
+                }
+                else
+                {
+                    return Json(new { success = true, refreshPage = false });
+                }
+            }
+        }
+        public IActionResult BuyDecoration(int? Id)
+        {
+            {
+                var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+                User user = _context.Users.Find(response.Id);
+                var Decoration = _context.Decoration.Find(Id);
+                if (user.Coins >= Decoration.Price)
+                {
+                    foreach (var item in _context.UsersDecorations)
+                    {
+                        if (item.UserId == user.Id && item.DecorationId == Decoration.Id)
+                        {
+                            return Json(new { success = true, refreshPage = false });
+                        }
+                    }
+                    User_Decoration user_Decoration = new User_Decoration()
+                    {
+                        User = user,
+                        Type = Decoration.Type,
+                        Decoration = Decoration
+                    };
+                    user.Coins -= Decoration.Price;
+                    _context.UsersDecorations.Add(user_Decoration);
                     _context.SaveChanges();
                     return Json(new { success = true, refreshPage = true });
                 }

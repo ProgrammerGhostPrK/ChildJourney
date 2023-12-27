@@ -32,6 +32,16 @@ function BuyBodyPart(Id) {
         }
     });
 }
+function BuyDecoration(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/BuyDecoration",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function BuyClothing(Id) {
     $.ajax({
         type: "POST",
