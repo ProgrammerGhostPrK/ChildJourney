@@ -72,6 +72,7 @@ namespace ChildJourney.Controllers
             User_Decoration user_Decoration = new User_Decoration()
             {
                 User = User,
+                Type = decoration.Type,
                 Decoration = decoration
             };
             if (decoration.Price == 0)
@@ -83,6 +84,7 @@ namespace ChildJourney.Controllers
                         User_Decoration User_Decoration = new User_Decoration()
                         {
                             User = user,
+                            Type = decoration.Type,
                             Decoration = decoration
                         };
                         _context.UsersDecorations.Add(User_Decoration);

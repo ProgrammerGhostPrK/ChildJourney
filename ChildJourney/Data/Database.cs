@@ -60,6 +60,11 @@ namespace ChildJourney.Data
             .WithOne(a => a.User)
             .HasForeignKey<Body>(c => c.UserId);
 
+            modelBuilder.Entity<User>()
+            .HasOne(a => a.House)
+            .WithOne(a => a.User)
+            .HasForeignKey<House>(c => c.UserId);
+
             modelBuilder.Entity<Body>()
             .HasMany(u => u.BodyParts)
             .WithMany(o => o.Bodies)
@@ -79,6 +84,16 @@ namespace ChildJourney.Data
             .HasMany(bp => bp.Outfits)
             .WithMany(b => b.Clothing)
             .UsingEntity(j => j.ToTable("OutfitClothings"));
+
+            modelBuilder.Entity<House>()
+            .HasMany(u => u.HouseParts)
+            .WithMany(o => o.House)
+            .UsingEntity(j => j.ToTable("HouseDecoration"));
+
+            modelBuilder.Entity<Decoration>()
+            .HasMany(bp => bp.House)
+            .WithMany(b => b.HouseParts)
+            .UsingEntity(j => j.ToTable("HouseDecorations"));
         }
     }
 }

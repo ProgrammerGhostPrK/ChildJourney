@@ -13,6 +13,7 @@ namespace ChildJourney.Controllers
         private readonly Database _context;
         Outfit outfit;
         Body body;
+        House House;
 
         public GameController(Database context)
         {
@@ -32,6 +33,7 @@ namespace ChildJourney.Controllers
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
                 UserBodyPart = _context.UsersBodyParts.ToList(),
+                House_Decos = _context.HouseDecoration.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
                 UserDecoration = _context.UsersDecorations.ToList(),
                 Islands = _context.Islands.ToList(),
@@ -54,6 +56,7 @@ namespace ChildJourney.Controllers
             int Clothingcount = 0;
             int Bodypartcount = 0;
             int Islandcount = 0;
+            int Decorationcount = 0;
             foreach (var clothingpiece in _context.UsersClothing.ToList())
             {
                 if (clothingpiece.UserId == user.Id) 
@@ -73,6 +76,13 @@ namespace ChildJourney.Controllers
                 if (Island.UserId == user.Id)
                 {
                     Islandcount += 1;
+                }
+            }
+            foreach (var Decorationpiece in _context.UsersDecorations.ToList())
+            {
+                if (Decorationpiece.UserId == user.Id)
+                {
+                    Decorationcount += 1;
                 }
             }
             if (Clothingcount == 0)
@@ -105,11 +115,33 @@ namespace ChildJourney.Controllers
                     }
                 }
             }
+            if (Decorationcount == 0)
+            {
+                foreach (var Deco in _context.Decoration.ToList())
+                {
+                    if (Deco.Price == 0)
+                    {
+                        AddDecoration(Deco, user);
+                    }
+                }
+            }
             return View(HomeController().AdminViewModel());
         }
         public IActionResult Islandpicking()
         {
             return View(HomeController().AdminViewModel());
+        }
+        public IActionResult Inventory(int? Id)
+        {
+            Island island;
+            if (Id == null)
+            {
+                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = response as Island;
+            }
+            else { island = _context.Islands.Find(Id); }
+
+            return View(AdminViewModel(island));
         }
         public IActionResult StoreBodyPart(int? Id)
         {
@@ -331,6 +363,18 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return View();
         }
+        public IActionResult AddDecoration(Decoration piece, User user)
+        {
+            User_Decoration user_Decoration = new User_Decoration()
+            {
+                User = user,
+                Type = piece.Type,
+                Decoration = piece
+            };
+            _context.UsersDecorations.Add(user_Decoration);
+            _context.SaveChanges();
+            return View();
+        }
         public IActionResult AddCoins(int Amount)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -381,6 +425,57 @@ namespace ChildJourney.Controllers
                         Outfit_Clothing OutfitClothes =_context.OutfitClothing.Find(item.Id);
                         OutfitClothes.ClothingId = OutfitC.ClothingId;
                         _context.OutfitClothing.Update(OutfitClothes);
+                        _context.SaveChanges();
+                        return Json(new { success = true, refreshPage = true });
+                    }
+                }
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult AddToHouse(int Id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            var UserDecorationpiece = _context.UsersDecorations.Find(Id);
+            var Decorationpiece = _context.Decoration.Find(UserDecorationpiece.DecorationId);
+            if (user.HouseId == null)
+            {
+                House = new House()
+                {
+                    User = user,
+                };
+                user.House = House;
+                HouseDeco HouseD = new HouseDeco()
+                {
+                    House = user.House,
+                    Decoration = Decorationpiece
+                };
+                _context.HouseDecoration.Add(HouseD);
+                _context.SaveChanges();
+                user.HouseId = _context.Houses.FirstOrDefault(m => m.UserId == user.Id).Id;
+                _context.SaveChanges();
+            }
+            else
+            {
+                House = _context.Houses.Find(user.HouseId);
+                HouseDeco HouseD = new HouseDeco()
+                {
+                    House = House,
+                    Decoration = Decorationpiece
+                };
+                _context.HouseDecoration.Add(HouseD);
+                _context.SaveChanges();
+                foreach (var item in _context.HouseDecoration.ToList())
+                {
+                    Decoration FoundDecoration = _context.Decoration.Find(item.DecorationId);
+                    if (FoundDecoration.Type == Decorationpiece.Type && user.HouseId == item.HouseId)
+                    {
+                        _context.HouseDecoration.Remove(HouseD);
+                        HouseDeco HouseClothes = _context.HouseDecoration.Find(item.Id);
+                        HouseClothes.DecorationId = HouseD.DecorationId;
+                        _context.HouseDecoration.Update(HouseClothes);
                         _context.SaveChanges();
                         return Json(new { success = true, refreshPage = true });
                     }

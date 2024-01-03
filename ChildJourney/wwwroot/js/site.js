@@ -22,6 +22,16 @@ function AddToBody(Id) {
         }
     });
 }
+function AddToHouse(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/AddToHouse",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function BuyBodyPart(Id) {
     $.ajax({
         type: "POST",

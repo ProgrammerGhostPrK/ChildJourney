@@ -1,0 +1,249 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else
+            {
+                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="block">
+        <button>Profile</button>
+    </div>
+    <div class="block">
+        <button>Animals</button>
+    </div>
+    <div class="block">
+        <button>Island</button>
+    </div>
+    <div class="block">
+        <button>House</button>
+    </div>
+    <div class="block">
+        <button>Settings</button>
+    </div>
+</div>
+<div class="row">
+    <div Id="pickwrapper1" class="container-fluid">
+        <div class="row">
+            <div class="inner" style="border-radius: 25px; border-color:lightgray">
+                <label id="Dwindow">Roof</label>
+            </div>
+            <div style="height:500px">
+                @foreach (var item in Model.UserDecoration)
+                {
+                    if (item.Type == "Roof" && item.UserId == response.Id)
+                    {
+                        var count = 0;
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button onclick="AddToHouse('@item.Id')">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Decoration.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label align="center"> @item.Decoration.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.House_Decos)
+                                        {
+                                            if (item.UserId == response.Id && item.Decoration == Object.Decoration && Object.HouseId == response.HouseId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div Id="pickwrapper2" class="container-fluid">
+        <div class="row">
+            <div class="inner" style="border-radius: 25px; border-color:lightgray">
+                <label id="Dwindow">Walls</label>
+            </div>
+            <div style="height:500px">
+                @foreach (var item in Model.UserDecoration)
+                {
+                    if (item.Type == "Wall" && item.UserId == response.Id)
+                    {
+                        var count = 0;
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button onclick="AddToHouse('@item.Id')">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Decoration.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label align="center"> @item.Decoration.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.House_Decos)
+                                        {
+                                            if (item.UserId == response.Id && item.Decoration == Object.Decoration && Object.HouseId == response.HouseId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div Id="pickwrapper3" class="container-fluid">
+        <div class="row">
+            <div class="inner" style="border-radius: 25px; border-color:lightgray">
+                <label id="Dwindow">Windows</label>
+            </div>
+            <div style="height:500px">
+                @foreach (var item in Model.UserDecoration)
+                {
+                    if (item.Type == "Window" && item.UserId == response.Id)
+                    {
+                        var count = 0;
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button onclick="AddToHouse('@item.Id')">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Decoration.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label align="center"> @item.Decoration.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.House_Decos)
+                                        {
+                                            if (item.UserId == response.Id && item.Decoration == Object.Decoration && Object.HouseId == response.HouseId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div><div Id="pickwrapper4" class="container-fluid">
+        <div class="row">
+            <div class="inner" style="border-radius: 25px; border-color:lightgray">
+                <label id="Dwindow">Door</label>
+            </div>
+            <div style="height:500px">
+                @foreach (var item in Model.UserDecoration)
+                {
+                    if (item.Type == "Door" && item.UserId == response.Id)
+                    {
+                        var count = 0;
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button onclick="AddToHouse('@item.Id')">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Decoration.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label align="center"> @item.Decoration.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.House_Decos)
+                                        {
+                                            if (item.UserId == response.Id && item.Decoration == Object.Decoration && Object.HouseId == response.HouseId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div><div Id="pickwrapper5" class="container-fluid">
+        <div class="row">
+            <div class="inner" style="border-radius: 25px; border-color:lightgray">
+                <label id="Dwindow">Fence</label>
+            </div>
+            <div style="height:500px">
+                @foreach (var item in Model.UserDecoration)
+                {
+                    if (item.Type == "Fence" && item.UserId == response.Id)
+                    {
+                        var count = 0;
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button onclick="AddToHouse('@item.Id')">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Decoration.Image" style="width:100px; height:100px;" align="center" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label align="center"> @item.Decoration.Name @item.Type</label></td>
+                                    </tr>
+                                    <tr>
+                                        <label> </label>
+                                        @foreach (var Object in Model.House_Decos)
+                                        {
+                                            if (item.UserId == response.Id && item.Decoration == Object.Decoration && Object.HouseId == response.HouseId && count == 0)
+                                            {
+                                                count += 1;
+                                                <label style="color:green">Selected</label>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

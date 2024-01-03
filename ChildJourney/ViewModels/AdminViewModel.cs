@@ -12,6 +12,7 @@ namespace ChildJourney.ViewModels
         public List<Reward> rewards { get; set; }
         public List<Outfit_Clothing> Outfit_Clothings { get; set; }
         public List<BodyBodyParts> Body_BodyParts { get; set; }
+        public List<HouseDeco> House_Decos { get; set; }
         public List<User_Clothing> UserClothing { get; set; }
         public List<User_BodyPart> UserBodyPart { get; set; }
         public List<User_Decoration> UserDecoration { get; set; }

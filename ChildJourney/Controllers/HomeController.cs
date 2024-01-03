@@ -30,6 +30,7 @@ namespace ChildJourney.Controllers
                 rewards = _context.Rewards.ToList(),
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
+                House_Decos = _context.HouseDecoration.ToList(),
                 UserBodyPart = _context.UsersBodyParts.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
                 UserDecoration = _context.UsersDecorations.ToList(),

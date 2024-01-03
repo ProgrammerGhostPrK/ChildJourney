@@ -31,6 +31,7 @@ namespace ChildJourney.Models
         public int UnlockedIslands { get; set; }
         public int? OutfitId { get; set; }  
         public int? BodyId { get; set; }
+        public int? HouseId { get; set; }
         [Required]
         public Outfit? Outfit { get; set; }
         [Required]
