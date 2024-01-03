@@ -24,7 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                <select asp-for="Type" class="form-control">
+                    {
+                    <option value="Roof">Roof</option>
+                    <option value="Wall">Wall</option>
+                    <option value="Window">Window</option>
+                    <option value="Door">Door</option>
+                    <option value="Fence">Fence</option>
+                    <option value="Tree">Tree</option>
+                    <option value="Other">Other</option>
+                    }
+                </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
