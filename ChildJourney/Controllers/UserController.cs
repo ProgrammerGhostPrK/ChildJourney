@@ -61,7 +61,7 @@ namespace ChildJourney.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registreer([Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands,Email,Admin")] User user)
+        public async Task<IActionResult> Registreer([Bind("Id,Name,Image,Age,Coins,Daystreak,DailyStreak,UnlockedIslands,Email,Admin")] User user)
         {
             user.Coins = 0;
             user.Daystreak = 0;
@@ -94,7 +94,7 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Coins,Daystreak,DailyStreak,UnlockedIslands")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Age,Coins,Daystreak,DailyStreak,UnlockedIslands, Email,Admin")] User user)
         {
             if (id != user.Id)
             {
@@ -157,6 +157,7 @@ namespace ChildJourney.Controllers
                     Id = 0,
                     Name = "Admin",
                     Email = "Admin@Admin.Admin",
+                    Image = "a",
                     DailyStreak = 0,
                     Daystreak = 0,
                     Age = 0,

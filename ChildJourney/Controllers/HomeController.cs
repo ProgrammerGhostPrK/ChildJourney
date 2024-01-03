@@ -33,7 +33,9 @@ namespace ChildJourney.Controllers
                 House_Decos = _context.HouseDecoration.ToList(),
                 UserBodyPart = _context.UsersBodyParts.ToList(),
                 UserClothing = _context.UsersClothing.ToList(),
+                UserAnimals = _context.UsersAnimals.ToList(),
                 UserDecoration = _context.UsersDecorations.ToList(),
+                UserBadges = _context.UsersBadges.ToList(),
                 Islands = _context.Islands.ToList(),
                 User_Island = _context.UserIslands.ToList(),
         };

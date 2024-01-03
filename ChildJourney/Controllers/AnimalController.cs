@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
 using ChildJourney.ViewModels;
+using Newtonsoft.Json;
 
 namespace ChildJourney.Controllers
 {
@@ -64,9 +65,17 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Image")] Animal animal)
         {
-                _context.Add(animal);
-                await _context.SaveChangesAsync();
-                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            _context.Add(animal);
+            User_Animal user_Animal = new User_Animal()
+            {
+                User = user,
+                Animal = animal
+            };
+            _context.UsersAnimals.Add(user_Animal);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Animal/Edit/5
