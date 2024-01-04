@@ -9,6 +9,7 @@ namespace ChildJourney.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         [Required]
+        public string Type { get; set; }
         public User User { get; set; }
         public int RewardId { get; set; }
         [Required]

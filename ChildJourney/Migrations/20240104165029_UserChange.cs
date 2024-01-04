@@ -5,23 +5,24 @@
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPFPforUser : Migration
+    public partial class UserChange : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Image",
+            migrationBuilder.AddColumn<int>(
+                name: "SeasonPoints",
                 table: "Users",
-                type: "longtext",
-                nullable: false);
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Image",
+                name: "SeasonPoints",
                 table: "Users");
         }
     }

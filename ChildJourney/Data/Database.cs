@@ -16,8 +16,6 @@ namespace ChildJourney.Data
         public DbSet<Clothing> Clothing { get; set; }
         public DbSet<Decoration> Decoration { get; set; }
         public DbSet<Reward> Rewards { get; set; }
-        public DbSet<SeasonReward> SeasonRewards { get; set; }
-        public DbSet<WeekRewards> WeekRewards { get; set; }
         public DbSet<BodyPart> BodyParts { get; set; }
         public DbSet<House> Houses { get; set; }
         public DbSet<Outfit> Outfits { get; set; }

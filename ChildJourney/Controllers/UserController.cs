@@ -61,12 +61,13 @@ namespace ChildJourney.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registreer([Bind("Id,Name,Image,Age,Coins,Daystreak,DailyStreak,UnlockedIslands,Email,Admin")] User user)
+        public async Task<IActionResult> Registreer([Bind("Id,Name,Image,Age,Coins,SeasonPoints,Daystreak,DailyStreak,Email,Admin")] User user)
         {
             user.Coins = 0;
             user.Daystreak = 0;
             user.DailyStreak = 0;
-            user.UnlockedIslands = 0;
+            user.SeasonPoints = 0;
+            user.lastlogin = DateTime.Today.ToString();
             user.Admin = false;
             _context.Add(user);
             await _context.SaveChangesAsync();
@@ -94,12 +95,10 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Age,Coins,Daystreak,DailyStreak,UnlockedIslands, Email,Admin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Admin")] User userData)
         {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
+            User user = _context.Users.First(u => u.Id == id);
+            user.Admin = userData.Admin;
 
             _context.Update(user);
             await _context.SaveChangesAsync();
@@ -162,7 +161,7 @@ namespace ChildJourney.Controllers
                     Daystreak = 0,
                     Age = 0,
                     Coins = 0,
-                    UnlockedIslands = 0,
+                    SeasonPoints = 0,
                     Admin = true,
                 };
                 _context.Add(user);

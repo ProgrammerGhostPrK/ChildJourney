@@ -1,0 +1,131 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    List<Reward> WeeklyRewards = new List<Reward>();
+    ViewData["Title"] = "TimedRewards";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else
+            {
+                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="block">
+        <button id="1" onclick="menupicker(this.id)">Weekly Rewards</button>
+    </div>
+    <div class="block">
+        <button id="2" onclick="menupicker(this.id)">Season Rewards</button>
+    </div>
+</div>
+
+<div class="row" id="Mainmenu1">
+    <div class="row">
+        <label>Weekly Rewards</label>
+        <div style="height:250px">
+            @foreach(var item in Model.rewards.ToList())
+            {
+                if (item.Type == "Weekly")
+                {
+                    WeeklyRewards.Add(item);
+                    if (WeeklyRewards.FindIndex(a => a.Id == item.Id) + 1 == response.Daystreak)
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button>
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> @item.Worth @item.CurrencyType</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Day @(WeeklyRewards.FindIndex(a => a.Id == item.Id) + 1) </td>
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button disabled="True">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Worth @item.CurrencyType</td>
+                                </tr>
+                                <tr>
+                                    <td> Day @(WeeklyRewards.FindIndex(a => a.Id == item.Id) + 1) </td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row" id="Mainmenu2" style="display:none;">
+    <div class="row">
+        <label>Seasonal Rewards</label>
+        <div style="height:250px">
+            @foreach (var item in Model.rewards)
+            {
+                if (item.Type == "Seasonal")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button>
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> Required: @item.Worth @item.CurrencyType</td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function menupicker(ButtonId) {
+        document.getElementById("Mainmenu1").style.display = "none";
+        document.getElementById("Mainmenu2").style.display = "none";
+        document.getElementById("Mainmenu" + ButtonId).style.display = "block";
+    }
+</script>

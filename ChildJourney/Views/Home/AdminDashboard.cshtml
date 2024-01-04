@@ -69,9 +69,6 @@
                     @Html.DisplayFor(modelItem => item.DailyStreak)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnlockedIslands)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-controller="User" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-controller="User" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Delete</a>
@@ -314,7 +311,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
+            </th>
+            <th>
+                CurrencyType
             </th>
             <th>
                 Worth
@@ -331,6 +331,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrencyType)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Worth)

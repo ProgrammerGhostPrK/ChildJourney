@@ -36,6 +36,7 @@ namespace ChildJourney.Controllers
                 UserAnimals = _context.UsersAnimals.ToList(),
                 UserDecoration = _context.UsersDecorations.ToList(),
                 UserBadges = _context.UsersBadges.ToList(),
+                UserRewards = _context.UsersRewards.ToList(),
                 Islands = _context.Islands.ToList(),
                 User_Island = _context.UserIslands.ToList(),
         };

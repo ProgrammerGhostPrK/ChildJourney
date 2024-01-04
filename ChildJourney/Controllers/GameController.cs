@@ -38,6 +38,7 @@ namespace ChildJourney.Controllers
                 UserAnimals = _context.UsersAnimals.ToList(),
                 UserDecoration = _context.UsersDecorations.ToList(),
                 UserBadges = _context.UsersBadges.ToList(),
+                UserRewards = _context.UsersRewards.ToList(),
                 Islands = _context.Islands.ToList(),
                 CurrentIsland = island,
                 User_Island = _context.UserIslands.ToList(),
@@ -51,6 +52,10 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
+        public IActionResult TimedRewards()
+        {
+            return View(HomeController().AdminViewModel());
+        }
         public IActionResult Character()
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -198,13 +203,32 @@ namespace ChildJourney.Controllers
             Island island;
             if (Id == null)
             {
-                Island response = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
-                island = response as Island;
+                Island islandresponse = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
+                island = islandresponse as Island;
             }
-            else { island = _context.Islands.Find(Id); }
+            else 
+            { 
+                island = _context.Islands.Find(Id); 
+            }
 
+            var yesterday = DateTime.Today.AddDays(-1);
+            var Today = DateTime.Today;
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            if (user.lastlogin == yesterday.ToString())
+            {
+                user.Daystreak += 1;
+                user.lastlogin = Today.ToString();
+            }
+            else if (user.lastlogin != yesterday.ToString() || user.lastlogin != Today.ToString() || user.Daystreak == 0 || user.Daystreak == 8)
+            {
+                user.lastlogin = Today.ToString();
+                user.Daystreak = 1;
+            }
+            _context.SaveChanges();
             return View(AdminViewModel(island));
         }
+
         public IActionResult BuyClothing(int? Id)
         {
                 var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));

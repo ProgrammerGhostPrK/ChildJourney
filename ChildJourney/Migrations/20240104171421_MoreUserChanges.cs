@@ -5,14 +5,14 @@
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class SmallAdditionImagetoIsland : Migration
+    public partial class MoreUserChanges : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Image",
-                table: "Islands",
+                name: "lastlogin",
+                table: "Users",
                 type: "longtext",
                 nullable: false);
         }
@@ -21,8 +21,8 @@ namespace ChildJourney.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Image",
-                table: "Islands");
+                name: "lastlogin",
+                table: "Users");
         }
     }
 }

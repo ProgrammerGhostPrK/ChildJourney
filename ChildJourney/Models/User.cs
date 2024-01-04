@@ -13,7 +13,9 @@ namespace ChildJourney.Models
         public string Name { get; set; }
         public int Age { get; set; }
         public int Coins { get; set; }
+        public int SeasonPoints { get; set; }
         public int Daystreak { get; set; }
+        public string lastlogin { get; set; }
         public int DailyStreak { get; set; }
         [Required]
         public ICollection<User_Badge>? UserBadges { get; set;}
@@ -29,7 +31,6 @@ namespace ChildJourney.Models
         public ICollection<User_BodyPart>? UserBosyParts { get; set; }
         [Required]
         public ICollection<Mood>? Moods { get; set; }
-        public int UnlockedIslands { get; set; }
         public int? OutfitId { get; set; }  
         public int? BodyId { get; set; }
         public int? HouseId { get; set; }
