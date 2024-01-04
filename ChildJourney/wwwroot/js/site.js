@@ -1,6 +1,23 @@
 ﻿
-function AddToArray(string, List) {
-    List.push(string);
+function ClaimReward(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/ClaimReward",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
+function ClaimSeasonalReward(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/ClaimSeasonalReward",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
 }
 function AddToOutfit(Id) {
     $.ajax({

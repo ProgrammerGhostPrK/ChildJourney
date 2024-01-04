@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace ChildJourney.Controllers
 {
@@ -62,9 +64,22 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,CurrencyType,Worth,Image")] Reward reward)
+        public async Task<IActionResult> Create([Bind("Id,Type,CurrencyType,Worth,Price,Image")] Reward reward)
         {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User User = _context.Users.Find(response.Id);
             _context.Add(reward);
+            foreach (var user in _context.Users.ToList())
+            {
+                User_Reward User_Reward = new User_Reward()
+                {
+                    User = user,
+                    Type = reward.Type,
+                    Reward = reward
+                };
+                _context.UsersRewards.Add(User_Reward);
+                await _context.SaveChangesAsync();
+            }
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }

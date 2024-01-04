@@ -229,6 +229,42 @@ namespace ChildJourney.Controllers
             return View(AdminViewModel(island));
         }
 
+        public IActionResult ClaimReward(int id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            User_Reward user_Reward = _context.UsersRewards.Find(id);
+            Reward reward = _context.Rewards.Find(user_Reward.RewardId);
+            if (reward.CurrencyType == "Coins") 
+            {
+                user.Coins += reward.Worth;
+            }
+            if (reward.CurrencyType == "SeasonPoints")
+            {
+                user.SeasonPoints += reward.Worth;
+            }
+            user_Reward.Type = "WeeklyClaimed";
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult ClaimSeasonalReward(int Id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            User_Reward user_Reward = _context.UsersRewards.Find(Id);
+            Reward reward = _context.Rewards.Find(user_Reward.RewardId);
+            if (reward.CurrencyType == "Coins")
+            {
+                user.Coins += reward.Worth;
+            }
+            if (reward.CurrencyType == "SeasonPoints")
+            {
+                user.SeasonPoints += reward.Worth;
+            }
+            user_Reward.Type = "SeasonalClaimed";
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
+        }
         public IActionResult BuyClothing(int? Id)
         {
                 var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -354,6 +390,7 @@ namespace ChildJourney.Controllers
                 }
             }
         }
+
         public IActionResult AddClothing(Clothing piece, User user)
         {
             User_Clothing user_Clothing = new User_Clothing()

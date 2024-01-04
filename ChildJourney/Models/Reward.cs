@@ -11,6 +11,7 @@ namespace ChildJourney.Models
         public string? Image { get; set; }
         public string CurrencyType { get; set; }
         public int Worth { get; set; }
+        public int? Price { get; set; }
         [Required]
         public ICollection<User_Reward>? UserRewards { get; set; }
 
