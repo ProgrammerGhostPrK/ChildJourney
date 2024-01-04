@@ -30,9 +30,9 @@ namespace ChildJourney.Controllers
         // GET: Reward
         public async Task<IActionResult> Index()
         {
-              return _context.Rewards != null ? 
-                          View(await _context.Rewards.ToListAsync()) :
-                          Problem("Entity set 'Database.Rewards'  is null.");
+            return _context.Rewards != null ?
+                        View(await _context.Rewards.ToListAsync()) :
+                        Problem("Entity set 'Database.Rewards'  is null.");
         }
 
         // GET: Reward/Details/5
@@ -149,14 +149,55 @@ namespace ChildJourney.Controllers
             {
                 _context.Rewards.Remove(reward);
             }
-            
+
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         private bool RewardExists(int id)
         {
-          return (_context.Rewards?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Rewards?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public IActionResult DeleteSeasonal()
+        {
+            foreach (var Reward in _context.UsersRewards.ToList())
+            {
+                if (Reward.Type == "Seasonal" || Reward.Type == "SeasonalClaimed")
+                {
+                    _context.Remove(Reward);
+                    _context.SaveChanges();
+                }
+            }
+            foreach (var Reward in _context.Rewards.ToList())
+            {
+                if (Reward.Type == "Seasonal")
+                {
+                    _context.Remove(Reward);
+                    _context.SaveChanges();
+                }
+            }
+            return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult DeleteWeeklies()
+        {
+            foreach (var Reward in _context.UsersRewards)
+            {
+                if (Reward.Type == "Weekly" || Reward.Type == "WeeklyClaimed")
+                {
+                    _context.Remove(Reward);
+                    _context.SaveChanges();
+                }
+            }
+            foreach (var Reward in _context.Rewards.ToList())
+            {
+                if (Reward.Type == "Weekly")
+                {
+                    _context.Remove(Reward);
+                    _context.SaveChanges();
+                }
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

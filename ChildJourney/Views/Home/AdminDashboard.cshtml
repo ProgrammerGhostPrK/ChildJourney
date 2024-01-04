@@ -303,7 +303,10 @@
 
 <h1>Rewards</h1>
 <a asp-action="Create" asp-controller="Reward" style="color:black;text-decoration:underline">Create New Reward</a>
+
 <div class="scrollable-content" style="height: 150px ; background-color: white">
+    <button onclick="DeleteWeeklies()"> Delete all weekly Rewards</button>
+    <button onclick="DeleteSeasonal()"> Delete all Seasonal Rewards</button>
 <table class="table">
     <thead>
         <tr>

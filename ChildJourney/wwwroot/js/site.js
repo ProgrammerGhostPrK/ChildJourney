@@ -1,4 +1,22 @@
 ﻿
+function DeleteWeeklies() {
+    $.ajax({
+        type: "POST",
+        url: "/Reward/DeleteWeeklies",
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
+function DeleteSeasonal() {
+    $.ajax({
+        type: "POST",
+        url: "/Reward/DeleteSeasonal",
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function ClaimReward(Id) {
     $.ajax({
         type: "POST",
