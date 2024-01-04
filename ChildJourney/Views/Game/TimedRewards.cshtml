@@ -3,8 +3,8 @@
 @using Newtonsoft.Json
 @{
     List<Reward> WeeklyRewards = new List<Reward>();
-    List<Reward> SeasonRewards = new List<Reward>();
-    IEnumerable<Reward> query = SeasonRewards.OrderBy(item => item.Price);
+    List<User_Reward> SeasonRewards = new List<User_Reward>();
+    IEnumerable<User_Reward> query = SeasonRewards.OrderBy(item => item.Reward.Price);
     ViewData["Title"] = "TimedRewards";
     User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
     foreach (var user in Model.Users)
@@ -124,8 +124,8 @@
             {
                 if ((item.Type == "Seasonal" || item.Type == "SeasonalClaimed") && item.UserId == response.Id)
                 {
-                    SeasonRewards.Add(item.Reward);
-                    query = SeasonRewards.OrderBy(x => x.Price);
+                    SeasonRewards.Add(item);
+                    query = SeasonRewards.OrderBy(x => x.Reward.Price);
                 }
                 
             }
@@ -138,10 +138,10 @@
                         <button disabled>
                             <table class="table">
                                 <tr>
-                                    <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
                                 </tr>
                                 <tr>
-                                    <td> @item.Worth @item.CurrencyType</td>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
                                 </tr>
                                 <tr>
                                     <td style="color:green"> Claimed </td>
@@ -150,19 +150,19 @@
                         </button>
                     </div>
                 }
-                else if (item.Type == "Seasonal" && item.Price <= response.SeasonPoints)
+                else if (item.Type == "Seasonal" && item.Reward.Price <= response.SeasonPoints)
                 {
                     <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
                         <button onclick="ClaimSeasonalReward('@item.Id')" style="background-color:lightgreen">
                             <table class="table">
                                 <tr>
-                                    <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
                                 </tr>
                                 <tr>
-                                    <td> @item.Worth @item.CurrencyType</td>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
                                 </tr>
                                 <tr>
-                                    <td> @item.Price SeasonPoins</td>
+                                    <td> @item.Reward.Price SeasonPoins</td>
                                 </tr>
                             </table>
                         </button>
@@ -174,13 +174,13 @@
                         <button disabled>
                             <table class="table">
                                 <tr>
-                                    <td><img src="@item.Image" style="width:75px; height:75px;" /></td>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
                                 </tr>
                                 <tr>
-                                    <td> @item.Worth @item.CurrencyType</td>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
                                 </tr>
                                 <tr>
-                                    <td> @item.Price SeasonPoins</td>
+                                    <td> @item.Reward.Price SeasonPoins</td>
                                 </tr>
                             </table>
                         </button>

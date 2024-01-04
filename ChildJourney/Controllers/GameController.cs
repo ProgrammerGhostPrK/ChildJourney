@@ -5,6 +5,7 @@ using ChildJourney.ViewModels;
 using Newtonsoft.Json;
 using System.Numerics;
 using ChildJourney.Models;
+using System;
 
 namespace ChildJourney.Controllers
 {
@@ -54,6 +55,23 @@ namespace ChildJourney.Controllers
 
         public IActionResult TimedRewards()
         {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            int Rewardcount = 0;
+            foreach (var Rewardpiece in _context.UsersRewards.ToList())
+            {
+                if (Rewardpiece.UserId == user.Id)
+                {
+                    Rewardcount += 1;
+                }
+            }
+            if (Rewardcount == 0)
+            {
+                foreach (var Reward in _context.Rewards.ToList())
+                {
+                    AddReward(Reward, user);
+                }
+            }
             return View(HomeController().AdminViewModel());
         }
         public IActionResult Character()
@@ -208,7 +226,9 @@ namespace ChildJourney.Controllers
             }
             else 
             { 
-                island = _context.Islands.Find(Id); 
+                island = _context.Islands.Find(Id);
+                var islandJson = JsonConvert.SerializeObject(island);
+                HttpContext.Session.SetString("CurrentIsland", islandJson);
             }
 
             var yesterday = DateTime.Today.AddDays(-1);
@@ -391,6 +411,18 @@ namespace ChildJourney.Controllers
             }
         }
 
+        public IActionResult AddReward(Reward piece, User user)
+        {
+            User_Reward user_Reward = new User_Reward()
+            {
+                User = user,
+                Type = piece.Type,
+                Reward = piece
+            };
+            _context.UsersRewards.Add(user_Reward);
+            _context.SaveChanges();
+            return View();
+        }
         public IActionResult AddClothing(Clothing piece, User user)
         {
             User_Clothing user_Clothing = new User_Clothing()

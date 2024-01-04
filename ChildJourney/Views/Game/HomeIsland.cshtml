@@ -11,11 +11,6 @@
             user = User;
         }
     }
-    if (Model.CurrentIsland != null)
-    {
-        var islandJson = JsonConvert.SerializeObject(Model.CurrentIsland);
-        Context.Session.SetString("CurrentIsland", islandJson);
-    }
 }
 
 <body style="background-color: @Model.CurrentIsland.PrimaryColor">
