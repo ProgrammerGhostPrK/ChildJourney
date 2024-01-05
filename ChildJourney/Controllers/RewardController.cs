@@ -181,7 +181,7 @@ namespace ChildJourney.Controllers
         }
         public IActionResult DeleteWeeklies()
         {
-            foreach (var Reward in _context.UsersRewards)
+            foreach (var Reward in _context.UsersRewards.ToList())
             {
                 if (Reward.Type == "Weekly" || Reward.Type == "WeeklyClaimed")
                 {
