@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.Numerics;
 using ChildJourney.Models;
 using System;
+using System.Globalization;
+using System.Net;
 
 namespace ChildJourney.Controllers
 {
@@ -224,31 +226,47 @@ namespace ChildJourney.Controllers
                 Island islandresponse = JsonConvert.DeserializeObject<Island>(HttpContext.Session.GetString("CurrentIsland"));
                 island = islandresponse as Island;
             }
-            else 
-            { 
+            else
+            {
                 island = _context.Islands.Find(Id);
                 var islandJson = JsonConvert.SerializeObject(island);
                 HttpContext.Session.SetString("CurrentIsland", islandJson);
             }
 
-            var yesterday = DateTime.Today.AddDays(-1);
             var Today = DateTime.Today;
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
-            if (user.lastlogin == yesterday.ToString())
+            if (true)
             {
-                user.Daystreak += 1;
-                user.lastlogin = Today.ToString();
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
+                        var Result = result.Headers.Date.Value.ToLocalTime();
+                    }
+                    catch (WebException)
+                    {
+                        var Result = (int)DateTime.Now.DayOfWeek + 1;
+                    }
+                    user.Daystreak = (int)DateTime.Today.DayOfWeek + 1;
+                    user.lastlogin = Today.ToString();
+                }
+                if (user.Daystreak == 1)
+                {
+                    foreach (var item in _context.UsersRewards.ToList())
+                    {
+                        if (item.Type == "WeeklyClaimed")
+                        {
+                            item.Type = "Weekly";
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return View(AdminViewModel(island));
             }
-            else if (user.lastlogin != yesterday.ToString() || user.lastlogin != Today.ToString() || user.Daystreak == 0 || user.Daystreak == 8)
-            {
-                user.lastlogin = Today.ToString();
-                user.Daystreak = 1;
-            }
-            _context.SaveChanges();
-            return View(AdminViewModel(island));
         }
-
         public IActionResult ClaimReward(int id)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
