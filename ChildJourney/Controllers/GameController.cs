@@ -240,16 +240,16 @@ namespace ChildJourney.Controllers
             {
                 using (var client = new HttpClient())
                 {
+                    DayOfWeek Result;
                     try
                     {
                         var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
-                        var Result = result.Headers.Date.Value.ToLocalTime();
+                        Result = result.Headers.Date.Value.DayOfWeek;
                     }
-                    catch (WebException)
-                    {
-                        var Result = (int)DateTime.Now.DayOfWeek + 1;
+                    catch {
+                        Result = DateTime.Today.DayOfWeek;
                     }
-                    user.Daystreak = (int)DateTime.Today.DayOfWeek + 1;
+                    user.Daystreak = (int)Result;
                     user.lastlogin = Today.ToString();
                 }
                 if (user.Daystreak == 1)
