@@ -1,9 +1,16 @@
-﻿@model ChildJourney.Models.User
+﻿@model ChildJourney.ViewModels.AdminViewModel
 @using Newtonsoft.Json
 @{
     ViewData["Title"] = "Play";
-    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
     Context.Session.SetString("HomeIsland", "InActive");
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
 }
 
 <style>
@@ -17,6 +24,34 @@
 
 <div align="center" class="wrapper">
     <div class="inner" style="border-radius: 25px; border-color:lightgray">
-        <a asp-action="Character" asp-controller="Game">Play game</a>
+        @{
+            List<BodyBodyParts> bodycheck = new List<BodyBodyParts>();
+            List<Outfit_Clothing> Clothingcheck = new List<Outfit_Clothing>();
+            foreach (var item in Model.Body_BodyParts)
+            {
+                if (response.BodyId == item.BodyId)
+                {
+                    bodycheck.Add(item);
+                }
+            }
+            foreach (var item in Model.Outfit_Clothings)
+            {
+                if (response.OutfitId == item.OutfitId)
+                {
+                    Clothingcheck.Add(item);
+                }
+            }
+            if (Clothingcheck.Count != 3 || bodycheck.Count != 3)
+            {
+                 <a asp-action="Character" asp-controller="Game">Play game</a>
+            }
+            else if (Clothingcheck.Count == 3 && bodycheck.Count == 3)
+            {
+                <a asp-action="IslandPicking" asp-controller="Game">Play game</a>
+            }
+        }
     </div>
 </div>
+
+
+

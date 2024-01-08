@@ -50,7 +50,7 @@ namespace ChildJourney.Controllers
 
         public IActionResult Playgame()
         {
-            return View();
+            return View(AdminViewModel());
         }
 
         public IActionResult AdminDashboard()

@@ -120,7 +120,7 @@ namespace ChildJourney.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,CurrencyType,Worth,Image")] Reward reward)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,CurrencyType,Worth,Price,Image")] Reward reward)
         {
             if (id != reward.Id)
             {
@@ -130,12 +130,14 @@ namespace ChildJourney.Controllers
             {
                 return View();
             }
-            else
+            if (reward.Type == "Weekly")
             {
-                _context.Update(reward);
-                await _context.SaveChangesAsync();
-                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+                reward.Price = 0;
             }
+
+            _context.Update(reward);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Reward/Delete/5

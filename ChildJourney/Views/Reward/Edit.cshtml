@@ -12,22 +12,13 @@
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <p id="Notification">Max 7 Weekly rewards allowed at a time!</p>
                 <input type="hidden" asp-for="Id" />
-                <div class="form-group" id="SeasonalPrice" style="display:none">
-                    <label asp-for="Worth" class="control-label"></label>
-                    <input asp-for="Worth" value="@Model.Worth" class="form-control" />
-                    <span asp-validation-for="Worth" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Price" class="control-label"></label>
-                    <input asp-for="Price" value="@Model.Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
                 <div class="form-group">
                     <label asp-for="Type" class="control-label"></label>
                     <select asp-for="Type" id="MainType" onchange="updateSelectedValue()" class="form-control">
                         {
-                        <option value="Weekly" selected >Weekly</option>
+                        <option value="Weekly" selected>Weekly</option>
                         <option value="Seasonal">Seasonal</option>
                         }
                     </select>
@@ -43,10 +34,20 @@
                     </select>
                     <span asp-validation-for="CurrencyType" class="text-danger"></span>
                 </div>
+                <div class="form-group" >
+                    <label asp-for="Worth" class="control-label"></label>
+                    <input asp-for="Worth" value="@Model.Worth" class="form-control" />
+                    <span asp-validation-for="Worth" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="Image" class="control-label"></label>
                     <input asp-for="Image" class="form-control" />
                     <span asp-validation-for="Image" class="text-danger"></span>
+                </div>                
+                <div class="form-group" style="display:none" id="SeasonalPrice">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" value="@Model.Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
@@ -67,12 +68,12 @@
 <script>
     function updateSelectedValue() {
         if (document.getElementById("MainType").value == "Seasonal") {
-            console.log(document.getElementById("MainType").value)
             document.getElementById("SeasonalPrice").style.display = "block"
+            document.getElementById("Notification").textContent = "Fill in the extra field Price!"
         }
         else if (document.getElementById("MainType").value == "Weekly") {
-            console.log(document.getElementById("MainType").value)
             document.getElementById("SeasonalPrice").style.display = "none"
+            document.getElementById("Notification").textContent = "Max 7 Weekly rewards allowed at a time!"
         }
     }
 </script>

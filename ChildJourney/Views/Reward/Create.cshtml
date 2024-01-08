@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <p>Max 7 Weekly rewards allowed at a time!</p>
+            <p id="Notification">Max 7 Weekly rewards allowed at a time!</p>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
                 <select asp-for="Type" id="MainType" onchange="updateSelectedValue()" class="form-control">
@@ -38,15 +38,15 @@
                 <input asp-for="Worth" value="0" class="form-control" />
                 <span asp-validation-for="Worth" class="text-danger"></span>
             </div>
-            <div class="form-group" id="SeasonalPrice" style="display:none">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" value="0" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="SeasonalPrice" style="display:none">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" value="0" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -66,12 +66,12 @@
 <script>
     function updateSelectedValue() {
         if (document.getElementById("MainType").value == "Seasonal") {
-            console.log(document.getElementById("MainType").value)
             document.getElementById("SeasonalPrice").style.display = "block"
+            document.getElementById("Notification").textContent = "Fill in the extra field Price!"
         }
         else if (document.getElementById("MainType").value == "Weekly") {
-            console.log(document.getElementById("MainType").value)
             document.getElementById("SeasonalPrice").style.display = "none"
+            document.getElementById("Notification").textContent = "Max 7 Weekly rewards allowed at a time!"
         }
     }
 </script>

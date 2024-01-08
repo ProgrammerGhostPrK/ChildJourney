@@ -5,7 +5,7 @@
 }
 
 <h1>Users</h1>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
         <tr>
@@ -16,25 +16,19 @@
                 Name
             </th>
             <th>
-                Email
-            </th>
-            <th>
                 Admin
-            </th>
-            <th>
-                Age
             </th>
             <th>
                 Coins
             </th>
             <th>
+                SeasonPoints
+            </th>
+            <th>
                 Daystreak
             </th>
             <th>
-                Dailystreak
-            </th>
-            <th>
-                UnlockedIslands
+                DailyStreak
             </th>
             <th></th>
         </tr>
@@ -50,16 +44,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Admin)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Age)
+                    @Html.DisplayFor(modelItem => item.Coins)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Coins)
+                    @Html.DisplayFor(modelItem => item.SeasonPoints)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Daystreak)
@@ -69,7 +60,6 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-controller="User" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="User" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -80,7 +70,7 @@
 
 <h1>Animals</h1>
 <a asp-action="Create" asp-controller="Animal" style="color:black;text-decoration:underline">Create New Animal</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
             <tr>
@@ -116,7 +106,7 @@
 
 <h1>Badges</h1>
 <a asp-action="Create" asp-controller="Badge" style="color:black;text-decoration:underline">Create New Badge</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
             <tr>
@@ -158,7 +148,7 @@
 
 <h1>Bodyparts</h1>
 <a asp-action="Create" asp-controller="BodyPart" style="color:black;text-decoration:underline">Create New Bodypart</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
         <tr>
@@ -166,10 +156,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -185,10 +175,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -206,7 +196,7 @@
 
 <h1>Clothing</h1>
 <a asp-action="Create" asp-controller="Clothing" style="color:black;text-decoration:underline">Create New Clothingpiece</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
         <tr>
@@ -214,10 +204,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -233,10 +223,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -254,7 +244,7 @@
 
 <h1>Decoration</h1>
 <a asp-action="Create" asp-controller="Decoration" style="color:black;text-decoration:underline">Create New Decoration</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
 <table class="table">
     <thead>
         <tr>
@@ -262,10 +252,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -281,10 +271,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -303,7 +293,7 @@
 <h1>Rewards</h1>
 <a asp-action="Create" asp-controller="Reward" style="color:black;text-decoration:underline">Create New Reward</a>
 
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
     <button onclick="DeleteWeeklies()"> Delete all weekly Rewards</button>
     <button onclick="DeleteSeasonal()"> Delete all Seasonal Rewards</button>
 <table class="table">
@@ -320,6 +310,9 @@
             </th>
             <th>
                 Worth
+            </th>
+            <th>
+                Price (Seasonal)
             </th>
             <th></th>
         </tr>
@@ -341,6 +334,9 @@
                     @Html.DisplayFor(modelItem => item.Worth)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Reward" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-controller="Reward" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Reward" asp-route-id="@item.Id">Delete</a>
@@ -353,7 +349,7 @@
 
 <h1>Islands</h1>
 <a asp-action="Create" asp-controller="Island" style="color:black;text-decoration:underline">Create New Island</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<div class="scrollable-content" style="height: 250px ; background-color: white">
     <table class="table">
         <thead>
             <tr>
