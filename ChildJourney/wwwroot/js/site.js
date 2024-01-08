@@ -21,8 +21,10 @@ function DeleteDatabase() {
     $.ajax({
         type: "POST",
         url: "/Home/DeleteDatabase",
-        success: function (response) {
-            handleSuccessResponse(response);
+        success: function (data) {
+            if (data.success) {
+                window.location.href = data.redirectUrl;
+            }
         }
     });
 }

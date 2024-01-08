@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChildJourney.Controllers
 {
@@ -75,13 +76,13 @@ namespace ChildJourney.Controllers
             var options = new DbContextOptionsBuilder<Database>()
             .UseMySQL("Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;")
             .Options;
-
+            
             using (var dbContext = new Database(options))
             {
                 await dbContext.Database.EnsureDeletedAsync();
                 await dbContext.Database.MigrateAsync();
             }
-            return View("../User/Login");
+            return Json(new { success = true, refreshPage = true, redirectUrl = Url.Action("Login", "User") });
         }
     }
 }
