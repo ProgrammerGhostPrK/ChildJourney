@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class NewDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,7 +89,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    Image = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     PrimaryColor = table.Column<string>(type: "longtext", nullable: false),
                     SecondaryColor = table.Column<string>(type: "longtext", nullable: false)
@@ -109,7 +109,8 @@ namespace ChildJourney.Migrations
                     Type = table.Column<string>(type: "longtext", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: true),
                     CurrencyType = table.Column<string>(type: "longtext", nullable: false),
-                    Worth = table.Column<int>(type: "int", nullable: false)
+                    Worth = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,7 +130,9 @@ namespace ChildJourney.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Coins = table.Column<int>(type: "int", nullable: false),
+                    SeasonPoints = table.Column<int>(type: "int", nullable: false),
                     Daystreak = table.Column<int>(type: "int", nullable: false),
+                    lastlogin = table.Column<int>(type: "int", nullable: false),
                     DailyStreak = table.Column<int>(type: "int", nullable: false),
                     OutfitId = table.Column<int>(type: "int", nullable: true),
                     BodyId = table.Column<int>(type: "int", nullable: true),
@@ -279,8 +282,7 @@ namespace ChildJourney.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     BadgeId = table.Column<int>(type: "int", nullable: false),
-                    BadgeLevel = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    BadgeLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -419,8 +421,7 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    AnimalId = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    AnimalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

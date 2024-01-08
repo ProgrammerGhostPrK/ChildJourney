@@ -237,7 +237,6 @@ namespace ChildJourney.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -393,9 +392,8 @@ namespace ChildJourney.Migrations
                     b.Property<int>("SeasonPoints")
                         .HasColumnType("int");
 
-                    b.Property<string>("lastlogin")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("lastlogin")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -410,9 +408,6 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -437,9 +432,6 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("BadgeLevel")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -833,7 +825,7 @@ namespace ChildJourney.Migrations
                         .IsRequired();
 
                     b.HasOne("ChildJourney.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserIslands")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -949,6 +941,8 @@ namespace ChildJourney.Migrations
                     b.Navigation("UserClothing");
 
                     b.Navigation("UserDeco");
+
+                    b.Navigation("UserIslands");
 
                     b.Navigation("UserRewards");
                 });

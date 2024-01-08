@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChildJourney.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20240104163059_new")]
-    partial class @new
+    [Migration("20240108122011_NewDatabase")]
+    partial class NewDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,7 +240,6 @@ namespace ChildJourney.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -336,6 +335,9 @@ namespace ChildJourney.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -390,6 +392,12 @@ namespace ChildJourney.Migrations
                     b.Property<int?>("OutfitId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SeasonPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("lastlogin")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -403,9 +411,6 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -430,9 +435,6 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("BadgeLevel")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -826,7 +828,7 @@ namespace ChildJourney.Migrations
                         .IsRequired();
 
                     b.HasOne("ChildJourney.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserIslands")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -942,6 +944,8 @@ namespace ChildJourney.Migrations
                     b.Navigation("UserClothing");
 
                     b.Navigation("UserDeco");
+
+                    b.Navigation("UserIslands");
 
                     b.Navigation("UserRewards");
                 });

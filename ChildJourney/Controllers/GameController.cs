@@ -233,39 +233,37 @@ namespace ChildJourney.Controllers
                 HttpContext.Session.SetString("CurrentIsland", islandJson);
             }
 
-            var Today = DateTime.Today;
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
-            if (true)
+
+            using (var client = new HttpClient())
             {
-                using (var client = new HttpClient())
+                DayOfWeek Result;
+                try
                 {
-                    DayOfWeek Result;
-                    try
-                    {
-                        var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
-                        Result = result.Headers.Date.Value.DayOfWeek;
-                    }
-                    catch {
-                        Result = DateTime.Today.DayOfWeek;
-                    }
-                    user.Daystreak = (int)Result;
-                    user.lastlogin = Today.ToString();
+                    var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
+                    Result = result.Headers.Date.Value.DayOfWeek;
                 }
-                if (user.Daystreak == 1)
-                {
-                    foreach (var item in _context.UsersRewards.ToList())
-                    {
-                        if (item.Type == "WeeklyClaimed")
-                        {
-                            item.Type = "Weekly";
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                _context.SaveChanges();
-                return View(AdminViewModel(island));
+                catch {
+                    Result = DateTime.Today.DayOfWeek;
+                }                
+                user.lastlogin = user.Daystreak;
+                user.Daystreak = (int)Result;
+
             }
+            if (user.Daystreak == 1 && user.lastlogin != 1)
+            {
+                foreach (var item in _context.UsersRewards.ToList())
+                {
+                    if (item.Type == "WeeklyClaimed" && item.UserId == user.Id)
+                    {
+                        item.Type = "Weekly";
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            _context.SaveChanges();
+            return View(AdminViewModel(island));
         }
         public IActionResult ClaimReward(int id)
         {
