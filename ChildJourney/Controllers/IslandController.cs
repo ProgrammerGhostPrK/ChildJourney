@@ -157,10 +157,19 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool IslandExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Islands?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var Island in _context.UserIslands.ToList())
+            {
+                _context.Remove(Island);
+                _context.SaveChanges();
+            }
+            foreach (var Island in _context.Islands.ToList())
+            {
+                _context.Remove(Island);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

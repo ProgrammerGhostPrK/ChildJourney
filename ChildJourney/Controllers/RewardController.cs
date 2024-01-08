@@ -222,5 +222,19 @@ namespace ChildJourney.Controllers
             }
             return Json(new { success = true, refreshPage = true });
         }
+        public IActionResult DeleteAll()
+        {
+            foreach (var Reward in _context.UsersRewards.ToList())
+            {
+                _context.Remove(Reward);
+                _context.SaveChanges();
+            }
+            foreach (var Reward in _context.Rewards.ToList())
+            {
+                _context.Remove(Reward);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
+        }
     }
 }

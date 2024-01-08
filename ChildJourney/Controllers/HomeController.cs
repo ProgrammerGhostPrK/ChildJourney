@@ -39,7 +39,7 @@ namespace ChildJourney.Controllers
                 UserRewards = _context.UsersRewards.ToList(),
                 Islands = _context.Islands.ToList(),
                 User_Island = _context.UserIslands.ToList(),
-        };
+            };
             return viewModel;
         }
 

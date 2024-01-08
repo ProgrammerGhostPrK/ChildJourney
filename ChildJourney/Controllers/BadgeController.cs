@@ -147,10 +147,19 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool BadgeExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Badges?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var Badge in _context.UsersBadges.ToList())
+            {
+                _context.Remove(Badge);
+                _context.SaveChanges();
+            }
+            foreach (var Badge in _context.Badges.ToList())
+            {
+                _context.Remove(Badge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

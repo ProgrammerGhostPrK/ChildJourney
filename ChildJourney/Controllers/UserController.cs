@@ -185,5 +185,15 @@ namespace ChildJourney.Controllers
             }
             else { return View(user); }
         }
+        public IActionResult DeleteAll()
+        {
+            foreach (var User in _context.Users.ToList())
+            {
+                _context.Remove(User);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
+        }
     }
+
 }

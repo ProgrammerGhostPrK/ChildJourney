@@ -166,10 +166,24 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool DecorationExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Decoration?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var UserDecoration in _context.UsersDecorations.ToList())
+            {
+                _context.Remove(UserDecoration);
+                _context.SaveChanges();
+            }
+            foreach (var Decoration in _context.Decoration.ToList())
+            {
+                _context.Remove(Decoration);
+                _context.SaveChanges();
+            }
+            foreach (var HouseDecoration in _context.HouseDecoration.ToList())
+            {
+                _context.Remove(HouseDecoration);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

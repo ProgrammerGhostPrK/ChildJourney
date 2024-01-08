@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChildJourney.Controllers
 {
@@ -149,10 +150,24 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool BodyPartExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.BodyParts?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var UserBodyPart in _context.UsersBodyParts.ToList())
+            {
+                _context.Remove(UserBodyPart);
+                _context.SaveChanges();
+            }
+            foreach (var BodyPart in _context.BodyParts.ToList())
+            {
+                _context.Remove(BodyPart);
+                _context.SaveChanges();
+            }
+            foreach (var BodyBodyPart in _context.BodyBodyParts.ToList())
+            {
+                _context.Remove(BodyBodyPart);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }
