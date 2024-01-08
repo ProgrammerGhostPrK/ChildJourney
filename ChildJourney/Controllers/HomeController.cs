@@ -5,6 +5,7 @@ using ChildJourney.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 
 namespace ChildJourney.Controllers
 {
@@ -67,6 +68,20 @@ namespace ChildJourney.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> DeleteDatabase()
+        {
+            var options = new DbContextOptionsBuilder<Database>()
+            .UseMySQL("Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;")
+            .Options;
+
+            using (var dbContext = new Database(options))
+            {
+                await dbContext.Database.EnsureDeletedAsync();
+                await dbContext.Database.MigrateAsync();
+            }
+            return View("../User/Login");
         }
     }
 }

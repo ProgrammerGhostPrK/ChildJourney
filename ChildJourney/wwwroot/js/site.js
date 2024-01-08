@@ -17,6 +17,15 @@ function DeleteSeasonal() {
         }
     });
 }
+function DeleteDatabase() {
+    $.ajax({
+        type: "POST",
+        url: "/Home/DeleteDatabase",
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function DeleteAllRewards() {
     $.ajax({
         type: "POST",
