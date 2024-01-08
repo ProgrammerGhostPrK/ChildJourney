@@ -77,7 +77,7 @@ namespace ChildJourney.Controllers
                     }
                 }
             }
-            if (rewardcounter >= 7) 
+            if (rewardcounter >= 7 || (reward.Type == "Seasonal" && reward.Price == 0)) 
             {
                 return View();
             }
@@ -126,10 +126,16 @@ namespace ChildJourney.Controllers
             {
                 return NotFound();
             }
-
-            _context.Update(reward);
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            if (reward.Type == "Seasonal" && reward.Price == 0)
+            {
+                return View();
+            }
+            else
+            {
+                _context.Update(reward);
+                await _context.SaveChangesAsync();
+                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            }
         }
 
         // GET: Reward/Delete/5
