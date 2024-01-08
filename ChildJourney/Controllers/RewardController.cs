@@ -66,22 +66,37 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Type,CurrencyType,Worth,Price,Image")] Reward reward)
         {
-            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
-            User User = _context.Users.Find(response.Id);
-            _context.Add(reward);
-            foreach (var user in _context.Users.ToList())
+            int rewardcounter = 0;
+            if (reward.Type == "Weekly")
             {
-                User_Reward User_Reward = new User_Reward()
+                foreach (var item in _context.Rewards.ToList())
                 {
-                    User = user,
-                    Type = reward.Type,
-                    Reward = reward
-                };
-                _context.UsersRewards.Add(User_Reward);
-                await _context.SaveChangesAsync();
+                    if (item.Type == "Weekly")
+                    {
+                        rewardcounter += 1;
+                    }
+                }
             }
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            if (rewardcounter >= 7) 
+            {
+                return View();
+            }
+            else { 
+                _context.Add(reward);
+                foreach (var user in _context.Users.ToList())
+                {
+                    User_Reward User_Reward = new User_Reward()
+                    {
+                        User = user,
+                        Type = reward.Type,
+                        Reward = reward
+                    };
+                    _context.UsersRewards.Add(User_Reward);
+                    await _context.SaveChangesAsync();
+                }
+                await _context.SaveChangesAsync();
+                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            }
         }
 
         // GET: Reward/Edit/5

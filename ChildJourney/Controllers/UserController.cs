@@ -67,7 +67,7 @@ namespace ChildJourney.Controllers
             user.Daystreak = 0;
             user.DailyStreak = 0;
             user.SeasonPoints = 0;
-            user.lastlogin = DateTime.Today.ToString();
+            user.lastlogin = "";
             user.Admin = false;
             _context.Add(user);
             await _context.SaveChangesAsync();
@@ -157,6 +157,7 @@ namespace ChildJourney.Controllers
                     Name = "Admin",
                     Email = "Admin@Admin.Admin",
                     Image = "a",
+                    lastlogin = "",
                     DailyStreak = 0,
                     Daystreak = 0,
                     Age = 0,
