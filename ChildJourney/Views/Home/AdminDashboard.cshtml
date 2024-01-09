@@ -6,7 +6,10 @@
 
 <button id="Unlock" onclick="Unlock()"> Unlock dangerous buttons</button>
 <button id="Lock" onclick="Lock()" style="display:none"> Lock dangerous buttons</button>
-<button class="Dbutton" onclick="DeleteDatabase()" disabled> DeleteDatabase</button>
+<p></p>
+<button class="Dbutton" id="UnlockDB" onclick="UnlockDB()" style="display:none;background-color:lightcoral"> Unlock Database Deletion</button>
+<button class="Dbutton" id="LockDB" onclick="LockDB()" style="display:none"> Lock Database Deletion</button>
+<button id="DeleteDB" onclick="DeleteDatabase()" style="background-color:red" disabled> DeleteDatabase</button>
 
 <h1>Users</h1>
 <button class="Dbutton" onclick="DeleteAllUsers()" disabled>Delete All</button>
@@ -420,6 +423,7 @@
         });
         document.getElementById("Unlock").style.display = "none";
         document.getElementById("Lock").style.display = "block";
+        document.getElementById("UnlockDB").style.display = "block";
     }
     function Lock() {
         var buttons = document.querySelectorAll(".Dbutton");
@@ -428,5 +432,18 @@
         });
         document.getElementById("Unlock").style.display = "block";
         document.getElementById("Lock").style.display = "none";
+        document.getElementById("UnlockDB").style.display = "none";
+        document.getElementById("LockDB").style.display = "none";
+        document.getElementById("DeleteDB").disabled = true;
+    }
+    function UnlockDB() {
+        document.getElementById("DeleteDB").disabled = false;
+        document.getElementById("UnlockDB").style.display = "none";
+        document.getElementById("LockDB").style.display = "block";
+    }
+    function LockDB() {
+        document.getElementById("DeleteDB").disabled = true;
+        document.getElementById("UnlockDB").style.display = "block";
+        document.getElementById("LockDB").style.display = "none";
     }
 </script>
