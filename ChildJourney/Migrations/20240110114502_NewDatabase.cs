@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -132,7 +131,8 @@ namespace ChildJourney.Migrations
                     Coins = table.Column<int>(type: "int", nullable: false),
                     SeasonPoints = table.Column<int>(type: "int", nullable: false),
                     Daystreak = table.Column<int>(type: "int", nullable: false),
-                    lastlogin = table.Column<int>(type: "int", nullable: false),
+                    lastWeekLogin = table.Column<int>(type: "int", nullable: false),
+                    lastMonthLogin = table.Column<int>(type: "int", nullable: false),
                     DailyStreak = table.Column<int>(type: "int", nullable: false),
                     OutfitId = table.Column<int>(type: "int", nullable: true),
                     BodyId = table.Column<int>(type: "int", nullable: true),
@@ -213,7 +213,7 @@ namespace ChildJourney.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Day = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

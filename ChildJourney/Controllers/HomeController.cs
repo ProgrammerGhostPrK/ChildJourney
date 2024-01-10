@@ -24,6 +24,7 @@ namespace ChildJourney.Controllers
             var viewModel = new AdminViewModel()
             {
                 Users = _context.Users.ToList(),
+                Moods = _context.Moods.ToList(),
                 Animals = _context.Animals.ToList(),
                 Badges = _context.Badges.ToList(),
                 bodyParts = _context.BodyParts.ToList(),

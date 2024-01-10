@@ -150,6 +150,17 @@ function AddToHouse(Id) {
         }
     });
 }
+function AddMood(Grade, userId, Day) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/AddMood",
+        data: { Grade: Grade, userId: userId, Day: Day},
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
+
 function BuyBodyPart(Id) {
     $.ajax({
         type: "POST",

@@ -72,6 +72,32 @@
         </tr>
     </table>
     <div class="row">
+        <label>Moods</label>
+        <div style="height:250px">
+            @foreach (var item in Model.Moods)
+            {
+                if (item.UserId == response.Id)
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                        <button>
+                            <table class="table">
+                                <tr>
+                                    <td> Day @item.Day</td>
+                                </tr>
+                                <tr>
+                                    <td><H1>@item.Grade</H1></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.User.Name</td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="row">
         <label>Badges</label>
         <div style="height:250px">
             @foreach (var item in Model.UserBadges)

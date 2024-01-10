@@ -4,6 +4,8 @@
     ViewData["Title"] = "HomeIsland";
     Context.Session.SetString("HomeIsland", "Active");
     User user = null;
+    bool PrintMoodpicker = true;
+    int Result;
     foreach(var User in Model.Users)
     {
         if (User.Id == Model.User.Id)
@@ -11,8 +13,39 @@
             user = User;
         }
     }
+    using (var client = new HttpClient())
+    {
+        try
+        {
+            var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
+            Result = result.Headers.Date.Value.Day;
+        }
+        catch
+        {
+            Result = DateTime.Today.Day;
+        }
+    }
+    foreach (var Mood in Model.Moods)
+        {
+            if (Mood.Day == Result && Mood.UserId == user.Id)
+            {
+                PrintMoodpicker = false;
+            }
+        }
 }
-
+@if (PrintMoodpicker == true)
+{
+<div>
+    <label>How are you feeling today?</label>
+    <select onchange="AddMood(this.value, @Model.User.Id, @Result)">
+        <option value="Very Sad" >Very Sad</option>
+        <option value="Sad">Sad</option>
+        <option value="Okay">Okay</option>
+        <option value="Happy">Happy</option>
+        <option value="Very Happy">Very Happy</option>
+    </select>
+</div>
+}
 <body style="background-color: @Model.CurrentIsland.PrimaryColor">
     <a asp-action="TimedRewards" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">Rewards</a>
     <a asp-action="IslandPicking" asp-controller="Game" style="background-color:white ;border:solid; color: black; text-decoration: none">Islands</a>

@@ -10,7 +10,7 @@ namespace ChildJourney.Models
         public int UserId { get; set; }
         [Required]
         public User User { get; set; }
-        public int Grade { get; set; }
-        public DateTime Day { get; set; }
+        public string Grade { get; set; }
+        public int Day { get; set; }
     }
 }

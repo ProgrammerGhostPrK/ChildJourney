@@ -21,6 +21,7 @@ namespace ChildJourney.ViewModels
         public List<User_Badge> UserBadges { get; set; }
         public List<User_Reward> UserRewards { get; set; }
         public List<Island> Islands { get; set; }
+        public List<Mood> Moods { get; set; }
         public User? User { get; set; }
         public Island? CurrentIsland { get; set; }
     }

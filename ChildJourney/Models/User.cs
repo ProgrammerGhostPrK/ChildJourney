@@ -15,7 +15,8 @@ namespace ChildJourney.Models
         public int Coins { get; set; }
         public int SeasonPoints { get; set; }
         public int Daystreak { get; set; }
-        public int lastlogin { get; set; }
+        public int lastWeekLogin { get; set; }
+        public int lastMonthLogin { get; set; }
         public int DailyStreak { get; set; }
         [Required]
         public ICollection<User_Badge>? UserBadges { get; set;}

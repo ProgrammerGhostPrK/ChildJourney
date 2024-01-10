@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChildJourney.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20240108122011_NewDatabase")]
+    [Migration("20240110114502_NewDatabase")]
     partial class NewDatabase
     {
         /// <inheritdoc />
@@ -268,8 +268,8 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
 
                     b.Property<int>("Grade")
                         .HasColumnType("int");
@@ -395,7 +395,10 @@ namespace ChildJourney.Migrations
                     b.Property<int>("SeasonPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("lastlogin")
+                    b.Property<int>("lastMonthLogin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("lastWeekLogin")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

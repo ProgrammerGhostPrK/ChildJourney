@@ -32,6 +32,7 @@ namespace ChildJourney.Controllers
                 bodyParts = _context.BodyParts.ToList(),
                 clothing = _context.Clothing.ToList(),
                 decorations = _context.Decoration.ToList(),
+                Moods = _context.Moods.ToList(),
                 rewards = _context.Rewards.ToList(),
                 Outfit_Clothings = _context.OutfitClothing.ToList(),
                 Body_BodyParts = _context.BodyBodyParts.ToList(),
@@ -235,23 +236,27 @@ namespace ChildJourney.Controllers
 
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
+            int Day;
 
             using (var client = new HttpClient())
             {
                 DayOfWeek Result;
+                
                 try
                 {
                     var result = client.GetAsync("https://google.com", HttpCompletionOption.ResponseHeadersRead).Result;
                     Result = result.Headers.Date.Value.DayOfWeek;
+                    Day = result.Headers.Date.Value.Day;
                 }
                 catch {
                     Result = DateTime.Today.DayOfWeek;
+                    Day = DateTime.Today.Day;
                 }                
-                user.lastlogin = user.Daystreak;
+                user.lastWeekLogin = user.Daystreak;
                 user.Daystreak = (int)Result;
 
             }
-            if (user.Daystreak == 1 && user.lastlogin != 1)
+            if (user.Daystreak == 1 && user.lastWeekLogin != 1)
             {
                 foreach (var item in _context.UsersRewards.ToList())
                 {
@@ -262,6 +267,15 @@ namespace ChildJourney.Controllers
                     }
                 }
             }
+            if (Day == 1 && user.lastMonthLogin != 1)
+            {
+                foreach (var Mood in _context.Moods)
+                {
+                    _context.Remove(Mood);
+                    _context.SaveChanges();
+                }
+            }
+            user.lastMonthLogin = Day;
             _context.SaveChanges();
             return View(AdminViewModel(island));
         }
@@ -491,6 +505,18 @@ namespace ChildJourney.Controllers
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
             user.Coins += Amount;
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult AddMood(string Grade, int userId, int Day)
+        {
+            Mood mood = new Mood()
+            {
+                User = _context.Users.Find(userId),
+                Grade = Grade,
+                Day = Day
+            };
+            _context.Moods.Add(mood);
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
         }

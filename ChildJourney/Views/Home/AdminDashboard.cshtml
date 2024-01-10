@@ -33,7 +33,10 @@
                 SeasonPoints
             </th>
             <th>
-                Daystreak
+                LastWeeklyLogin
+            </th>
+            <th>
+                LastMonthlyLogin
             </th>
             <th>
                 DailyStreak
@@ -61,7 +64,10 @@
                     @Html.DisplayFor(modelItem => item.SeasonPoints)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Daystreak)
+                    @Html.DisplayFor(modelItem => item.lastWeekLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastMonthLogin)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DailyStreak)
