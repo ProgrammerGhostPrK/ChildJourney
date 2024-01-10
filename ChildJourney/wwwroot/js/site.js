@@ -201,14 +201,23 @@ function BuyIsland(Id) {
         }
     });
 }
-function AddCoins(Amount) {
+function AddCoins(Amount, buttonElement) {
+    $(buttonElement).prop("disabled", true);
+
+
     $.ajax({
         type: "POST",
         url: "/Game/AddCoins",
         data: { Amount: Amount },
-        success: function (response) {
-            handleSuccessResponse(response);
-        }
+    });
+}
+function AddSeasonPoints(Amount, buttonElement) {
+    $(buttonElement).prop("disabled", true);
+
+    $.ajax({
+        type: "POST",
+        url: "/Game/AddSeasonPoints",
+        data: { Amount: Amount },
     });
 }
 function handleSuccessResponse(response) {
