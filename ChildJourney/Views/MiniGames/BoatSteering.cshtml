@@ -1,5 +1,14 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                    <a href="../Game/HomeIsland">Confirm</a>
+            }
+        }
+    </div>
+</div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,12 +66,19 @@
             ctx.fillStyle = 'black';
             ctx.font = '16px Arial';
             ctx.fillText('Score: ' + score, 10, 20);
+            if (score >= 25) {
+                score = "WIN";
+                window.location.href = "../Game/HomeIsland";
+            }
         }
 
         function drawHealth() {
             ctx.fillStyle = 'black';
             ctx.font = '16px Arial';
             ctx.fillText('Health: ' + boat.Health, canvas.width - 80, 20);
+            if (boat.Health <= 0) {
+                document.location.reload();
+            }
         }
 
         function drawLanes() {
@@ -104,10 +120,6 @@
                     boat.Health -= 1;
                 }
             });
-
-            if (boat.Health <= 0) {
-                document.location.reload();
-            }
         }
 
         function draw() {
@@ -182,4 +194,3 @@
         startGame();
     </script>
 </body>
-</html>

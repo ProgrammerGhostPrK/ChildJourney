@@ -1,5 +1,37 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                        <a href="../Game/HomeIsland">Confirm</a>
+            }
+        }
+    </div>
+</div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +66,7 @@
 
         const pipes = [];
         let score = 0;
-        let frameCount = 0; // Initialize frameCount
+        let frameCount = 0;
 
         function drawBird() {
             ctx.fillStyle = 'yellow';
@@ -71,7 +103,6 @@
                     bird.x + bird.width > pipes[i].x &&
                     (bird.y < pipes[i].topHeight || bird.y + bird.height > pipes[i].bottomY)
                 ) {
-                    alert('Game Over! Your score: ' + score);
                     resetGame();
                     return;
                 }
@@ -106,6 +137,10 @@
             ctx.fillStyle = 'black';
             ctx.font = '24px Arial';
             ctx.fillText('Score: ' + score, 10, 30);
+            if (score >= 10) {
+                score = "WIN";
+                window.location.href = "../Game/HomeIsland";
+            }
         }
 
         function draw() {
@@ -121,6 +156,7 @@
             draw();
             frameCount++;
             requestAnimationFrame(gameLoop);
+
         }
 
         function resetGame() {
@@ -151,4 +187,3 @@
         gameLoop();
     </script>
 </body>
-</html>
