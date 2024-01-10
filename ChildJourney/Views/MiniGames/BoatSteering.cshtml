@@ -31,7 +31,7 @@
                         @{
                             if (Context.Session.GetString("HomeIsland") == "Active")
                             {
-                                <a href="../Game/HomeIsland">Return to island</a>
+                                    <a href="../Game/HomeIsland">Return to island</a>
                             }
                         }
                     </button>
@@ -40,7 +40,26 @@
         </table>
     </div>
 
-    
+    <div id="GameOver" class="block" style="border:solid;display:none">
+        <table class="table">
+            <tr>
+                <td><button onclick="resetGame()">Try again?</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        @{
+                            if (Context.Session.GetString("HomeIsland") == "Active")
+                            {
+                                    <a href="../Game/HomeIsland">Return to island</a>
+                            }
+                        }
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="block">
         <canvas id="gameCanvas" style="background-color:lightblue"></canvas>
 
@@ -92,9 +111,10 @@
                 ctx.fillStyle = 'black';
                 ctx.font = '16px Arial';
                 ctx.fillText('Health: ' + boat.Health, canvas.width - 80, 20);
-                if (boat.Health <= 0) {
-                    document.location.reload();
-                }
+            }
+
+            function resetGame() {
+                document.location.reload();
             }
 
             function drawLanes() {
@@ -117,11 +137,16 @@
                 }
                 if (leftPressed && boat.lane > 0) {
                     boat.lane--;
-                    leftPressed = false; // Set to false to move one lane at a time
+                    leftPressed = false;
+                } // Set to false to move one lane at a time
+
+                if (boat.Health <= 0) {
+                    document.getElementById("GameOver").style.display = "block";
                 }
+                
 
                 // Move obstacles
-                if (score != "WIN") {
+                if (score != "WIN" && boat.Health > 0) {
                     obstacles.forEach(obstacle => {
                         obstacle.y += obstacle.speed;
                         if (obstacle.y > canvas.height) {
@@ -161,7 +186,7 @@
             }
 
             function generateObstacle() {
-                if (score != "WIN") 
+                if (score != "WIN" && boat.Health > 0) 
                 {
                     const lane1 = getRandomLane();
                     const lane2 = (lane1 + 1) % 3; // Ensure lane2 is different from lane1

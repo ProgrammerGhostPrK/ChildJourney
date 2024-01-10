@@ -61,6 +61,26 @@
         </table>
     </div>
 
+    <div id="GameOver" class="block" style="border:solid;display:none">
+        <table class="table">
+            <tr>
+                <td><button onclick="resetGame()">Try again?</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        @{
+                            if (Context.Session.GetString("HomeIsland") == "Active")
+                            {
+                                <a href="../Game/HomeIsland">Return to island</a>
+                            }
+                        }
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="block">
         <canvas id="gameCanvas" style="background-color:lightblue"></canvas>
 
@@ -71,6 +91,7 @@
 
             const bird = {
                 x: 50,
+                Health: 1,
                 y: canvas.height / 2 - 15,
                 width: 30,
                 height: 30,
@@ -81,6 +102,7 @@
 
             const pipes = [];
             let score = 0;
+            let health = 1;
             let frameCount = 0;
 
             function drawBird() {
@@ -109,7 +131,7 @@
             }
 
             function updatePipes() {
-                if (score != "WIN") {
+                if (health > 0 && score !== "WIN") {
                     for (let i = pipes.length - 1; i >= 0; i--) {
                         pipes[i].x -= 0.5; // Move pipes to the left
 
@@ -117,10 +139,13 @@
                         if (
                             bird.x < pipes[i].x + pipes[i].width &&
                             bird.x + bird.width > pipes[i].x &&
-                            (bird.y < pipes[i].topHeight || bird.y + bird.height > pipes[i].bottomY)
-                        ) {
-                            resetGame();
-                            return;
+                            (bird.y < pipes[i].topHeight || bird.y + bird.height > pipes[i].bottomY)) 
+                        {
+                            health--;
+                            if (health === 0) {
+                                document.getElementById("GameOver").style.display = "block";
+                            }
+                        return;
                         }
 
                         // Score point when passing through a pipe
@@ -177,11 +202,7 @@
             }
 
             function resetGame() {
-                bird.y = canvas.height / 2 - 15;
-                bird.velocity = 0;
-                pipes.length = 0; // Clear the pipes array
-                score = 0;
-                frameCount = 0;
+                document.location.reload();
             }
 
             document.addEventListener('keydown', function (e) {
