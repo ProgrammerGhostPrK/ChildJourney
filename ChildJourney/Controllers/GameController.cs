@@ -251,11 +251,16 @@ namespace ChildJourney.Controllers
                 catch {
                     Result = DateTime.Today.DayOfWeek;
                     Day = DateTime.Today.Day;
+                }
+                if (user.Daystreak != (int)Result)
+                {
+                    user.DailyStreak = 0;
+                    _context.SaveChanges();
                 }                
                 user.lastWeekLogin = user.Daystreak;
                 user.Daystreak = (int)Result;
-
             }
+
             if (user.Daystreak == 1 && user.lastWeekLogin != 1)
             {
                 foreach (var item in _context.UsersRewards.ToList())
