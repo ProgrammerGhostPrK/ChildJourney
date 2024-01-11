@@ -513,6 +513,7 @@ namespace ChildJourney.Controllers
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User user = _context.Users.Find(response.Id);
             user.SeasonPoints += Amount;
+            user.DailyStreak += 1;
             _context.SaveChanges();
             return Json(new { success = true });
         }

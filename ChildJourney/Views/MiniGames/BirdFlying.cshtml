@@ -40,11 +40,22 @@
 <div class="row">
     <div id="rewards" class="block" style="border:solid;display:none">
         <table class="table">
+            @if (response.DailyStreak < 3)
+            {
+                <label>This is your number @(response.DailyStreak + 1) Seasonreward out of 3 for Today!</label>
+                <tr>
+                    <td><button id="SeasonClaim" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
+                </tr>
+            }
+            else
+            {
+                <label>Claimed all Seasonal reward for today! Come back tomorrow!</label>
+                <tr>
+                    <td><button id="SeasonClaim" disabled> Claimed 3 out of 3!</button></td>
+                </tr>
+            }
             <tr>
-                <td><button id="SeasonClaim" onmousedown="ActivateReturn()" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
-            </tr>
-            <tr>
-                <td><button id="CoinClaim" onmousedown="ActivateReturn()" onclick="AddCoins(20, this)">Reward: 20 Coins</button></td>
+                <td><button id="CoinClaim" onclick="AddCoins(20, this)">Reward: 20 Coins</button></td>
             </tr>
             <tr>
                 <td>
@@ -196,6 +207,7 @@
                 updateBird();
                 updatePipes();
                 draw();
+                ActivateReturn();
                 frameCount++;
                 requestAnimationFrame(gameLoop);
 
@@ -224,11 +236,9 @@
 
             gameLoop();
 
-        </script>
-
-        <script>
             function ActivateReturn() {
-                if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true) {
+                if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true)
+                {
                     document.getElementById("ReturnButton").style.display = "block";
                 }
             }

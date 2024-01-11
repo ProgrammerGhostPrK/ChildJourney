@@ -1,4 +1,17 @@
-﻿
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Introduction";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,9 +32,20 @@
 <div class="row">
     <div id="rewards" class="block" style="border:solid;display:none">
         <table class="table">
-            <tr>
-                <td><button id="SeasonClaim" onmousedown="ActivateReturn()" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
-            </tr>
+            @if (response.DailyStreak < 3)
+            {
+                <label>This is your number @(response.DailyStreak + 1) Seasonreward out of 3 for Today!</label>
+                <tr>
+                    <td><button id="SeasonClaim" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
+                </tr>
+            }
+            else
+            {
+                <label>Claimed all Seasonal reward for today! Come back tomorrow!</label>
+                <tr>
+                    <td><button id="SeasonClaim" disabled> Claimed 3 out of 3!</button></td>
+                </tr>
+            }
             <tr>
                 <td><button id="CoinClaim" onmousedown="ActivateReturn()" onclick="AddCoins(20, this)">Reward: 20 Coins</button></td>
             </tr>
@@ -177,6 +201,7 @@
 
             function gameLoop() {
                 update();
+                ActivateReturn();
                 draw();
                 requestAnimationFrame(gameLoop);
             }
@@ -239,11 +264,10 @@
             canvas.height = 400;
 
             startGame();
-        </script>
-
-        <script>
-            function ActivateReturn(){
-                if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true) {
+            
+            function ActivateReturn() {
+                if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true)
+                {
                     document.getElementById("ReturnButton").style.display = "block";
                 }
             }

@@ -8,40 +8,50 @@
 }
 
 <style>
+    ::-webkit-scrollbar{
+        display:none;
+    }
+
     body {
-        background-image: url("");
+        background-image: url("../images/cloudybackground.png");
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: cover;
     }
 </style>
 
-<div class="row">
-    <div class="block">
-        <h1>Pick an Island!</h1>
+<body style="overflow:hidden">
+    <div class="row">
+        <div class="block">
+            <h1 class="inner" style="padding:15px;margin-top:20px">Pick an Island!</h1>
+        </div>
     </div>
-</div>
-<div class="center-container">
-    @foreach (var Island in Model.Islands)
-    {
-        @foreach (var item in Model.User_Island)
-        {
-            if (item.UserId == response.Id && item.IslandId == Island.Id) {
-                <table class="table" style="border:none">
-                    <tr>
-                    <td>
-                        <a asp-action="HomeIsland" asp-controller="Game" asp-route-id="@item.IslandId" style="background-color:@item.Island.PrimaryColor; color: black; text-decoration: none">
-                            @Island.Name
+    <div class="row">
+        <div class="center-container" onWheel="this.scrollLeft+=event.deltaY>0?50:-50" style="justify-content:start; overflow-x:scroll; width:auto">
+            @foreach (var Island in Model.Islands)
+            {
+                @foreach (var item in Model.User_Island)
+                {
+                    if (item.UserId == response.Id && item.IslandId == Island.Id) {
+                        <a asp-action="HomeIsland" asp-controller="Game" asp-route-id="@item.IslandId" style="color: black; text-decoration: none">
+                            <div style="padding:15px; margin:0px 30px 0px 30px" class="inner">
+                                <table>
+                                    <tr>
+                                    <td>
+                                        <label style="background-color:@item.Island.PrimaryColor;">@Island.Id: @Island.Name</label>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="@Island.Image" style="width:250px; height:250px;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </a>
-                    </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="@Island.Image" style="width:200px; height:200px;"/>
-                        </td>
-                    </tr>
-                </table>
+                    }
+                }
             }
-        }
-    }
-</div>
+        </div>
+    </div>
+</body>

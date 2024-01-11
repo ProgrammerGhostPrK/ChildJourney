@@ -204,7 +204,6 @@ function BuyIsland(Id) {
 function AddCoins(Amount, buttonElement) {
     $(buttonElement).prop("disabled", true);
 
-
     $.ajax({
         type: "POST",
         url: "/Game/AddCoins",
