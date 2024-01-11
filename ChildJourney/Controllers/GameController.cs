@@ -252,7 +252,7 @@ namespace ChildJourney.Controllers
                     Result = DateTime.Today.DayOfWeek;
                     Day = DateTime.Today.Day;
                 }
-                if (user.Daystreak != (int)Result)
+                if (user.lastMonthLogin != Day && user.Daystreak != (int)Result)
                 {
                     user.DailyStreak = 0;
                     _context.SaveChanges();
