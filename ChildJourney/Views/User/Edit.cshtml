@@ -12,45 +12,25 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" type="number" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" type="email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="Daystreak" />
+            <input type="hidden" asp-for="DailyStreak" />
+            <input type="hidden" asp-for="Image" />
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="Age" />
+            <input type="hidden" asp-for="Coins" />
+            <input type="hidden" asp-for="SeasonPoints" />
+            <input type="hidden" asp-for="lastWeekLogin"/>
+            <input type="hidden" asp-for="lastMonthLogin" />
             <div class="form-group">
                 <label asp-for="Admin" class="control-label"></label>
-            </div>
-            @Html.DisplayFor(model => model.Admin)
-            <div class="form-group">
-                <label asp-for="Coins" class="control-label"></label>
-                <input asp-for="Coins" type="number" class="form-control" />
-                <span asp-validation-for="Coins" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Daystreak" class="control-label"></label>
-                <input asp-for="Daystreak" type="number" class="form-control" />
-                <span asp-validation-for="Daystreak" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DailyStreak" class="control-label"></label>
-                <input asp-for="DailyStreak" type="number" class="form-control" />
-                <span asp-validation-for="DailyStreak" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UnlockedIslands" class="control-label"></label>
-                <input asp-for="UnlockedIslands" type="number" class="form-control" />
-                <span asp-validation-for="UnlockedIslands" class="text-danger"></span>
+                <select asp-for="Admin" class="form-control">
+                    {
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                    }
+                </select>
+                <span asp-validation-for="Admin" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

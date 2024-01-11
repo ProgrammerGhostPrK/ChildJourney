@@ -149,10 +149,24 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool ClothingExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Clothing?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var UserClothing in _context.UsersClothing.ToList())
+            {
+                _context.Remove(UserClothing);
+                _context.SaveChanges();
+            }
+            foreach (var Clothing in _context.Clothing.ToList())
+            {
+                _context.Remove(Clothing);
+                _context.SaveChanges();
+            }
+            foreach (var OutfitClothing in _context.OutfitClothing.ToList())
+            {
+                _context.Remove(OutfitClothing);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

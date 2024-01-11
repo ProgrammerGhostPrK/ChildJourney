@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace ChildJourney.Controllers
 {
@@ -64,7 +66,33 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Type,Image")] Decoration decoration)
         {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User User = _context.Users.Find(response.Id);
             _context.Add(decoration);
+            User_Decoration user_Decoration = new User_Decoration()
+            {
+                User = User,
+                Type = decoration.Type,
+                Decoration = decoration
+            };
+            if (decoration.Price == 0)
+            {
+                foreach (var user in _context.Users.ToList())
+                {
+                    if (user != User)
+                    {
+                        User_Decoration User_Decoration = new User_Decoration()
+                        {
+                            User = user,
+                            Type = decoration.Type,
+                            Decoration = decoration
+                        };
+                        _context.UsersDecorations.Add(User_Decoration);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            _context.UsersDecorations.Add(user_Decoration);
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
@@ -138,10 +166,24 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool DecorationExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Decoration?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var UserDecoration in _context.UsersDecorations.ToList())
+            {
+                _context.Remove(UserDecoration);
+                _context.SaveChanges();
+            }
+            foreach (var Decoration in _context.Decoration.ToList())
+            {
+                _context.Remove(Decoration);
+                _context.SaveChanges();
+            }
+            foreach (var HouseDecoration in _context.HouseDecoration.ToList())
+            {
+                _context.Remove(HouseDecoration);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

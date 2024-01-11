@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
+using Newtonsoft.Json;
 
 namespace ChildJourney.Controllers
 {
@@ -64,9 +65,17 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Image")] Badge badge)
         {
-                _context.Add(badge);
-                await _context.SaveChangesAsync();
-                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            _context.Add(badge);
+            User_Badge user_Badge = new User_Badge()
+            {
+                User = user,
+                Badge = badge
+            };
+            _context.UsersBadges.Add(user_Badge);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Badge/Edit/5
@@ -138,10 +147,19 @@ namespace ChildJourney.Controllers
             await _context.SaveChangesAsync();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        private bool BadgeExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Badges?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var Badge in _context.UsersBadges.ToList())
+            {
+                _context.Remove(Badge);
+                _context.SaveChanges();
+            }
+            foreach (var Badge in _context.Badges.ToList())
+            {
+                _context.Remove(Badge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

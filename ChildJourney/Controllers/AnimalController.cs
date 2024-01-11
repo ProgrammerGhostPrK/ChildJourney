@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ChildJourney.Data;
 using ChildJourney.Models;
 using ChildJourney.ViewModels;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChildJourney.Controllers
 {
@@ -64,9 +66,17 @@ namespace ChildJourney.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Image")] Animal animal)
         {
-                _context.Add(animal);
-                await _context.SaveChangesAsync();
-                return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            _context.Add(animal);
+            User_Animal user_Animal = new User_Animal()
+            {
+                User = user,
+                Animal = animal
+            };
+            _context.UsersAnimals.Add(user_Animal);
+            await _context.SaveChangesAsync();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
         // GET: Animal/Edit/5
@@ -139,9 +149,19 @@ namespace ChildJourney.Controllers
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
 
-        private bool AnimalExists(int id)
+        public IActionResult DeleteAll()
         {
-          return (_context.Animals?.Any(e => e.Id == id)).GetValueOrDefault();
+            foreach (var Animal in _context.UsersAnimals.ToList())
+            {
+                _context.Remove(Animal);
+                _context.SaveChanges();
+            }
+            foreach (var Animal in _context.Animals.ToList())
+            {
+                _context.Remove(Animal);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true, refreshPage = true });
         }
     }
 }

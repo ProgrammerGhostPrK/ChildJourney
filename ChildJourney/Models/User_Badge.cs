@@ -14,6 +14,5 @@ namespace ChildJourney.Models
         [Required]
         public Badge Badge { get; set; }
         public int BadgeLevel { get; set; }
-        public DateTime Day { get; set; }
     }
 }

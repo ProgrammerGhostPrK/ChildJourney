@@ -13,5 +13,7 @@ namespace ChildJourney.Models
         public string Type { get; set; }
         [Required]
         public ICollection<User_Decoration>? UserDecoration { get; set; }
+        [Required]
+        public ICollection<House>? House { get; set; }
     }
 }

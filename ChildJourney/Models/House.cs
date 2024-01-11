@@ -11,6 +11,6 @@ namespace ChildJourney.Models
         [Required]
         public User User { get; set; }
         [Required]
-        public ICollection<Decoration> HouseParts { get; set; }
+        public ICollection<Decoration>? HouseParts { get; set; }
     }
 }

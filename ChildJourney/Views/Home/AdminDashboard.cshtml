@@ -3,10 +3,16 @@
 @{
     ViewData["Title"] = "AdminDashboard";
 }
+<button id="Unlock" onclick="Unlock()"> Unlock dangerous buttons</button>
+<button id="Lock" onclick="Lock()" style="display:none"> Lock dangerous buttons</button>
+<p></p>
+<button class="Dbutton" id="UnlockDB" onclick="UnlockDB()" style="display:none;background-color:lightcoral"> Unlock Database Deletion</button>
+<button class="Dbutton" id="LockDB" onclick="LockDB()" style="display:none"> Lock Database Deletion</button>
+<button id="DeleteDB" onclick="DeleteDatabase()" style="background-color:red" disabled> DeleteDatabase</button>
 
 <h1>Users</h1>
-<a asp-action="Create" asp-controller="User" style="color:black;text-decoration:underline">Create New User</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllUsers()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
         <tr>
@@ -17,25 +23,22 @@
                 Name
             </th>
             <th>
-                Email
-            </th>
-            <th>
                 Admin
-            </th>
-            <th>
-                Age
             </th>
             <th>
                 Coins
             </th>
             <th>
-                Daystreak
+                SeasonPoints
             </th>
             <th>
-                Dailystreak
+                LastWeeklyLogin
             </th>
             <th>
-                UnlockedIslands
+                LastMonthlyLogin
+            </th>
+            <th>
+                DailyStreak
             </th>
             <th></th>
         </tr>
@@ -51,29 +54,25 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Admin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Age)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Coins)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Daystreak)
+                    @Html.DisplayFor(modelItem => item.SeasonPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastWeekLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastMonthLogin)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DailyStreak)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnlockedIslands)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-controller="User" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="User" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -84,7 +83,8 @@
 
 <h1>Animals</h1>
 <a asp-action="Create" asp-controller="Animal" style="color:black;text-decoration:underline">Create New Animal</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllAnimals()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
             <tr>
@@ -120,7 +120,8 @@
 
 <h1>Badges</h1>
 <a asp-action="Create" asp-controller="Badge" style="color:black;text-decoration:underline">Create New Badge</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllBadges()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
             <tr>
@@ -162,7 +163,8 @@
 
 <h1>Bodyparts</h1>
 <a asp-action="Create" asp-controller="BodyPart" style="color:black;text-decoration:underline">Create New Bodypart</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllBodyParts()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
         <tr>
@@ -170,10 +172,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -189,10 +191,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -210,7 +212,8 @@
 
 <h1>Clothing</h1>
 <a asp-action="Create" asp-controller="Clothing" style="color:black;text-decoration:underline">Create New Clothingpiece</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllClothing()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
         <tr>
@@ -218,10 +221,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -237,10 +240,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -258,7 +261,8 @@
 
 <h1>Decoration</h1>
 <a asp-action="Create" asp-controller="Decoration" style="color:black;text-decoration:underline">Create New Decoration</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllDeco()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
         <tr>
@@ -266,10 +270,10 @@
                 Id
             </th>
             <th>
-                Name
+                Type
             </th>
             <th>
-                Type
+                Name
             </th>
             <th>
                 Price
@@ -285,10 +289,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -306,18 +310,27 @@
 
 <h1>Rewards</h1>
 <a asp-action="Create" asp-controller="Reward" style="color:black;text-decoration:underline">Create New Reward</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
-<table class="table">
+<button class="Dbutton" onclick="DeleteWeeklies()" disabled> Delete all weekly Rewards</button>
+<button class="Dbutton" onclick="DeleteSeasonal()" disabled> Delete all Seasonal Rewards</button>
+<button class="Dbutton" onclick="DeleteAllRewards()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
+<table class="table" >
     <thead>
         <tr>
             <th>
                 Id
             </th>
             <th>
-                Name
+                Type
+            </th>
+            <th>
+                CurrencyType
             </th>
             <th>
                 Worth
+            </th>
+            <th>
+                Price (Seasonal)
             </th>
             <th></th>
         </tr>
@@ -333,7 +346,13 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CurrencyType)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Worth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-controller="Reward" asp-route-id="@item.Id">Edit</a> |
@@ -348,7 +367,8 @@
 
 <h1>Islands</h1>
 <a asp-action="Create" asp-controller="Island" style="color:black;text-decoration:underline">Create New Island</a>
-<div class="scrollable-content" style="height: 150px ; background-color: white">
+<button class="Dbutton" onclick="DeleteAllIslands()" disabled>Delete All</button>
+<div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
     <table class="table">
         <thead>
             <tr>
@@ -399,3 +419,36 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function Unlock() {
+        var buttons = document.querySelectorAll(".Dbutton");
+        buttons.forEach(function (button) {
+            button.disabled = false;
+        });
+        document.getElementById("Unlock").style.display = "none";
+        document.getElementById("Lock").style.display = "block";
+        document.getElementById("UnlockDB").style.display = "block";
+    }
+    function Lock() {
+        var buttons = document.querySelectorAll(".Dbutton");
+        buttons.forEach(function (button) {
+            button.disabled = true;
+        });
+        document.getElementById("Unlock").style.display = "block";
+        document.getElementById("Lock").style.display = "none";
+        document.getElementById("UnlockDB").style.display = "none";
+        document.getElementById("LockDB").style.display = "none";
+        document.getElementById("DeleteDB").disabled = true;
+    }
+    function UnlockDB() {
+        document.getElementById("DeleteDB").disabled = false;
+        document.getElementById("UnlockDB").style.display = "none";
+        document.getElementById("LockDB").style.display = "block";
+    }
+    function LockDB() {
+        document.getElementById("DeleteDB").disabled = true;
+        document.getElementById("UnlockDB").style.display = "block";
+        document.getElementById("LockDB").style.display = "none";
+    }
+</script>

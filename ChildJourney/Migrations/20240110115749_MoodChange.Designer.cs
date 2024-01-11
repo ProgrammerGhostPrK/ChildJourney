@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChildJourney.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20231218132339_AdditionalModels")]
-    partial class AdditionalModels
+    [Migration("20240110115749_MoodChange")]
+    partial class MoodChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,9 +176,6 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("HouseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Image")
                         .HasColumnType("longtext");
 
@@ -194,8 +191,6 @@ namespace ChildJourney.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HouseId");
 
                     b.ToTable("Decoration");
                 });
@@ -244,6 +239,9 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -270,11 +268,12 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Grade")
+                    b.Property<int>("Day")
                         .HasColumnType("int");
+
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -330,32 +329,26 @@ namespace ChildJourney.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
+                    b.Property<string>("CurrencyType")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Image")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int?>("WeekRewardsId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Worth")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WeekRewardsId");
-
                     b.ToTable("Rewards");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Reward");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("ChildJourney.Models.User", b =>
@@ -386,6 +379,13 @@ namespace ChildJourney.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("HouseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -393,7 +393,13 @@ namespace ChildJourney.Migrations
                     b.Property<int?>("OutfitId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UnlockedIslands")
+                    b.Property<int>("SeasonPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("lastMonthLogin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("lastWeekLogin")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -409,9 +415,6 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -437,9 +440,6 @@ namespace ChildJourney.Migrations
                     b.Property<int>("BadgeLevel")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -460,6 +460,10 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("BodyPartId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -482,6 +486,10 @@ namespace ChildJourney.Migrations
                     b.Property<int>("ClothingId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -502,6 +510,10 @@ namespace ChildJourney.Migrations
 
                     b.Property<int>("DecorationId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -545,6 +557,10 @@ namespace ChildJourney.Migrations
                     b.Property<int>("RewardId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -572,27 +588,19 @@ namespace ChildJourney.Migrations
                     b.ToTable("OutfitClothings", (string)null);
                 });
 
-            modelBuilder.Entity("ChildJourney.Models.SeasonReward", b =>
+            modelBuilder.Entity("DecorationHouse", b =>
                 {
-                    b.HasBaseType("ChildJourney.Models.Reward");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("MaxPoints")
+                    b.Property<int>("HouseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("HousePartsId")
+                        .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("SeasonReward");
-                });
+                    b.HasKey("HouseId", "HousePartsId");
 
-            modelBuilder.Entity("ChildJourney.Models.WeekRewards", b =>
-                {
-                    b.HasBaseType("ChildJourney.Models.Reward");
+                    b.HasIndex("HousePartsId");
 
-                    b.HasDiscriminator().HasValue("WeekRewards");
+                    b.ToTable("HouseDecorations", (string)null);
                 });
 
             modelBuilder.Entity("BodyBodyPart", b =>
@@ -647,13 +655,6 @@ namespace ChildJourney.Migrations
                     b.Navigation("Body");
 
                     b.Navigation("BodyPart");
-                });
-
-            modelBuilder.Entity("ChildJourney.Models.Decoration", b =>
-                {
-                    b.HasOne("ChildJourney.Models.House", null)
-                        .WithMany("HouseParts")
-                        .HasForeignKey("HouseId");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.House", b =>
@@ -725,13 +726,6 @@ namespace ChildJourney.Migrations
                     b.Navigation("Clothing");
 
                     b.Navigation("Outfit");
-                });
-
-            modelBuilder.Entity("ChildJourney.Models.Reward", b =>
-                {
-                    b.HasOne("ChildJourney.Models.WeekRewards", null)
-                        .WithMany("weekRewards")
-                        .HasForeignKey("WeekRewardsId");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.User_Animal", b =>
@@ -838,7 +832,7 @@ namespace ChildJourney.Migrations
                         .IsRequired();
 
                     b.HasOne("ChildJourney.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserIslands")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -882,6 +876,21 @@ namespace ChildJourney.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DecorationHouse", b =>
+                {
+                    b.HasOne("ChildJourney.Models.House", null)
+                        .WithMany()
+                        .HasForeignKey("HouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChildJourney.Models.Decoration", null)
+                        .WithMany()
+                        .HasForeignKey("HousePartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChildJourney.Models.Animal", b =>
                 {
                     b.Navigation("UserAnimals");
@@ -905,11 +914,6 @@ namespace ChildJourney.Migrations
             modelBuilder.Entity("ChildJourney.Models.Decoration", b =>
                 {
                     b.Navigation("UserDecoration");
-                });
-
-            modelBuilder.Entity("ChildJourney.Models.House", b =>
-                {
-                    b.Navigation("HouseParts");
                 });
 
             modelBuilder.Entity("ChildJourney.Models.Island", b =>
@@ -945,12 +949,9 @@ namespace ChildJourney.Migrations
 
                     b.Navigation("UserDeco");
 
-                    b.Navigation("UserRewards");
-                });
+                    b.Navigation("UserIslands");
 
-            modelBuilder.Entity("ChildJourney.Models.WeekRewards", b =>
-                {
-                    b.Navigation("weekRewards");
+                    b.Navigation("UserRewards");
                 });
 #pragma warning restore 612, 618
         }

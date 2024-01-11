@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -7,7 +6,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace ChildJourney.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class NewDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +65,41 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Decoration",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Decoration", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Islands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    PrimaryColor = table.Column<string>(type: "longtext", nullable: false),
+                    SecondaryColor = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Islands", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Rewards",
                 columns: table => new
                 {
@@ -73,21 +107,13 @@ namespace ChildJourney.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<string>(type: "longtext", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: true),
+                    CurrencyType = table.Column<string>(type: "longtext", nullable: false),
                     Worth = table.Column<int>(type: "int", nullable: false),
-                    Discriminator = table.Column<string>(type: "longtext", nullable: false),
-                    WeekRewardsId = table.Column<int>(type: "int", nullable: true),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    MaxPoints = table.Column<int>(type: "int", nullable: true)
+                    Price = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rewards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rewards_Rewards_WeekRewardsId",
-                        column: x => x.WeekRewardsId,
-                        principalTable: "Rewards",
-                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -98,19 +124,44 @@ namespace ChildJourney.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: false),
                     Admin = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Coins = table.Column<int>(type: "int", nullable: false),
+                    SeasonPoints = table.Column<int>(type: "int", nullable: false),
                     Daystreak = table.Column<int>(type: "int", nullable: false),
+                    lastWeekLogin = table.Column<int>(type: "int", nullable: false),
+                    lastMonthLogin = table.Column<int>(type: "int", nullable: false),
                     DailyStreak = table.Column<int>(type: "int", nullable: false),
-                    UnlockedIslands = table.Column<int>(type: "int", nullable: false),
                     OutfitId = table.Column<int>(type: "int", nullable: true),
-                    BodyId = table.Column<int>(type: "int", nullable: true)
+                    BodyId = table.Column<int>(type: "int", nullable: true),
+                    HouseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Animals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: true),
+                    OwnedHouseId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Animals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Animals_Decoration_OwnedHouseId",
+                        column: x => x.OwnedHouseId,
+                        principalTable: "Decoration",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -162,7 +213,7 @@ namespace ChildJourney.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Day = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,6 +248,33 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "UserIslands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IslandId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserIslands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserIslands_Islands_IslandId",
+                        column: x => x.IslandId,
+                        principalTable: "Islands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserIslands_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UsersBadges",
                 columns: table => new
                 {
@@ -204,8 +282,7 @@ namespace ChildJourney.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     BadgeId = table.Column<int>(type: "int", nullable: false),
-                    BadgeLevel = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    BadgeLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,6 +308,7 @@ namespace ChildJourney.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     BodyPartId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -258,6 +336,7 @@ namespace ChildJourney.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ClothingId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -280,12 +359,41 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "UsersDecorations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DecorationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersDecorations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersDecorations_Decoration_DecorationId",
+                        column: x => x.DecorationId,
+                        principalTable: "Decoration",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersDecorations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UsersRewards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "longtext", nullable: false),
                     RewardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -299,6 +407,33 @@ namespace ChildJourney.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UsersRewards_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UsersAnimals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AnimalId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersAnimals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersAnimals_Animals_AnimalId",
+                        column: x => x.AnimalId,
+                        principalTable: "Animals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersAnimals_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -359,25 +494,54 @@ namespace ChildJourney.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Decoration",
+                name: "HouseDecoration",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Image = table.Column<string>(type: "longtext", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "longtext", nullable: false),
-                    HouseId = table.Column<int>(type: "int", nullable: true)
+                    HouseId = table.Column<int>(type: "int", nullable: false),
+                    DecorationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Decoration", x => x.Id);
+                    table.PrimaryKey("PK_HouseDecoration", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Decoration_Houses_HouseId",
+                        name: "FK_HouseDecoration_Decoration_DecorationId",
+                        column: x => x.DecorationId,
+                        principalTable: "Decoration",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HouseDecoration_Houses_HouseId",
                         column: x => x.HouseId,
                         principalTable: "Houses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "HouseDecorations",
+                columns: table => new
+                {
+                    HouseId = table.Column<int>(type: "int", nullable: false),
+                    HousePartsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HouseDecorations", x => new { x.HouseId, x.HousePartsId });
+                    table.ForeignKey(
+                        name: "FK_HouseDecorations_Decoration_HousePartsId",
+                        column: x => x.HousePartsId,
+                        principalTable: "Decoration",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HouseDecorations_Houses_HouseId",
+                        column: x => x.HouseId,
+                        principalTable: "Houses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -433,82 +597,6 @@ namespace ChildJourney.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "Animals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Image = table.Column<string>(type: "longtext", nullable: true),
-                    OwnedHouseId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Animals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Animals_Decoration_OwnedHouseId",
-                        column: x => x.OwnedHouseId,
-                        principalTable: "Decoration",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "UsersDecorations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    DecorationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersDecorations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersDecorations_Decoration_DecorationId",
-                        column: x => x.DecorationId,
-                        principalTable: "Decoration",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersDecorations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "UsersAnimals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    AnimalId = table.Column<int>(type: "int", nullable: false),
-                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersAnimals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersAnimals_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersAnimals_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Animals_OwnedHouseId",
                 table: "Animals",
@@ -536,9 +624,19 @@ namespace ChildJourney.Migrations
                 column: "BodyPartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Decoration_HouseId",
-                table: "Decoration",
+                name: "IX_HouseDecoration_DecorationId",
+                table: "HouseDecoration",
+                column: "DecorationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HouseDecoration_HouseId",
+                table: "HouseDecoration",
                 column: "HouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HouseDecorations_HousePartsId",
+                table: "HouseDecorations",
+                column: "HousePartsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Houses_UserId",
@@ -573,9 +671,14 @@ namespace ChildJourney.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rewards_WeekRewardsId",
-                table: "Rewards",
-                column: "WeekRewardsId");
+                name: "IX_UserIslands_IslandId",
+                table: "UserIslands",
+                column: "IslandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserIslands_UserId",
+                table: "UserIslands",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersAnimals_AnimalId",
@@ -648,6 +751,12 @@ namespace ChildJourney.Migrations
                 name: "BodyBodyParts");
 
             migrationBuilder.DropTable(
+                name: "HouseDecoration");
+
+            migrationBuilder.DropTable(
+                name: "HouseDecorations");
+
+            migrationBuilder.DropTable(
                 name: "Moods");
 
             migrationBuilder.DropTable(
@@ -655,6 +764,9 @@ namespace ChildJourney.Migrations
 
             migrationBuilder.DropTable(
                 name: "OutfitClothings");
+
+            migrationBuilder.DropTable(
+                name: "UserIslands");
 
             migrationBuilder.DropTable(
                 name: "UsersAnimals");
@@ -678,7 +790,13 @@ namespace ChildJourney.Migrations
                 name: "Bodies");
 
             migrationBuilder.DropTable(
+                name: "Houses");
+
+            migrationBuilder.DropTable(
                 name: "Outfits");
+
+            migrationBuilder.DropTable(
+                name: "Islands");
 
             migrationBuilder.DropTable(
                 name: "Animals");
@@ -696,13 +814,10 @@ namespace ChildJourney.Migrations
                 name: "Rewards");
 
             migrationBuilder.DropTable(
-                name: "Decoration");
-
-            migrationBuilder.DropTable(
-                name: "Houses");
-
-            migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Decoration");
         }
     }
 }

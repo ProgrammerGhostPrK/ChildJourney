@@ -1,0 +1,201 @@
+﻿@model ChildJourney.ViewModels.AdminViewModel
+@using ChildJourney.Controllers;
+@using Newtonsoft.Json
+@{
+    List<Reward> WeeklyRewards = new List<Reward>();
+    List<User_Reward> SeasonRewards = new List<User_Reward>();
+    IEnumerable<User_Reward> query = SeasonRewards.OrderBy(item => item.Reward.Price);
+    ViewData["Title"] = "TimedRewards";
+    User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
+    foreach (var user in Model.Users)
+    {
+        if (user.Id == response.Id)
+        {
+            response = user;
+        }
+    }
+}
+<style>
+    body {
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+<div class="row">
+    <div class="block">
+        @{
+            if (Context.Session.GetString("HomeIsland") == "Active")
+            {
+                <a href="../Game/HomeIsland">Confirm</a>
+            }
+            else
+            {
+                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="block">
+        <button id="1" onclick="menupicker(this.id)">Weekly Rewards</button>
+    </div>
+    <div class="block">
+        <button id="2" onclick="menupicker(this.id)">Season Rewards</button>
+    </div>
+</div>
+
+<div class="row" id="Mainmenu1">
+    <div class="row">
+        <label>Weekly Rewards</label>
+        <div style="height:250px">
+            @foreach (var item in Model.UserRewards.ToList())
+            {
+                if ((item.Type == "Weekly" || item.Type == "WeeklyClaimed") && item.UserId == response.Id)
+                {
+                    WeeklyRewards.Add(item.Reward);
+                    if (item.Type == "WeeklyClaimed")
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
+                            <button disabled>
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Reward.Image" style="width:100px; height:100px;" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color:green"> Claimed  </td>
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                    else if (WeeklyRewards.FindIndex(a => a.Id == item.RewardId) + 1 == response.Daystreak && item.Type == "Weekly")
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
+                            <button onclick="ClaimReward('@item.Id')" style="background-color:lightgreen">
+                                <table class="table">
+                                    <tr>
+                                        <td><img src="@item.Reward.Image" style="width:100px; height:100px;" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Day @(WeeklyRewards.FindIndex(a => a.Id == item.RewardId) + 1) </td>
+                                    </tr>
+                                </table>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
+                            <button disabled>
+                            <table class="table">
+                                <tr>
+                                        <td><img src="@item.Reward.Image" style="width:100px; height:100px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                </tr>
+                                <tr>
+                                    <td> Day @(WeeklyRewards.FindIndex(a => a.Id == item.RewardId) + 1) </td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row" id="Mainmenu2" style="display:none;">
+    <div class="row">
+        <label>Seasonal Rewards</label>
+        @response.DailyStreak /3 Daily rewards claimed!
+        <div style="height:250px">
+            @foreach (var item in Model.UserRewards)
+            {
+                if ((item.Type == "Seasonal" || item.Type == "SeasonalClaimed") && item.UserId == response.Id)
+                {
+                    SeasonRewards.Add(item);
+                    query = SeasonRewards.OrderBy(x => x.Reward.Price);
+                }
+                
+            }
+            
+            @foreach(var item in query)
+            {
+                if (item.Type == "SeasonalClaimed")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
+                        <button disabled>
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:green"> Claimed </td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+                else if (item.Type == "Seasonal" && item.Reward.Price <= response.SeasonPoints)
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
+                        <button onclick="ClaimSeasonalReward('@item.Id')" style="background-color:lightgreen">
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Price SeasonPoins</td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                }
+                else if (item.Type == "Seasonal")
+                {
+                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0;">
+                        <button disabled>
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@item.Reward.Image" style="width:75px; height:75px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
+                                </tr>
+                                <tr>
+                                    <td> @item.Reward.Price SeasonPoins</td>
+                                </tr>
+                            </table>
+                        </button>
+                    </div>
+                    }
+                }
+        </div>
+    </div>
+</div>
+
+<script>
+    function menupicker(ButtonId) {
+        document.getElementById("Mainmenu1").style.display = "none";
+        document.getElementById("Mainmenu2").style.display = "none";
+        document.getElementById("Mainmenu" + ButtonId).style.display = "block";
+    }
+</script>

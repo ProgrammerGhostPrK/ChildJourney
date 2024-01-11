@@ -13,6 +13,5 @@ namespace ChildJourney.Models
         public int AnimalId { get; set; }
         [Required]
         public Animal Animal { get; set; }
-        public DateTime Day { get; set; }
     }
 }
