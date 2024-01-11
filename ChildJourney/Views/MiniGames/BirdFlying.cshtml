@@ -41,14 +41,14 @@
     <div id="rewards" class="block" style="border:solid;display:none">
         <table class="table">
             <tr>
-                <td><button id="SeasonClaim" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
+                <td><button id="SeasonClaim" onmousedown="ActivateReturn()" onclick="AddSeasonPoints(25, this)">Reward: 25 SeasonPoints</button></td>
             </tr>
             <tr>
-                <td><button id="CoinClaim" onclick="AddCoins(20, this)">Reward: 20 Coins</button></td>
+                <td><button id="CoinClaim" onmousedown="ActivateReturn()" onclick="AddCoins(20, this)">Reward: 20 Coins</button></td>
             </tr>
             <tr>
                 <td>
-                    <button>
+                    <button id="ReturnButton" style="display:none">
                         @{
                             if (Context.Session.GetString("HomeIsland") == "Active")
                             {
@@ -224,6 +224,14 @@
 
             gameLoop();
 
+        </script>
+
+        <script>
+            function ActivateReturn() {
+                if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true) {
+                    document.getElementById("ReturnButton").style.display = "block";
+                }
+            }
         </script>
     </div>
 </div>

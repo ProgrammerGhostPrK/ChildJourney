@@ -15,15 +15,15 @@
 
 <style>
     body {
-        background-image: url("/images/1_4.png");
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
+        background-image: url("/images/background.png");
+        background-repeat:repeat;
+        background-attachment:fixed;
+        background-size:cover;
     }
 </style>
 
-<div align="center" class="wrapper">
-    <div class="inner" style="border-radius: 25px; border-color:lightgray">
+<div class="row">
+    <div class="block" style="border-radius: 25px; border-color:lightgray">
         @{
             List<BodyBodyParts> bodycheck = new List<BodyBodyParts>();
             List<Outfit_Clothing> Clothingcheck = new List<Outfit_Clothing>();
@@ -43,11 +43,11 @@
             }
             if (Clothingcheck.Count != 3 || bodycheck.Count != 3)
             {
-                 <a asp-action="Character" asp-controller="Game">Play game</a>
+                 <button><a asp-action="Character" asp-controller="Game">Play game</a></button>
             }
             else if (Clothingcheck.Count == 3 && bodycheck.Count == 3)
             {
-                <a asp-action="IslandPicking" asp-controller="Game">Play game</a>
+                <button><a asp-action="IslandPicking" asp-controller="Game">Play game</a></button>
             }
         }
     </div>
