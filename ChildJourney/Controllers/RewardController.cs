@@ -81,7 +81,11 @@ namespace ChildJourney.Controllers
             {
                 return View();
             }
-            else { 
+            else {
+                if (reward.CurrencyType == "Coins")
+                {
+                    reward.Image = "/images/Coin.png";
+                }
                 _context.Add(reward);
                 foreach (var user in _context.Users.ToList())
                 {

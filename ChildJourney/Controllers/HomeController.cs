@@ -75,7 +75,7 @@ namespace ChildJourney.Controllers
         public async Task<IActionResult> DeleteDatabase()
         {
             var options = new DbContextOptionsBuilder<Database>()
-            .UseMySQL("Server=LAPTOP-LM37OQ9D;Database=ChildJourney;Uid=root;Pwd=Axel17042004;")
+            .UseMySQL("Server=DESKTOP-RP2I2GQ;Database=ChildJourney;Uid=root;Pwd=Axel17042004;")
             .Options;
             
             using (var dbContext = new Database(options))
