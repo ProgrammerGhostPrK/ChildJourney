@@ -21,13 +21,12 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: cover;
-        overflow:hidden;
     }
 </style>
 
 <div class="row">
     <div class="block">
-        <h1 class="inner" style="padding:15px;margin-top:20px">Collect your rewards!</h1>
+        <h1 class="blurry" style="padding:15px;margin-top:20px">Collect your rewards!</h1>
     </div>
 </div>
 <div style="position:fixed;right:10px; top:10px">
@@ -62,7 +61,7 @@
 
 <div class="row" id="Mainmenu1">
     <div class="block">
-        <h1 class="inner" style="padding:15px;margin:20px 0px">Weekly Rewards!</h1>
+        <h1 class="blurry" style="padding:15px;margin:20px 0px">Weekly Rewards!</h1>
         <div style="height:250px">
             @foreach (var item in Model.UserRewards.ToList())
             {
@@ -132,7 +131,7 @@
 <div class="row" id="Mainmenu2" style="display:none;">
     <div class="row">
         <div class="block">
-        <h1 class="inner" style="padding:15px;margin:20px 0px">Seasonal Rewards!</h1>
+        <h1 class="blurry" style="padding:15px;margin:20px 0px">Seasonal Rewards!</h1>
     </div>
     <div class="row">
             <div class="center-container" onWheel="this.scrollLeft+=event.deltaY>0?50:-50" style="justify-content:start; height:400px; overflow-x:scroll;">

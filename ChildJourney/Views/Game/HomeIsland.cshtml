@@ -80,9 +80,10 @@
 
 @if (PrintMoodpicker == true)
 {
-    <div class="button" style="position:fixed;bottom:10px;">
+    <div class="button" style="position:fixed;bottom:10px;left:120px">
         <label>How are you feeling today?</label>
         <select style="border-radius: 15px; background-color: rgba(255, 255, 255, 0.5); padding:5px;" onchange="AddMood(this.value, @Model.User.Id, @Result)">
+            <option></option>
             <option value="Very Sad">Very Sad</option>
             <option value="Sad">Sad</option>
             <option value="Okay">Okay</option>
@@ -97,6 +98,7 @@
     <a asp-action="Inventory" asp-controller="Game" class="button" style="position:fixed;left:10px; bottom:10px;">Inventory</a>
     <a asp-action="BoatSteering" asp-controller="MiniGames" class="button" style="position:fixed;right:10px; bottom:10px;">BoatSteering</a>
     <a asp-action="BirdFlying" asp-controller="MiniGames" class="button" style="position:fixed;right:10px; bottom:70px;">BirdFlying</a>
+    <a asp-action="PlayGame" asp-controller="Home" class="button" style="position:fixed;left:198px; top:10px">Quit</a>
     <div style="position:fixed;right:10px; top:10px">
         <div class="button">
             <H5><img src="/images/Coin.png" style="width:20px; height:20px" /> @user.Coins </H5>

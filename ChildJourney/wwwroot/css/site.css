@@ -43,11 +43,6 @@ body {
         background: #555;
     }
 
-.wrapper {
-    height: 400px;
-    width: 400px;
-}
-
 .inner {
     background-color: rgba(255, 255, 255, 0.5);
     -webkit-backdrop-filter: blur(5px);
