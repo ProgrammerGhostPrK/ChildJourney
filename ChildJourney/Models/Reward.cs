@@ -8,6 +8,7 @@ namespace ChildJourney.Models
         [Key]
         public int Id { get; set; }
         public string Type { get; set; }
+        public int Day { get; set; }
         public string? Image { get; set; }
         public string CurrencyType { get; set; }
         public int Worth { get; set; }

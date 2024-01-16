@@ -2,7 +2,7 @@
 @using ChildJourney.Controllers;
 @using Newtonsoft.Json
 @{
-    List<Reward> WeeklyRewards = new List<Reward>();
+    List<User_Reward> WeeklyRewards = new List<User_Reward>();
     List<User_Reward> SeasonRewards = new List<User_Reward>();
     IEnumerable<User_Reward> query = SeasonRewards.OrderBy(item => item.Reward.Price);
     ViewData["Title"] = "TimedRewards";
@@ -63,11 +63,19 @@
     <div class="block">
         <h1 class="blurry" style="padding:15px;margin:20px 0px">Weekly Rewards!</h1>
         <div style="height:250px">
-            @foreach (var item in Model.UserRewards.ToList())
+            @foreach (var item in Model.UserRewards)
+            {
+                if (item.Type == "Weekly" || item.Type == "WeeklyClaimed")
+                {
+                    WeeklyRewards.Add(item);
+                    query = WeeklyRewards.OrderBy(x => x.Reward.Day);
+                }
+
+            }
+            @foreach (var item in query)
             {
                 if ((item.Type == "Weekly" || item.Type == "WeeklyClaimed") && item.UserId == response.Id)
                 {
-                    WeeklyRewards.Add(item.Reward);
                     if (item.Type == "WeeklyClaimed")
                     {
                         <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
@@ -116,7 +124,7 @@
                                     <td> @item.Reward.Worth @item.Reward.CurrencyType</td>
                                 </tr>
                                 <tr>
-                                    <td> Day @(WeeklyRewards.FindIndex(a => a.Id == item.RewardId) + 1) </td>
+                                    <td> Day @item.Reward.Day </td>
                                 </tr>
                             </table>
                         </button>

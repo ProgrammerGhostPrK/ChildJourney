@@ -261,26 +261,38 @@ namespace ChildJourney.Controllers
                 user.Daystreak = (int)Result;
             }
 
-            if (user.Daystreak == 1 && user.lastWeekLogin != 1)
+            if (user.Daystreak != user.lastWeekLogin)
             {
+                int counter = 0;
                 foreach (var item in _context.UsersRewards.ToList())
                 {
                     if (item.Type == "WeeklyClaimed" && item.UserId == user.Id)
                     {
-                        item.Type = "Weekly";
+                        counter += 1;
+                    }
+                    if (response.Daystreak < _context.Rewards.Find(item.RewardId).Day && item.Type == "WeeklyClaimed" && item.UserId == response.Id)
+                    {
+                        foreach (var Object in _context.UsersRewards.ToList())
+                        {
+                            if (Object.Type == "WeeklyClaimed" && Object.UserId == user.Id)
+                            {
+                                Object.Type = "Weekly";
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+                }
+                foreach (var Mood in _context.Moods)
+                {
+                    if (response.Daystreak < Mood.Day && Mood.UserId == response.Id)
+                    {
+                        _context.Remove(Mood);
                         _context.SaveChanges();
                     }
                 }
+                user.lastMonthLogin = Day;
             }
-            if (Day == 1 && user.lastMonthLogin != 1)
-            {
-                foreach (var Mood in _context.Moods)
-                {
-                    _context.Remove(Mood);
-                    _context.SaveChanges();
-                }
-            }
-            user.lastMonthLogin = Day;
+            
             _context.SaveChanges();
             return View(AdminViewModel(island));
         }

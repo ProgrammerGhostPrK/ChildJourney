@@ -333,6 +333,9 @@
             <th>
                 Price (Seasonal)
             </th>
+            <th>
+                Day (Weekly)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -354,6 +357,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Day)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-controller="Reward" asp-route-id="@item.Id">Edit</a> |

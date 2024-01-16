@@ -48,6 +48,11 @@
                 <input asp-for="Price" value="0" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+            <div class="form-group" id="WeeklyDay">
+                <label asp-for="Day" class="control-label"></label>
+                <input asp-for="Day" value="0" class="form-control" />
+                <span asp-validation-for="Day" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -67,10 +72,12 @@
     function updateSelectedValue() {
         if (document.getElementById("MainType").value == "Seasonal") {
             document.getElementById("SeasonalPrice").style.display = "block"
+            document.getElementById("WeeklyDay").style.display = "none"
             document.getElementById("Notification").textContent = "Fill in the extra field Price!"
         }
         else if (document.getElementById("MainType").value == "Weekly") {
             document.getElementById("SeasonalPrice").style.display = "none"
+            document.getElementById("WeeklyDay").style.display = "block"
             document.getElementById("Notification").textContent = "Max 7 Weekly rewards allowed at a time!"
         }
     }
