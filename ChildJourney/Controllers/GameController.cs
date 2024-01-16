@@ -282,7 +282,7 @@ namespace ChildJourney.Controllers
                         }
                     }
                 }
-                foreach (var Mood in _context.Moods)
+                foreach (var Mood in _context.Moods.ToList())
                 {
                     if (response.Daystreak < Mood.Day && Mood.UserId == response.Id)
                     {
