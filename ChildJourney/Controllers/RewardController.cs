@@ -246,6 +246,11 @@ namespace ChildJourney.Controllers
                     _context.SaveChanges();
                 }
             }
+            foreach (var User in _context.Users.ToList())
+            {
+                User.SeasonPoints = 0;
+                _context.SaveChanges();
+            }
             return Json(new { success = true, refreshPage = true });
         }
         public IActionResult DeleteWeeklies()
