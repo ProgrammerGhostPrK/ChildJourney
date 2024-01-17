@@ -63,7 +63,7 @@
                         @{
                             if (Context.Session.GetString("HomeIsland") == "Active")
                             {
-                                <a href="../Game/HomeIsland">Return to island</a>
+                                    <a href="../Game/HomeIsland">Return to island</a>
                             }
                         }
                     </button>
@@ -83,7 +83,7 @@
                         @{
                             if (Context.Session.GetString("HomeIsland") == "Active")
                             {
-                                <a href="../Game/HomeIsland">Return to island</a>
+                                    <a href="../Game/HomeIsland">Return to island</a>
                             }
                         }
                     </button>
@@ -91,9 +91,28 @@
             </tr>
         </table>
     </div>
-
+    <video style="position:fixed; right:10px; width:400px; height:400px;" id="myVidPlayer" controls muted autoplay></video>
     <div class="block">
-        <canvas id="gameCanvas" style="background-color:lightblue"></canvas>
+        <canvas id="gameCanvas" style=" background-color:lightblue"></canvas>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const video = document.querySelector('#myVidPlayer');
+                window.navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(stream => 
+                {
+                    video.srcObject = stream;
+                    video.onloadedmetadata = (e) => 
+                    {
+                        video.play();
+                    };
+                })
+                .catch( () => {
+                alert('You have give browser the permission to run Webcam and mic ;( ');
+                });
+            });
+        </script>
+
 
         <script>
           
