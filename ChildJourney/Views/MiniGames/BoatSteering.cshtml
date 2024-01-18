@@ -143,6 +143,7 @@
                 ctx.fillText('Score: ' + score, 10, 20);
                 if (score >= 25) {
                     score = "WIN";
+                    ClaimBoatBadge(@response.Id);
                     document.getElementById("rewards").style.display = "block";
                 }
             }

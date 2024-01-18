@@ -120,6 +120,26 @@ function ClaimSeasonalReward(Id) {
         }
     });
 }
+function ClaimBoatBadge(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/ClaimBoatBadge",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
+function ClaimBirdBadge(Id) {
+    $.ajax({
+        type: "POST",
+        url: "/Game/ClaimBirdBadge",
+        data: { Id: Id },
+        success: function (response) {
+            handleSuccessResponse(response);
+        }
+    });
+}
 function AddToOutfit(Id) {
     $.ajax({
         type: "POST",

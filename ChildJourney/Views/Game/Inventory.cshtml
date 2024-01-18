@@ -101,7 +101,8 @@
                 if (item.UserId == response.Id)
                 {
                     <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                        <button>
+                        <a asp-action="DetailsInventory" asp-controller="Badge" asp-route-id="@item.Id">
+                            <button>
                             <table class="table">
                                 <tr>
                                     <td><img src="@item.Badge.Image" style="width:75px; height:75px;" /></td>
@@ -111,6 +112,7 @@
                                 </tr>
                             </table>
                         </button>
+                        </a>
                     </div>
                 }
             }

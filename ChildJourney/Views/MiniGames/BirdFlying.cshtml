@@ -209,8 +209,9 @@
                 ctx.fillStyle = 'black';
                 ctx.font = '24px Arial';
                 ctx.fillText('Score: ' + score, 10, 30);
-                if (score >= 10) {
+                if (score >= 1) {
                     score = "WIN";
+                    ClaimBirdBadge(@response.Id);
                     document.getElementById("rewards").style.display = "block";
                 }
             }
