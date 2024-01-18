@@ -76,6 +76,10 @@
         min-height: 100%;
         width: 100%;
     }
+    a {
+        text-decoration:none;
+        color:black;
+    }
 </style>
 
 @if (PrintMoodpicker == true)
@@ -96,8 +100,7 @@
     <a asp-action="TimedRewards" asp-controller="Game" class="button" style="position:fixed;left:10px; top:10px">Rewards</a>
     <a asp-action="IslandPicking" asp-controller="Game" class="button" style="position:fixed;left:110px; top:10px">Islands</a>
     <a asp-action="Inventory" asp-controller="Game" class="button" style="position:fixed;left:10px; bottom:10px;">Inventory</a>
-    <a asp-action="BoatSteering" asp-controller="MiniGames" class="button" style="position:fixed;right:10px; bottom:10px;">BoatSteering</a>
-    <a asp-action="BirdFlying" asp-controller="MiniGames" class="button" style="position:fixed;right:10px; bottom:70px;">BirdFlying</a>
+    
     <a asp-action="PlayGame" asp-controller="Home" class="button" style="position:fixed;left:198px; top:10px">Quit</a>
     <div style="position:fixed;right:10px; top:10px">
         <div class="button">
@@ -106,6 +109,14 @@
         </div>
         <div class="button" style="margin-top:10px">
             <label>@user.DailyStreak /3 Daily rewards claimed!</label>
+        </div>
+        <div class="button" style="margin-top:10px">
+            <H5>Timed Moves tasks</H5>
+            - <a asp-action="BoatSteering" asp-controller="MiniGames">BoatSteering</a>
+        </div>
+        <div class="button" style="margin-top:10px">
+            <H5>Repeating Moves tasks</H5>
+            - <a asp-action="BirdFlying" asp-controller="MiniGames">BirdFlying</a>
         </div>
     </div>
     
