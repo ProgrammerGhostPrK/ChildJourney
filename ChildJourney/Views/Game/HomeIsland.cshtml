@@ -76,40 +76,48 @@
         min-height: 100%;
         width: 100%;
     }
-    .button {
-        padding:15px;
-        color: black;
-        text-decoration: none;
-        position:fixed;
-        background-color: rgba(255, 255, 255, 0.5);
-        -webkit-backdrop-filter: blur(5px);
-        backdrop-filter: blur(5px);
-        border-radius: 15px;
+    a {
+        text-decoration:none;
+        color:black;
     }
 </style>
 
 @if (PrintMoodpicker == true)
 {
-<div>
-    <label>How are you feeling today?</label>
-    <select onchange="AddMood(this.value, @Model.User.Id, @Result)">
-        <option value="Very Sad" >Very Sad</option>
-        <option value="Sad">Sad</option>
-        <option value="Okay">Okay</option>
-        <option value="Happy">Happy</option>
-        <option value="Very Happy">Very Happy</option>
-    </select>
-</div>
+    <div class="button" style="position:fixed;bottom:10px;left:120px">
+        <label>How are you feeling today?</label>
+        <select style="border-radius: 15px; background-color: rgba(255, 255, 255, 0.5); padding:5px;" onchange="AddMood(this.value, @Model.User.Id, @Result)">
+            <option></option>
+            <option value="☹️">Very Sad</option>
+            <option value="🙁">Sad</option>
+            <option value="🙂">Okay</option>
+            <option value="😀">Happy</option>
+            <option value="😄">Very Happy</option>
+        </select>
+    </div>
 }
 <body style="background-color: @Model.CurrentIsland.PrimaryColor;">
-    <a asp-action="TimedRewards" asp-controller="Game" class="button" style="left:10px; top:10px">Rewards</a>
-    <a asp-action="IslandPicking" asp-controller="Game" class="button" style="left:110px; top:10px">Islands</a>
-    <a asp-action="Inventory" asp-controller="Game" class="button" style="left:10px; bottom:10px;">Inventory</a>
-    <a asp-action="BoatSteering" asp-controller="MiniGames" class="button" style="right:10px; bottom:10px;">BoatSteering</a>
-    <a asp-action="BirdFlying" asp-controller="MiniGames" class="button" style="right:10px; bottom:70px;">BirdFlying</a>
-    <div class="button" style="right:10px; top:10px">
-        <H5><img src="/images/Coin.png" style="width:20px; height:20px" /> @user.Coins </H5>
-        <label> @user.SeasonPoints SeasonPoints</label>
+    <a asp-action="TimedRewards" asp-controller="Game" class="button" style="position:fixed;left:10px; top:10px">Rewards</a>
+    <a asp-action="IslandPicking" asp-controller="Game" class="button" style="position:fixed;left:110px; top:10px">Islands</a>
+    <a asp-action="Inventory" asp-controller="Game" class="button" style="position:fixed;left:10px; bottom:10px;">Inventory</a>
+    
+    <a asp-action="PlayGame" asp-controller="Home" class="button" style="position:fixed;left:198px; top:10px">Quit</a>
+    <div style="position:fixed;right:10px; top:10px">
+        <div class="button">
+            <H5><img src="/images/Coin.png" style="width:20px; height:20px" /> @user.Coins </H5>
+            <label> @user.SeasonPoints SeasonPoints</label>
+        </div>
+        <div class="button" style="margin-top:10px">
+            <label>@user.DailyStreak /3 Daily rewards claimed!</label>
+        </div>
+        <div class="button" style="margin-top:10px">
+            <H5>Timed Moves tasks</H5>
+            - <a asp-action="BoatSteering" asp-controller="MiniGames">BoatSteering</a>
+        </div>
+        <div class="button" style="margin-top:10px">
+            <H5>Repeating Moves tasks</H5>
+            - <a asp-action="BirdFlying" asp-controller="MiniGames">BirdFlying</a>
+        </div>
     </div>
     
     <div class="container">

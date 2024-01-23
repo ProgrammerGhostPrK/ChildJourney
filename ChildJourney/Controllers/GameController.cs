@@ -8,6 +8,7 @@ using ChildJourney.Models;
 using System;
 using System.Globalization;
 using System.Net;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ChildJourney.Controllers
 {
@@ -261,29 +262,42 @@ namespace ChildJourney.Controllers
                 user.Daystreak = (int)Result;
             }
 
-            if (user.Daystreak == 1 && user.lastWeekLogin != 1)
+            if (user.Daystreak != user.lastWeekLogin)
             {
+                int counter = 0;
                 foreach (var item in _context.UsersRewards.ToList())
                 {
                     if (item.Type == "WeeklyClaimed" && item.UserId == user.Id)
                     {
-                        item.Type = "Weekly";
+                        counter += 1;
+                    }
+                    if (response.Daystreak < _context.Rewards.Find(item.RewardId).Day && item.Type == "WeeklyClaimed" && item.UserId == response.Id)
+                    {
+                        foreach (var Object in _context.UsersRewards.ToList())
+                        {
+                            if (Object.Type == "WeeklyClaimed" && Object.UserId == user.Id)
+                            {
+                                Object.Type = "Weekly";
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+                }
+                foreach (var Mood in _context.Moods.ToList())
+                {
+                    if (response.Daystreak < Mood.Day && Mood.UserId == response.Id)
+                    {
+                        _context.Remove(Mood);
                         _context.SaveChanges();
                     }
                 }
+                user.lastMonthLogin = Day;
             }
-            if (Day == 1 && user.lastMonthLogin != 1)
-            {
-                foreach (var Mood in _context.Moods)
-                {
-                    _context.Remove(Mood);
-                    _context.SaveChanges();
-                }
-            }
-            user.lastMonthLogin = Day;
+            
             _context.SaveChanges();
             return View(AdminViewModel(island));
         }
+
         public IActionResult ClaimReward(int id)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -301,6 +315,92 @@ namespace ChildJourney.Controllers
             user_Reward.Type = "WeeklyClaimed";
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult ClaimBoatBadge(int id)
+        {
+            User user = _context.Users.Find(id);
+            Badge savedBadge = null;
+            foreach (var item in _context.Badges.ToList())
+            {
+                if (item.Name == "Captain")
+                {
+                    savedBadge = item;
+                }
+            }
+            if (savedBadge == null)
+            {
+                Badge BoatBadge = new Badge()
+                {
+                    Name = "Captain",
+                    Description = "Succesfully drive the boat in the minigame Boatsteering!",
+                    Image = "/images/boatimage.jpg"
+                };
+                _context.Badges.Add(BoatBadge);
+                _context.SaveChanges();
+                savedBadge = _context.Badges.Find(BoatBadge.Id);
+            }
+            if (savedBadge != null) 
+            {
+                foreach (var item in _context.UsersBadges.ToList())
+                {
+                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_Badge UserBoatBadge = new User_Badge()
+                {
+                    User = user,
+                    Badge = savedBadge,
+                    BadgeLevel = 1
+                };
+                _context.UsersBadges.Add(UserBoatBadge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true });
+        }
+        public IActionResult ClaimBirdBadge(int id)
+        {
+            User user = _context.Users.Find(id);
+            Badge savedBadge = null;
+            foreach (var item in _context.Badges.ToList())
+            {
+                if (item.Name == "Free Bird")
+                {
+                    savedBadge = item;
+                }
+            }
+            if (savedBadge == null)
+            {
+                Badge BirdBadge = new Badge()
+                {
+                    Name = "Free Bird",
+                    Description = "Succesfully fly through all the pipes in the Birdflying minigame!",
+                    Image = "/images/birdimage.jpg"
+                };
+                _context.Badges.Add(BirdBadge);
+                _context.SaveChanges();
+                savedBadge = _context.Badges.Find(BirdBadge.Id);
+            }
+            if (savedBadge != null)
+            {
+                foreach (var item in _context.UsersBadges.ToList())
+                {
+                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_Badge UserBirdBadge = new User_Badge()
+                {
+                    User = user,
+                    Badge = savedBadge,
+                    BadgeLevel = 1
+                };
+                _context.UsersBadges.Add(UserBirdBadge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true });
         }
         public IActionResult ClaimSeasonalReward(int Id)
         {
@@ -320,6 +420,7 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
         }
+
         public IActionResult BuyClothing(int? Id)
         {
                 var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));

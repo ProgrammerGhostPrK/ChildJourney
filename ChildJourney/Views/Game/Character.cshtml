@@ -3,6 +3,7 @@
 @using Newtonsoft.Json
 @{
     ViewData["Title"] = "Introduction";
+    int count = 0;
     User response = JsonConvert.DeserializeObject<User>(Context.Session.GetString("CurrentUser"));
     foreach (var user in Model.Users)
     {
@@ -14,7 +15,7 @@
 }
 <style>
     body {
-        background-image: url("");
+        background-image: url("/images/tile_background2.png");
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: cover;
@@ -23,33 +24,34 @@
 
 <div class="row">
     <div class="block">
-        <h1>Create Your Character!</h1>
+        <h1 class="blurry" style="padding:15px;margin-top:20px">Character Customization!</h1>
     </div>
 </div>
+
 <div class="row">
     <div class="block">
-        <button id="1" onclick="menupicker(this.id)">Eyes</button>
+        <button class="button" id="1" onclick="menupicker(this.id)">Eyes</button>
     </div>
     <div class="block">
-        <button id="2" onclick="menupicker(this.id)">Mouth</button>
+        <button class="button" id="2" onclick="menupicker(this.id)">Mouth</button>
     </div>
     <div class="block">
-        <button id="3" onclick="menupicker(this.id)">Hair</button>
+        <button class="button" id="3" onclick="menupicker(this.id)">Hair</button>
     </div>
     <div class="block">
-        <button id="4" onclick="menupicker(this.id)">Body</button>
+        <button class="button" id="4" style="background-color:aliceblue" onclick="menupicker(this.id)">Body</button>
     </div>
     <div class="block">
-        <button id="5" onclick="menupicker(this.id)">Hat</button>
+        <button class="button" id="5" onclick="menupicker(this.id)">Hat</button>
     </div>
     <div class="block">
-        <button id="6" onclick="menupicker(this.id)">Shirt</button>
+        <button class="button" id="6" onclick="menupicker(this.id)">Shirt</button>
     </div>
     <div class="block">
-        <button id="7" onclick="menupicker(this.id)">Pants</button>
+        <button class="button" id="7" onclick="menupicker(this.id)">Pants</button>
     </div>
     <div class="block">
-        <button id="8" onclick="menupicker(this.id)">Outfit</button>
+        <button class="button" id="8" style="background-color:aliceblue" onclick="menupicker(this.id)">Outfit</button>
     </div>
     <div class="block">
 
@@ -72,11 +74,11 @@
             }
             if (Clothingcheck.Count == 3 && bodycheck.Count == 3 && Context.Session.GetString("HomeIsland") == "Active")
             {
-                        <a href="../Game/HomeIsland">Confirm</a>
+                <button class="button" style="background-color:blue"><a style="text-decoration:none; color:white" href="../Game/HomeIsland">Confirm</a></button>
             }
             else if (Clothingcheck.Count == 3 && bodycheck.Count == 3)
             {
-                <button><a asp-action="Islandpicking" asp-controller="Game">Confirm</a></button>
+                <button class="button" style="background-color:blue"><a style="text-decoration:none; color:white" href="../Game/HomeIsland">Confirm</a></button>
             }
 
          }
@@ -85,37 +87,51 @@
 <div class="row">
     <div Id="pickwrapper1" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Eyes</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Eyes</h1>
             <div style="height:500px">
+                @{count = 0;}
                 @foreach (var item in Model.UserBodyPart)
                 {
                     if (item.Type == "Eyes" && item.UserId == response.Id)
                         {
-                        var count = 0;
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToBody('@item.Id')">
-                                <table class="table">
+                        <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                            @{count = 0;}
+                            @foreach (var Object in Model.Body_BodyParts)
+                            {
+                                if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                {
+                                    count += 1;
+                                    <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
+                                                <label style="color:green">Selected</label>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            }
+                            @if (item.UserId == response.Id && count == 0)
+                            {
+                            <button onclick="AddToBody('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                <table class="table" style="width:150px; height:250px;">
                                     <tr>
                                         <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
                                     <tr>
-                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                        <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
                                     </tr>
                                     <tr>
-                                    <label> </label>
-                                    @foreach (var Object in Model.Body_BodyParts)
-                                    {
-                                        if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
-                                        {
-                                            count += 1;
-                                            <label style="color:green">Selected</label>
-                                        }
-                                    }
+                                        <label></label>
                                     </tr>
                                 </table>
                             </button>
+                            }
                         </div>
                     }
                 }
@@ -124,37 +140,53 @@
     </div>
     <div Id="pickwrapper2" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Mouth</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Mouth</h1>
             <div style="height:500px">
+                @{count = 0;}
             @foreach (var item in Model.UserBodyPart)
                 {
                 if (item.Type == "Mouth" && item.UserId == response.Id)
                     {
-                    var count = 0;
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToBody('@item.Id')">
-                                <table class="table">
-                                    <tr>
-                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
-                                    </tr>
-                                    <tr>
-                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
-                                    </tr>
-                                    <tr>
-                                    <label> </label>
-                                    @foreach (var Object in Model.Body_BodyParts)
-                                    {
-                                        if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
-                                        {
-                                            count += 1;
-                                            <label style="color:green">Selected</label>
-                                        }
-                                    }
-                                    </tr>
-                                </table>
-                            </button>
+                        <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                            @{
+                                count = 0;
+                            }
+                            @foreach (var Object in Model.Body_BodyParts)
+                            {
+                                if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                {
+                                    count += 1;
+                                    <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
+                                                <label style="color:green">Selected</label>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            }
+                            @if (item.UserId == response.Id && count == 0)
+                            {
+                                <button onclick="AddToBody('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                    <table class="table" style="width:150px; height:250px;">
+                                        <tr>
+                                            <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                        </tr>
+                                        <tr>
+                                            <label></label>
+                                        </tr>
+                                    </table>
+                                </button>
+                            }
                         </div>
                     }
                 }
@@ -163,48 +195,62 @@
     </div>
     <div Id="pickwrapper3" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hair</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Hair</h1>
             <div style="height:500px">
+                @{count = 0;}
             @foreach (var item in Model.UserBodyPart)
                 {
                 if (item.Type == "Hair" && item.UserId == response.Id)
                     {
-                    var count = 0;
-                    <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToBody('@item.Id')">
-                                <table class="table">
-                                    <tr>
-                                    <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
-                                    </tr>
-                                    <tr>
-                                    <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
-                                    </tr>
-                                    <tr>
-                                        <label> </label>
-                                        @foreach (var Object in Model.Body_BodyParts)
-                                        {
-                                            if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
-                                            {
-                                            count += 1;
-                                            <label style="color:green">Selected</label>
-                                            }
-                                        }
-                                    </tr>
-                                </table>
-                            </button>
+                        <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                            @{
+                                count = 0;
+                            }
+                            @foreach (var Object in Model.Body_BodyParts)
+                            {
+                                if (item.UserId == response.Id && item.BodyPartId == Object.BodyPartId && Object.BodyId == response.BodyId && count == 0)
+                                {
+                                    count += 1;
+                                    <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
+                                                <label style="color:green">Selected</label>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            }
+                            @if (item.UserId == response.Id && count == 0)
+                            {
+                                <button onclick="AddToBody('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                    <table class="table" style="width:150px; height:250px;">
+                                        <tr>
+                                            <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label align="center"> @item.BodyPart.Name @item.Type</label></td>
+                                        </tr>
+                                        <tr>
+                                            <label></label>
+                                        </tr>
+                                    </table>
+                                </button>
+                            }
                         </div>
+                        }
                     }
-                }
             </div>
         </div>
     </div>
     <div Id="pickwrapper4" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-            <label id="Dwindow"> Selected bodypieces @bodycheck.Count out of 3!</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">@bodycheck.Count() out of 3 selected!</h1>
             <div style="height:500px">
                 @foreach (var item in Model.Body_BodyParts)
                 {
@@ -212,8 +258,8 @@
                     {
                         if (item.BodyId == response.BodyId)
                         {
-                            <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                                <table class="table">
+                            <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                <table class="table" style="width:150px; height:250px;">
                                     <tr>
                                         <td><img src="@item.BodyPart.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
@@ -221,7 +267,7 @@
                                         <td><label align="center"> @item.BodyPart.Name @item.BodyPart.Type</label></td>
                                     </tr>
                                 </table>
-                            </div>
+                            </button>
                         }
                     }
                 }
@@ -230,38 +276,55 @@
     </div>
     <div Id="pickwrapper5" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Hats</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Hats</h1>
             <div style="height:500px">
+                    @{count = 0;}
                 @foreach (var item in Model.UserClothing)
                 {
                     if (item.Type == "Hat" && item.UserId == response.Id)
                     {
-                        var count = 0;
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToOutfit('@item.Id')">
-                                <table class="table">
-                                    <tr>
-                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
-                                    </tr>
-                                    <tr>
-                                    <label> </label>
-                                        @foreach (var Object in Model.Outfit_Clothings)
-                                        {
-                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
-                                            {
-                                                count += 1;
+                        <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                            @{
+                                count = 0;
+                            }
+                            @foreach (var Object in Model.Outfit_Clothings)
+                            {
+                                if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                {
+                                    count += 1;
+                                    <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
                                                 <label style="color:green">Selected</label>
-                                            }
-                                        }
-                                    </tr>
-                                </table>
-                            </button>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            }
+                            @if (item.UserId == response.Id && count == 0)
+                            {
+                                <button onclick="AddToOutfit('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                    <table class="table" style="width:150px; height:250px;">
+                                        <tr>
+                                            <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                        </tr>
+                                        <tr>
+                                            <label></label>
+                                        </tr>
+                                    </table>
+                                </button>
+                            }
                         </div>
+                        
                     }
                 }
             </div>
@@ -269,38 +332,54 @@
     </div>
     <div Id="pickwrapper6" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Shirts</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Shirts</h1>
             <div style="height:500px">
+                    @{count = 0;}
                 @foreach (var item in Model.UserClothing)
                 {
                     if (item.Type == "Shirt" && item.UserId == response.Id)
                         {
-                        var count = 0;
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToOutfit('@item.Id')">
-                                <table class="table">
-                                    <tr>
-                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
-                                    </tr>
-                                    <tr>
-                                    <label> </label>
-                                        @foreach (var Object in Model.Outfit_Clothings)
-                                        {
-                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
-                                            {
-                                                count += 1;
-                                                <label style="color:green">Selected</label>
-                                            }
-                                        }
-                                    </tr>
-                                </table>
-                            </button>
-                        </div>
+                            <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                                @{
+                                    count = 0;
+                                }
+                                @foreach (var Object in Model.Outfit_Clothings)
+                                {
+                                    if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                    {
+                                        count += 1;
+                                        <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                            <table class="table" style="width:150px; height:250px;">
+                                                <tr>
+                                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <label style="color:green">Selected</label>
+                                                </tr>
+                                            </table>
+                                        </button>
+                                    }
+                                }
+                                @if (item.UserId == response.Id && count == 0)
+                                {
+                                <button onclick="AddToOutfit('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
+                                                <label></label>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            </div>
                     }
                 }
             </div>
@@ -308,38 +387,54 @@
     </div>
     <div Id="pickwrapper7" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-                <label id="Dwindow">Pants</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">Pants</h1>
             <div style="height:500px">
+                    @{count = 0;}
                 @foreach (var item in Model.UserClothing)
                 {
                 if (item.Type == "Pants" && item.UserId == response.Id)
                     {
-                        var count = 0;
-                        <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                            <button onclick="AddToOutfit('@item.Id')">
-                                <table class="table">
-                                    <tr>
-                                        <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
-                                    </tr>
-                                    <tr>
-                                    <label> </label>
-                                        @foreach (var Object in Model.Outfit_Clothings)
-                                        {
-                                        if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
-                                            {
-                                                count += 1;
-                                                <label style="color:green">Selected</label>
-                                            }
-                                        }
-                                    </tr>
-                                </table>
-                            </button>
-                        </div>
+                            <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
+                                @{
+                                    count = 0;
+                                }
+                                @foreach (var Object in Model.Outfit_Clothings)
+                                {
+                                    if (item.UserId == response.Id && item.ClothingId == Object.ClothingId && Object.OutfitId == response.OutfitId && count == 0)
+                                    {
+                                        count += 1;
+                                        <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                            <table class="table" style="width:150px; height:250px;">
+                                                <tr>
+                                                    <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <label style="color:green">Selected</label>
+                                                </tr>
+                                            </table>
+                                        </button>
+                                    }
+                                }
+                                @if (item.UserId == response.Id && count == 0)
+                                {
+                                    <button onclick="AddToOutfit('@item.Id')" style="border-color:lightblue; border-width:10px; background-color:white">
+                                        <table class="table" style="width:150px; height:250px;">
+                                            <tr>
+                                                <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label align="center"> @item.Clothing.Name @item.Type</label></td>
+                                            </tr>
+                                            <tr>
+                                                <label></label>
+                                            </tr>
+                                        </table>
+                                    </button>
+                                }
+                            </div>
                     }
                 }
             </div>
@@ -347,9 +442,7 @@
     </div>
     <div Id="pickwrapper8" class="container-fluid" style="display:none;">
         <div class="row">
-            <div class="inner" style="border-radius: 25px; border-color:lightgray">
-            <label>Selected clothingpieces @Clothingcheck.Count out of 3!</label>
-            </div>
+            <h1 class="blurry" style="padding:15px;margin:20px 0px">@Clothingcheck.Count() out of 3 selected!</h1>
             <div style="height:500px">
                 @foreach (var item in Model.Outfit_Clothings)
                 {
@@ -357,8 +450,8 @@
                     {
                         if (item.OutfitId == response.OutfitId)
                         {
-                            <div style="display:inline-block ; width:130px ; margin:0 0 30px 0; background-color:white">
-                                <table class="table">
+                            <button style="border-color:lightgreen; border-width:10px; background-color:white">
+                                <table class="table" style="width:150px; height:250px;">
                                     <tr>
                                         <td><img src="@item.Clothing.Image" style="width:100px; height:100px;" align="center" /></td>
                                     </tr>
@@ -366,7 +459,7 @@
                                         <td><label align="center"> @item.Clothing.Name @item.Clothing.Type</label></td>
                                     </tr>
                                 </table>
-                            </div>
+                            </button>
                         }
                     }
                 }

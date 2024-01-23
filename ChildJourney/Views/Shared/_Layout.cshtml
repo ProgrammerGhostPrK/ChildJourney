@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/ChildJourney.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @if (this.ViewContext.RouteData.Values["controller"].ToString() != "Game")
+    @if (this.ViewContext.RouteData.Values["controller"].ToString() != "Game" && this.ViewContext.RouteData.Values["controller"].ToString() != "MiniGames")
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">

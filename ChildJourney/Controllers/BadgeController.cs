@@ -52,6 +52,23 @@ namespace ChildJourney.Controllers
             return View(badge);
         }
 
+        public async Task<IActionResult> DetailsInventory(int? id)
+        {
+            if (id == null || _context.Badges == null)
+            {
+                return NotFound();
+            }
+
+            var badge = await _context.Badges
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (badge == null)
+            {
+                return NotFound();
+            }
+
+            return View(badge);
+        }
+
         // GET: Badge/Create
         public IActionResult Create()
         {
