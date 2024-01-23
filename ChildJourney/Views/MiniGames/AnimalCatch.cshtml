@@ -1,0 +1,171 @@
+﻿<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+    <title>Flappy Bird</title>
+</head>
+
+<div class="row">
+    <div id="rewards" class="block" style="border:solid;display:none">
+        <table class="table">
+            <tr>
+                <td><button id="CoinClaim" onclick="AddAnimal(this)">Claim Animal</button></td>
+                <td><button id="SeasonClaim" style="display:none" disabled>Animal</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="ReturnButton" style="display:none">
+                        @{
+                            if (Context.Session.GetString("HomeIsland") == "Active")
+                            {
+                                <a href="../Game/HomeIsland">Return to island</a>
+                            }
+                        }
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="GameOver" class="block" style="border:solid;display:none">
+        <table class="table">
+            <tr>
+                <td><button onclick="resetGame()">Try again?</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        @{
+                            if (Context.Session.GetString("HomeIsland") == "Active")
+                            {
+                                <a href="../Game/HomeIsland">Return to island</a>
+                            }
+                        }
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <video style="position:fixed; right:10px; width:400px; height:400px;" id="myVidPlayer" muted autoplay></video>
+    <div class="block">
+        <canvas id="gameCanvas" style="border:solid; background-color:lightblue"></canvas>
+        <p id="timer">Time: 5</p>
+    </div>
+</div>
+
+    <style>
+        #target-element {
+            width: 50px;
+            height: 50px;
+            background-color: #ffcc00;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        #timer {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let win = false;
+        let timerSeconds = 5;
+        let targetSize = 50;
+        let targetX, targetY;
+        let gameInterval;
+
+        function startGame() {
+            moveTarget();
+            gameInterval = setInterval(updateTimer, 1000);
+        }
+
+        function moveTarget() {
+            const maxX = canvas.width - targetSize;
+            const maxY = canvas.height - targetSize;
+
+            targetX = Math.floor(Math.random() * maxX);
+            targetY = Math.floor(Math.random() * maxY);
+
+            drawTarget();
+
+            canvas.addEventListener('click', handleCanvasClick);
+        }
+
+        function drawTarget() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffcc00';
+            ctx.fillRect(targetX, targetY, targetSize, targetSize);
+        }
+
+        function handleCanvasClick(event) {
+            const clickX = event.clientX - canvas.getBoundingClientRect().left;
+            const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+            if (
+                clickX >= targetX &&
+                clickX <= targetX + targetSize &&
+                clickY >= targetY &&
+                clickY <= targetY + targetSize
+            ) {
+                win = true;
+                alert('You clicked the element! Game Over.');
+                document.getElementById("rewards").style.display = "block";
+                ActivateReturn()
+            }
+        }
+
+        function updateTimer() {
+            timerSeconds--;
+            if (timerSeconds == 0 && win == false) {
+                alert('Time is up! Game Over.');
+                document.getElementById("GameOver").style.display = "block";
+            }
+            if (win == true){
+                ActivateReturn();
+            }
+
+            document.getElementById('timer').textContent = `Time: ${timerSeconds}`;
+        }
+
+        function resetGame() {
+            document.location.reload();
+        }
+
+        startGame();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.querySelector('#myVidPlayer');
+            window.navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.onloadedmetadata = (e) => {
+                        video.play();
+                    };
+                })
+                .catch(() => {
+                    alert('You have give browser the permission to run Webcam and mic ;( ');
+                });
+        });
+
+    function ActivateReturn() {
+        if (document.getElementById("CoinClaim").disabled == true && document.getElementById("SeasonClaim").disabled == true) {
+            document.getElementById("ReturnButton").style.display = "block";
+        }
+    }
+    </script>

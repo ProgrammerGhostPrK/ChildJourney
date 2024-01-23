@@ -9,6 +9,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChildJourney.Controllers
 {
@@ -547,6 +548,19 @@ namespace ChildJourney.Controllers
             }
         }
 
+        public IActionResult AddAnimal()
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            User_Animal animal = new User_Animal()
+            {
+                Animal = _context.Animals.Find(1),
+                User = user
+            };
+            _context.UsersAnimals.Add(animal);
+            _context.SaveChanges();
+            return Json(new { success = true});
+        }
         public IActionResult AddReward(Reward piece, User user)
         {
             User_Reward user_Reward = new User_Reward()

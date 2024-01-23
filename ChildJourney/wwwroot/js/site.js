@@ -150,6 +150,14 @@ function AddToOutfit(Id) {
         }
     });
 }
+
+function AddAnimal(buttonElement) {
+    $(buttonElement).prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: "/Game/AddAnimal",
+    });
+}
 function AddToBody(Id) {
     $.ajax({
         type: "POST",

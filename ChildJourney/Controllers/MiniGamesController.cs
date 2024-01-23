@@ -19,6 +19,10 @@ namespace ChildJourney.Controllers
             var Hc = new HomeController(_context);
             return Hc;
         }
+        public IActionResult AnimalCatch()
+        {
+            return View(HomeController().AdminViewModel());
+        }
         public IActionResult BoatSteering()
         {
             return View(HomeController().AdminViewModel());
