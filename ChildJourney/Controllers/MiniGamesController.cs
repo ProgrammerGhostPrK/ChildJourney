@@ -14,11 +14,15 @@ namespace ChildJourney.Controllers
         {
             _context = context;
         }
+
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
+
+        //Getting Views
         public IActionResult AnimalCatch()
         {
             return View(HomeController().AdminViewModel());

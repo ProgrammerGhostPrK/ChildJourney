@@ -21,50 +21,41 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: Decoration
-        public async Task<IActionResult> Index()
-        {
-              return _context.Decoration != null ? 
-                          View(await _context.Decoration.ToListAsync()) :
-                          Problem("Entity set 'Database.Decoration'  is null.");
-        }
-
-        // GET: Decoration/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Decoration == null)
+        //Getting Views
+        public IActionResult Create()
             {
-                return NotFound();
+                return View();
             }
-
-            var decoration = await _context.Decoration
-                .FirstOrDefaultAsync(m => m.Id == id);
+        public IActionResult Edit(int? id)
+        {
+            var decoration = _context.Decoration.Find(id);
             if (decoration == null)
             {
                 return NotFound();
             }
-
+            return View(decoration);
+        }
+        public IActionResult Delete(int? id)
+        {
+            var decoration = _context.Decoration.Find(id);
+            if (decoration == null)
+            {
+                return NotFound();
+            }
             return View(decoration);
         }
 
-        // GET: Decoration/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Decoration/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //functions
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Type,Image")] Decoration decoration)
+        public IActionResult Create(Decoration decoration)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User User = _context.Users.Find(response.Id);
@@ -88,82 +79,36 @@ namespace ChildJourney.Controllers
                             Decoration = decoration
                         };
                         _context.UsersDecorations.Add(User_Decoration);
-                        await _context.SaveChangesAsync();
+                        _context.SaveChanges();
                     }
                 }
             }
             _context.UsersDecorations.Add(user_Decoration);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        // GET: Decoration/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Decoration == null)
-            {
-                return NotFound();
-            }
-
-            var decoration = await _context.Decoration.FindAsync(id);
-            if (decoration == null)
-            {
-                return NotFound();
-            }
-            return View(decoration);
-        }
-
-        // POST: Decoration/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Type,Image")] Decoration decoration)
+        public IActionResult Edit(int id, Decoration decoration)
         {
             if (id != decoration.Id)
             {
                 return NotFound();
             }
-
             _context.Update(decoration);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        // GET: Decoration/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Decoration == null)
-            {
-                return NotFound();
-            }
-
-            var decoration = await _context.Decoration
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (decoration == null)
-            {
-                return NotFound();
-            }
-
-            return View(decoration);
-        }
-
-        // POST: Decoration/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Decoration == null)
-            {
-                return Problem("Entity set 'Database.Decoration'  is null.");
-            }
-            var decoration = await _context.Decoration.FindAsync(id);
+            var decoration = _context.Decoration.Find(id);
             if (decoration != null)
             {
                 _context.Decoration.Remove(decoration);
             }
-            
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
         public IActionResult DeleteAll()

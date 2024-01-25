@@ -24,6 +24,8 @@ namespace ChildJourney.Controllers
         {
             _context = context;
         }
+
+        //Fillings Viewmodels
         public AdminViewModel AdminViewModel(Island island)
         {
             var viewModel = new AdminViewModel()
@@ -58,6 +60,7 @@ namespace ChildJourney.Controllers
             return Hc;
         }
 
+        //Getting Views
         public IActionResult TimedRewards()
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -299,6 +302,7 @@ namespace ChildJourney.Controllers
             return View(AdminViewModel(island));
         }
 
+        //game functions
         public IActionResult ClaimReward(int id)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -316,92 +320,6 @@ namespace ChildJourney.Controllers
             user_Reward.Type = "WeeklyClaimed";
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
-        }
-        public IActionResult ClaimBoatBadge(int id)
-        {
-            User user = _context.Users.Find(id);
-            Badge savedBadge = null;
-            foreach (var item in _context.Badges.ToList())
-            {
-                if (item.Name == "Captain")
-                {
-                    savedBadge = item;
-                }
-            }
-            if (savedBadge == null)
-            {
-                Badge BoatBadge = new Badge()
-                {
-                    Name = "Captain",
-                    Description = "Succesfully drive the boat in the minigame Boatsteering!",
-                    Image = "/images/boatimage.jpg"
-                };
-                _context.Badges.Add(BoatBadge);
-                _context.SaveChanges();
-                savedBadge = _context.Badges.Find(BoatBadge.Id);
-            }
-            if (savedBadge != null) 
-            {
-                foreach (var item in _context.UsersBadges.ToList())
-                {
-                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
-                    {
-                        return Json(new { success = true, refreshPage = false });
-                    }
-                }
-                User_Badge UserBoatBadge = new User_Badge()
-                {
-                    User = user,
-                    Badge = savedBadge,
-                    BadgeLevel = 1
-                };
-                _context.UsersBadges.Add(UserBoatBadge);
-                _context.SaveChanges();
-            }
-            return Json(new { success = true });
-        }
-        public IActionResult ClaimBirdBadge(int id)
-        {
-            User user = _context.Users.Find(id);
-            Badge savedBadge = null;
-            foreach (var item in _context.Badges.ToList())
-            {
-                if (item.Name == "Free Bird")
-                {
-                    savedBadge = item;
-                }
-            }
-            if (savedBadge == null)
-            {
-                Badge BirdBadge = new Badge()
-                {
-                    Name = "Free Bird",
-                    Description = "Succesfully fly through all the pipes in the Birdflying minigame!",
-                    Image = "/images/birdimage.jpg"
-                };
-                _context.Badges.Add(BirdBadge);
-                _context.SaveChanges();
-                savedBadge = _context.Badges.Find(BirdBadge.Id);
-            }
-            if (savedBadge != null)
-            {
-                foreach (var item in _context.UsersBadges.ToList())
-                {
-                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
-                    {
-                        return Json(new { success = true, refreshPage = false });
-                    }
-                }
-                User_Badge UserBirdBadge = new User_Badge()
-                {
-                    User = user,
-                    Badge = savedBadge,
-                    BadgeLevel = 1
-                };
-                _context.UsersBadges.Add(UserBirdBadge);
-                _context.SaveChanges();
-            }
-            return Json(new { success = true });
         }
         public IActionResult ClaimSeasonalReward(int Id)
         {
@@ -421,7 +339,6 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return Json(new { success = true, refreshPage = true });
         }
-
         public IActionResult BuyClothing(int? Id)
         {
                 var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
@@ -547,7 +464,6 @@ namespace ChildJourney.Controllers
                 }
             }
         }
-
         public IActionResult AddAnimal()
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));

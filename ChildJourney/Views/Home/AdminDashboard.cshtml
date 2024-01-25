@@ -41,6 +41,9 @@
             <th>
                 DailyStreak
             </th>
+            <th>
+                Image
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -73,6 +76,9 @@
                     @Html.DisplayFor(modelItem => item.DailyStreak)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="User" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Delete</a>
                 </td>
@@ -88,15 +94,18 @@
 <div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Animals)
@@ -109,8 +118,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Animal" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="Animal" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Animal" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -120,23 +131,26 @@
 </div>
 
 <h1>Badges</h1>
-<a asp-action="Create" asp-controller="Badge" style="color:black;text-decoration:underline">Create New Badge</a>
+<p style="color:lightcoral">Badges are created in code, check BadgeController!</p>
 <button class="Dbutton" onclick="DeleteAllBadges()" disabled>Delete All</button>
 <div class="scrollable-content" style="height: 250px ; background-color: blanchedalmond; margin-bottom:30px; border:solid; border-color:blanchedalmond; border-width:15px">
 <table class="table">
     <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Description
-                </th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Badges)
@@ -152,8 +166,10 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Badge" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="Badge" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Badge" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -181,6 +197,9 @@
             <th>
                 Price
             </th>
+                <th>
+                    Image
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -201,8 +220,10 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="BodyPart" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="BodyPart" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="BodyPart" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -230,6 +251,9 @@
             <th>
                 Price
             </th>
+                <th>
+                    Image
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -250,8 +274,10 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Clothing" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="Clothing" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Clothing" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -279,6 +305,9 @@
             <th>
                 Price
             </th>
+                <th>
+                    Image
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -299,8 +328,10 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Decoration" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="Decoration" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Decoration" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -336,6 +367,9 @@
             <th>
                 Day (Weekly)
             </th>
+            <th>
+                Image
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -362,8 +396,10 @@
                     @Html.DisplayFor(modelItem => item.Day)
                 </td>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="Reward" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-controller="Reward" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-controller="Reward" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -394,6 +430,9 @@
                 <th>
                     Secondary Color
                 </th>
+                <th>
+                    Image
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -417,8 +456,10 @@
                         @Html.DisplayFor(modelItem => item.SecondaryColor)
                     </td>
                     <td>
+                        <img src="@Html.DisplayFor(modelItem => item.Image)" style="width: 50px; height: 50px;" />
+                    </td>
+                    <td>
                         <a asp-action="Edit" asp-controller="Island" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-controller="Island" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="Delete" asp-controller="Island" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>

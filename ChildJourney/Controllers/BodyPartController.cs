@@ -21,74 +21,30 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: BodyPart
-        public async Task<IActionResult> Index()
-        {
-              return _context.BodyParts != null ? 
-                          View(await _context.BodyParts.ToListAsync()) :
-                          Problem("Entity set 'Database.BodyParts'  is null.");
-        }
-
-        // GET: BodyPart/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.BodyParts == null)
-            {
-                return NotFound();
-            }
-
-            var bodyPart = await _context.BodyParts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (bodyPart == null)
-            {
-                return NotFound();
-            }
-
-            return View(bodyPart);
-        }
-
-        // GET: BodyPart/Create
+        //Getting Views
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: BodyPart/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,Price,Image")] BodyPart bodyPart)
+        public IActionResult Edit(int? id)
         {
-            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
-            User user = _context.Users.Find(response.Id);
-            _context.Add(bodyPart);
-            User_BodyPart user_Bodypart = new User_BodyPart()
-            {
-                User = user,
-                Type = bodyPart.Type,
-                BodyPart = bodyPart
-            };
-            _context.UsersBodyParts.Add(user_Bodypart);
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
-        }
-
-        // GET: BodyPart/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.BodyParts == null)
+            var bodyPart = _context.BodyParts.Find(id);
+            if (bodyPart == null)
             {
                 return NotFound();
             }
-
-            var bodyPart = await _context.BodyParts.FindAsync(id);
+            return View(bodyPart);
+        }
+        public IActionResult Delete(int? id)
+        {
+            var bodyPart = _context.BodyParts.Find(id);
             if (bodyPart == null)
             {
                 return NotFound();
@@ -96,58 +52,64 @@ namespace ChildJourney.Controllers
             return View(bodyPart);
         }
 
-        // POST: BodyPart/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //functions
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Price,Image")] BodyPart bodyPart)
+        public IActionResult Create(BodyPart bodyPart)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User User = _context.Users.Find(response.Id);
+            _context.Add(bodyPart);
+            User_BodyPart user_Bodypart = new User_BodyPart()
+            {
+                User = User,
+                Type = bodyPart.Type,
+                BodyPart = bodyPart
+            };
+            if (bodyPart.Price == 0)
+            {
+                foreach (var user in _context.Users.ToList())
+                {
+                    if (user != User)
+                    {
+                        User_BodyPart User_bodyPart = new User_BodyPart()
+                        {
+                            User = user,
+                            Type = bodyPart.Type,
+                            BodyPart = bodyPart
+                        };
+                        _context.UsersBodyParts.Add(User_bodyPart);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            _context.UsersBodyParts.Add(user_Bodypart);
+            _context.SaveChanges();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, BodyPart bodyPart)
         {
             if (id != bodyPart.Id)
             {
                 return NotFound();
             }
-
             _context.Update(bodyPart);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
 
         }
-
-        // GET: BodyPart/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.BodyParts == null)
-            {
-                return NotFound();
-            }
-
-            var bodyPart = await _context.BodyParts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (bodyPart == null)
-            {
-                return NotFound();
-            }
-
-            return View(bodyPart);
-        }
-
-        // POST: BodyPart/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.BodyParts == null)
-            {
-                return Problem("Entity set 'Database.BodyParts'  is null.");
-            }
-            var bodyPart = await _context.BodyParts.FindAsync(id);
+            var bodyPart = _context.BodyParts.Find(id);
             if (bodyPart != null)
             {
                 _context.BodyParts.Remove(bodyPart);
             }
-            
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
         public IActionResult DeleteAll()

@@ -123,7 +123,7 @@ function ClaimSeasonalReward(Id) {
 function ClaimBoatBadge(Id) {
     $.ajax({
         type: "POST",
-        url: "/Game/ClaimBoatBadge",
+        url: "/Badge/ClaimBoatBadge",
         data: { Id: Id },
         success: function (response) {
             handleSuccessResponse(response);
@@ -133,7 +133,7 @@ function ClaimBoatBadge(Id) {
 function ClaimBirdBadge(Id) {
     $.ajax({
         type: "POST",
-        url: "/Game/ClaimBirdBadge",
+        url: "/Badge/ClaimBirdBadge",
         data: { Id: Id },
         success: function (response) {
             handleSuccessResponse(response);

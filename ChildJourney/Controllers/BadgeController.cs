@@ -20,148 +20,66 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: Badge
-        public async Task<IActionResult> Index()
+        //Getting Viewsyy
+        public IActionResult Edit(int? id)
         {
-              return _context.Badges != null ? 
-                          View(await _context.Badges.ToListAsync()) :
-                          Problem("Entity set 'Database.Badges'  is null.");
-        }
-
-        // GET: Badge/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Badges == null)
-            {
-                return NotFound();
-            }
-
-            var badge = await _context.Badges
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var badge = _context.Badges.Find(id);
             if (badge == null)
             {
                 return NotFound();
             }
-
             return View(badge);
         }
-
-        public async Task<IActionResult> DetailsInventory(int? id)
+        public IActionResult DetailsInventory(int? id)
         {
-            if (id == null || _context.Badges == null)
-            {
-                return NotFound();
-            }
-
-            var badge = await _context.Badges
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var badge = _context.Badges.Find(id);
             if (badge == null)
             {
                 return NotFound();
             }
-
+            return View(badge);
+        }
+        public IActionResult Delete(int? id)
+        {
+            var badge = _context.Badges.Find(id);
+            if (badge == null)
+            {
+                return NotFound();
+            }
             return View(badge);
         }
 
-        // GET: Badge/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Badge/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //functions
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Image")] Badge badge)
-        {
-            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
-            User user = _context.Users.Find(response.Id);
-            _context.Add(badge);
-            User_Badge user_Badge = new User_Badge()
-            {
-                User = user,
-                Badge = badge
-            };
-            _context.UsersBadges.Add(user_Badge);
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
-        }
-
-        // GET: Badge/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Badges == null)
-            {
-                return NotFound();
-            }
-
-            var badge = await _context.Badges.FindAsync(id);
-            if (badge == null)
-            {
-                return NotFound();
-            }
-            return View(badge);
-        }
-
-        // POST: Badge/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image")] Badge badge)
+        public IActionResult Edit(int id, Badge badge)
         {
             if (id != badge.Id)
             {
                 return NotFound();
             }
-
             _context.Update(badge);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        // GET: Badge/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Badges == null)
-            {
-                return NotFound();
-            }
-
-            var badge = await _context.Badges
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (badge == null)
-            {
-                return NotFound();
-            }
-
-            return View(badge);
-        }
-
-        // POST: Badge/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Badges == null)
-            {
-                return Problem("Entity set 'Database.Badges'  is null.");
-            }
-            var badge = await _context.Badges.FindAsync(id);
+            var badge = _context.Badges.Find(id);
             if (badge != null)
             {
                 _context.Badges.Remove(badge);
             }
-            
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
         public IActionResult DeleteAll()
@@ -177,6 +95,92 @@ namespace ChildJourney.Controllers
                 _context.SaveChanges();
             }
             return Json(new { success = true, refreshPage = true });
+        }
+        public IActionResult ClaimBoatBadge(int id)
+        {
+            User user = _context.Users.Find(id);
+            Badge savedBadge = null;
+            foreach (var item in _context.Badges.ToList())
+            {
+                if (item.Name == "Captain")
+                {
+                    savedBadge = item;
+                }
+            }
+            if (savedBadge == null)
+            {
+                Badge BoatBadge = new Badge()
+                {
+                    Name = "Captain",
+                    Description = "Succesfully drive the boat in the minigame Boatsteering!",
+                    Image = "/images/boatimage.jpg"
+                };
+                _context.Badges.Add(BoatBadge);
+                _context.SaveChanges();
+                savedBadge = _context.Badges.Find(BoatBadge.Id);
+            }
+            if (savedBadge != null)
+            {
+                foreach (var item in _context.UsersBadges.ToList())
+                {
+                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_Badge UserBoatBadge = new User_Badge()
+                {
+                    User = user,
+                    Badge = savedBadge,
+                    BadgeLevel = 1
+                };
+                _context.UsersBadges.Add(UserBoatBadge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true });
+        }
+        public IActionResult ClaimBirdBadge(int id)
+        {
+            User user = _context.Users.Find(id);
+            Badge savedBadge = null;
+            foreach (var item in _context.Badges.ToList())
+            {
+                if (item.Name == "Free Bird")
+                {
+                    savedBadge = item;
+                }
+            }
+            if (savedBadge == null)
+            {
+                Badge BirdBadge = new Badge()
+                {
+                    Name = "Free Bird",
+                    Description = "Succesfully fly through all the pipes in the Birdflying minigame!",
+                    Image = "/images/birdimage.jpg"
+                };
+                _context.Badges.Add(BirdBadge);
+                _context.SaveChanges();
+                savedBadge = _context.Badges.Find(BirdBadge.Id);
+            }
+            if (savedBadge != null)
+            {
+                foreach (var item in _context.UsersBadges.ToList())
+                {
+                    if (item.UserId == user.Id && item.BadgeId == savedBadge.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_Badge UserBirdBadge = new User_Badge()
+                {
+                    User = user,
+                    Badge = savedBadge,
+                    BadgeLevel = 1
+                };
+                _context.UsersBadges.Add(UserBirdBadge);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true });
         }
     }
 }

@@ -9,6 +9,7 @@ using ChildJourney.Data;
 using ChildJourney.Models;
 using Newtonsoft.Json;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace ChildJourney.Controllers
 {
@@ -21,133 +22,27 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: User
-        public async Task<IActionResult> Index()
-        {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Database.Users'  is null.");
-        }
-
-        // GET: User/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Users == null)
+        //Getting Views
+        public IActionResult Edit(int? id)
             {
-                return NotFound();
+                var user = _context.Users.Find(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return View(user);
             }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // GET: User/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registreer([Bind("Id,Name,Image,Age,Coins,SeasonPoints,Daystreak,DailyStreak,Email,Admin")] User user)
-        {
-            user.Coins = 0;
-            user.Daystreak = 0;
-            user.DailyStreak = 0;
-            user.SeasonPoints = 0;
-            user.lastWeekLogin = 0;
-            user.lastMonthLogin = 0;
-            user.Admin = false;
-            _context.Add(user);
-            await _context.SaveChangesAsync();
-            return View("../User/Login");
-        }
-
-        // GET: User/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
-
-        // POST: User/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Admin")] User userData)
-        {
-            User user = _context.Users.First(u => u.Id == id);
-            user.Admin = userData.Admin;
-
-            _context.Update(user);
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
-        }
-
-        // GET: User/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'Database.Users'  is null.");
-            }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
-            
-            await _context.SaveChangesAsync();
-            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
-        }
-
         public IActionResult Registreer()
         {
             return View();
         }
-
         public IActionResult Login()
         {
             if (_context.Users.Count() == 0)
@@ -174,6 +69,48 @@ namespace ChildJourney.Controllers
             return View();
         }
 
+        //functions
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Registreer(User user)
+        {
+            user.Coins = 0;
+            user.Daystreak = 0;
+            user.DailyStreak = 0;
+            user.SeasonPoints = 0;
+            user.lastWeekLogin = 0;
+            user.lastMonthLogin = 0;
+            user.Admin = false;
+            _context.Add(user);
+            _context.SaveChanges();
+            return View("../User/Login");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, User userData)
+        {
+            User user = _context.Users.Find(id);
+            user.Admin = userData.Admin;
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+            _context.Update(user);
+            _context.SaveChanges();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var user = _context.Users.Find(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+            }
+            _context.SaveChanges();
+            return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(User User)

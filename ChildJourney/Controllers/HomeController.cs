@@ -19,6 +19,7 @@ namespace ChildJourney.Controllers
             _context = context;
         }
 
+        //Filling Viewmodels
         public AdminViewModel AdminViewModel()
         {
             var viewModel = new AdminViewModel()
@@ -46,32 +47,21 @@ namespace ChildJourney.Controllers
             return viewModel;
         }
 
+        //Getting Views
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult Playgame()
         {
             return View(AdminViewModel());
         }
-
         public IActionResult AdminDashboard()
         {
             return View(AdminViewModel());
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
+        //Admindashboard functions
         public async Task<IActionResult> DeleteDatabase()
         {
             var options = new DbContextOptionsBuilder<Database>()

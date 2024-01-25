@@ -19,50 +19,41 @@ namespace ChildJourney.Controllers
         {
             _context = context;
         }
+        //Filling Viewmodels
         public HomeController HomeController()
         {
             var Hc = new HomeController(_context);
             return Hc;
         }
 
-        // GET: Island
-        public async Task<IActionResult> Index()
-        {
-              return _context.Islands != null ? 
-                          View(await _context.Islands.ToListAsync()) :
-                          Problem("Entity set 'Database.Islands'  is null.");
-        }
-
-        // GET: Island/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Islands == null)
+        //Getting Views
+        public IActionResult Create()
             {
-                return NotFound();
+                return View();
             }
-
-            var island = await _context.Islands
-                .FirstOrDefaultAsync(m => m.Id == id);
+        public IActionResult Edit(int? id)
+        {
+            var island = _context.Islands.Find(id);
             if (island == null)
             {
                 return NotFound();
             }
-
+            return View(island);
+        }
+        public IActionResult Delete(int? id)
+        {
+            var island = _context.Islands.Find(id);
+            if (island == null)
+            {
+                return NotFound();
+            }
             return View(island);
         }
 
-        // GET: Island/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Island/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //functions
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Image,Price,PrimaryColor,SecondaryColor")] Island island)
+        public IActionResult Create(Island island)
         {
             var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
             User User = _context.Users.Find(response.Id);
@@ -84,77 +75,36 @@ namespace ChildJourney.Controllers
                             Island = island
                         };
                         _context.UserIslands.Add(User_Island);
-                        await _context.SaveChangesAsync();
+                        _context.SaveChanges();
                     }
                 }
             }
             _context.UserIslands.Add(user_Island);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-
-        // GET: Island/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Islands == null)
-            {
-                return NotFound();
-            }
-
-            var island = await _context.Islands.FindAsync(id);
-            if (island == null)
-            {
-                return NotFound();
-            }
-            return View(island);
-        }
-
-        // POST: Island/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,Price,PrimaryColor,SecondaryColor")] Island island)
+        public IActionResult Edit(int id, Island island)
         {
-
+            if (id != island.Id)
+            {
+                return NotFound();
+            }
             _context.Update(island);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
-        // GET: Island/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Islands == null)
-            {
-                return NotFound();
-            }
-
-            var island = await _context.Islands
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (island == null)
-            {
-                return NotFound();
-            }
-
-            return View(island);
-        }
-
-        // POST: Island/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Islands == null)
-            {
-                return Problem("Entity set 'Database.Islands'  is null.");
-            }
-            var island = await _context.Islands.FindAsync(id);
+            var island = _context.Islands.Find(id);
             if (island != null)
             {
                 _context.Islands.Remove(island);
             }
-            
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
         public IActionResult DeleteAll()
