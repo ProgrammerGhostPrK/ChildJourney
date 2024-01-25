@@ -286,7 +286,7 @@ namespace ChildJourney.Controllers
                 }
                 foreach (var Mood in _context.Moods.ToList())
                 {
-                    if (response.Daystreak < Mood.Day && Mood.UserId == response.Id)
+                    if (Day < Mood.Day && Mood.UserId == response.Id)
                     {
                         _context.Remove(Mood);
                         _context.SaveChanges();
