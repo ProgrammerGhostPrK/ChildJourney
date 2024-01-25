@@ -14,6 +14,7 @@ namespace ChildJourney.Controllers
     public class ClothingController : Controller
     {
         private readonly Database _context;
+        Outfit outfit;
 
         public ClothingController(Database context)
         {
@@ -109,6 +110,87 @@ namespace ChildJourney.Controllers
             }
             _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
+        }
+        public IActionResult BuyClothing(int? Id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            var Clothingpiece = _context.Clothing.Find(Id);
+            if (user.Coins >= Clothingpiece.Price)
+            {
+                foreach (var item in _context.UsersClothing)
+                {
+                    if (item.UserId == user.Id && item.ClothingId == Clothingpiece.Id)
+                    {
+                        return Json(new { success = true, refreshPage = false });
+                    }
+                }
+                User_Clothing user_Clothing = new User_Clothing()
+                {
+                    User = user,
+                    Type = Clothingpiece.Type,
+                    Clothing = Clothingpiece
+                };
+                user.Coins -= Clothingpiece.Price;
+                _context.UsersClothing.Add(user_Clothing);
+                _context.SaveChanges();
+                return Json(new { success = true, refreshPage = true });
+            }
+            else
+            {
+                return Json(new { success = true, refreshPage = false });
+            }
+        }
+        public IActionResult AddToOutfit(int Id)
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            var UserClothingpiece = _context.UsersClothing.Find(Id);
+            var Clothingpiece = _context.Clothing.Find(UserClothingpiece.ClothingId);
+            if (user.OutfitId == null)
+            {
+                outfit = new Outfit()
+                {
+                    User = user,
+                };
+                user.Outfit = outfit;
+                Outfit_Clothing OutfitC = new Outfit_Clothing()
+                {
+                    Outfit = user.Outfit,
+                    Clothing = Clothingpiece
+                };
+                _context.OutfitClothing.Add(OutfitC);
+                _context.SaveChanges();
+                user.OutfitId = _context.Outfits.FirstOrDefault(m => m.UserId == user.Id).Id;
+                _context.SaveChanges();
+            }
+            else
+            {
+                outfit = _context.Outfits.Find(user.OutfitId);
+                Outfit_Clothing OutfitC = new Outfit_Clothing()
+                {
+                    Outfit = outfit,
+                    Clothing = Clothingpiece
+                };
+                _context.OutfitClothing.Add(OutfitC);
+                _context.SaveChanges();
+                foreach (var item in _context.OutfitClothing.ToList())
+                {
+                    Clothing FoundClothing = _context.Clothing.Find(item.ClothingId);
+                    if (FoundClothing.Type == Clothingpiece.Type && user.OutfitId == item.OutfitId)
+                    {
+                        _context.OutfitClothing.Remove(OutfitC);
+                        Outfit_Clothing OutfitClothes = _context.OutfitClothing.Find(item.Id);
+                        OutfitClothes.ClothingId = OutfitC.ClothingId;
+                        _context.OutfitClothing.Update(OutfitClothes);
+                        _context.SaveChanges();
+                        return Json(new { success = true, refreshPage = true });
+                    }
+                }
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
+            return Json(new { success = true, refreshPage = true });
         }
         public IActionResult DeleteAll()
         {

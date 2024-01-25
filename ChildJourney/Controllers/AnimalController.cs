@@ -94,6 +94,37 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
+        public IActionResult AddAnimal()
+        {
+            var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+            User user = _context.Users.Find(response.Id);
+            Animal animal;
+            List<Animal> neededAnimals = new List<Animal>();
+            foreach (var Animal in _context.Animals.ToList())
+            {
+                var useranimal = _context.UsersAnimals.FirstOrDefault(c => c.AnimalId == Animal.Id && c.UserId == user.Id);
+                if (useranimal == null)
+                {
+                    neededAnimals.Add(Animal);
+                }
+            }
+            if (neededAnimals.Count != 0)
+            {
+                animal = neededAnimals[0];
+                User_Animal userAnimal = new User_Animal()
+                {
+                    Animal = animal,
+                    User = user
+                };
+                _context.UsersAnimals.Add(userAnimal);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = true });
+            }
+        }
         public IActionResult DeleteAll()
         {
             foreach (var Animal in _context.UsersAnimals.ToList())

@@ -91,7 +91,7 @@
             </tr>
         </table>
     </div>
-    <video style="position:fixed; right:10px; width:400px; height:400px;" id="myVidPlayer" muted autoplay></video>
+    <video style="position:fixed; right:10px; bottom:10px; width:300px; height:300px;" id="myVidPlayer" muted autoplay></video>
     <div class="block">
         <canvas id="gameCanvas" style=" background-color:lightblue"></canvas>
 
@@ -209,7 +209,7 @@
                 ctx.fillStyle = 'black';
                 ctx.font = '24px Arial';
                 ctx.fillText('Score: ' + score, 10, 30);
-                if (score >= 1) {
+                if (score >= 10) {
                     score = "WIN";
                     ClaimBirdBadge(@response.Id);
                     document.getElementById("rewards").style.display = "block";

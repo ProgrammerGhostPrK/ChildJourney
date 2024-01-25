@@ -107,6 +107,37 @@ namespace ChildJourney.Controllers
             _context.SaveChanges();
             return View("../Home/AdminDashboard", HomeController().AdminViewModel());
         }
+        public IActionResult BuyIsland(int? Id)
+        {
+            {
+                var response = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("CurrentUser"));
+                User user = _context.Users.Find(response.Id);
+                var Island = _context.Islands.Find(Id);
+                if (user.Coins >= Island.Price)
+                {
+                    foreach (var item in _context.UserIslands)
+                    {
+                        if (item.UserId == user.Id && item.IslandId == Island.Id)
+                        {
+                            return Json(new { success = true, refreshPage = false });
+                        }
+                    }
+                    User_Island user_Island = new User_Island()
+                    {
+                        User = user,
+                        Island = Island
+                    };
+                    user.Coins -= Island.Price;
+                    _context.UserIslands.Add(user_Island);
+                    _context.SaveChanges();
+                    return Json(new { success = true, refreshPage = true });
+                }
+                else
+                {
+                    return Json(new { success = true, refreshPage = false });
+                }
+            }
+        }
         public IActionResult DeleteAll()
         {
             foreach (var Island in _context.UserIslands.ToList())
