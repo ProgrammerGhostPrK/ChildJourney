@@ -1,0 +1,80 @@
+0f68edb,ProgrammerGhostPrK,2024-01-25,Created multiple new javascripts to enhance clarity Changed Controllers accordingally
+5c8ee42,ProgrammerGhostPrK,2024-01-25,Cleaned up Controller code changed Admindasboard accordingally
+d0817dd,ProgrammerGhostPrK,2024-01-25,Fix mood resetting
+6b403a5,ProgrammerGhostPrK,2024-01-25,Animaladding fixed now only one animal of each kind is possible
+f9b6430,ProgrammerGhostPrK,2024-01-23,animalcatch
+a7e649a,ProgrammerGhostPrK,2024-01-23,replacing real connectionstring with "connectionstring"
+948c5f1,Ghostley | Axel,2024-01-23,Merge pull request #5 from ProgrammerGhostPrK/DevBranch
+1fcf6fe,ProgrammerGhostPrK,2024-01-22,webcam fixed
+16f663f,Axel,2024-01-18,Improvement to moods and owned badges
+fd4f629,Axel,2024-01-18,Badges can be received after compelting a minigame for the first time, viewable in inventory
+84cb94b,Axel,2024-01-18,order minigames by category
+e11fb3b,Axel,2024-01-17,small store fix
+e694ff4,Axel,2024-01-17,Basic webcam implementation (needs fix)
+ef5585e,Axel,2024-01-17,delete seasonal also resests seasonpoints
+c2f026b,ProgrammerGhostPrK,2024-01-16,Store design finished
+ef6292a,ProgrammerGhostPrK,2024-01-16,Design Character customization and fixed resetting of daily rewards / daily moods
+f50e6b7,ProgrammerGhostPrK,2024-01-16,css update
+56d5f89,Axel,2024-01-15,design and bugfixes daily / seasonal rewards
+a827ffe,Ghostley | Axel,2024-01-11,Merge pull request #4 from ProgrammerGhostPrK/DevBranch
+25f6f4c,ProgrammerGhostPrK,2024-01-11,better if statement for checking daily limit reset
+981022b,ProgrammerGhostPrK,2024-01-11,The Dailylimit for seasonrewards now gets reset every day the user logs in
+62a65b3,ProgrammerGhostPrK,2024-01-11,Design for IslandPicking, HomeIsland, Playgame pages and adding daily limit to seasonpointrewards after minigames
+9e48a93,ProgrammerGhostPrK,2024-01-11,navigationbar is no longer available ingame
+bd0e1bb,ProgrammerGhostPrK,2024-01-10,Gameover screens
+d629643,ProgrammerGhostPrK,2024-01-10,Rewards after minigame completion
+216c7b6,ProgrammerGhostPrK,2024-01-10,Players can now win minigames
+e57015b,ProgrammerGhostPrK,2024-01-10,Moods Adding and Visual
+9a79475,ProgrammerGhostPrK,2024-01-09,2 minigames added + Removed AddCoins(10) from store
+442068c,ProgrammerGhostPrK,2024-01-08,DeleteDatabase Finalized
+7453f84,ProgrammerGhostPrK,2024-01-08,Delete Database Button
+2f81f12,ProgrammerGhostPrK,2024-01-08,Delete all buttons conveniently added for admins
+bfd8cf9,ProgrammerGhostPrK,2024-01-08,Bootstrap theme Admindashboard inputs improved Rewards creating fixed
+6c554ec,ProgrammerGhostPrK,2024-01-08,weekly rewards fixed again
+737668b,ProgrammerGhostPrK,2024-01-08,more input restrictions to rewards
+bf2d569,ProgrammerGhostPrK,2024-01-08,Weekly reward limiter + Weekly / Seasonal reward visualiser for creating and editing improved
+e4c61c2,Axel,2024-01-05,Admin Reward buttons work for both main rewardtypes
+b2a6ba4,Axel,2024-01-05,Dailyrewards improvements (No longer decided by device time but by online time)
+95280a7,Axel,2024-01-05,Attempt at better dailyrewards system
+9c36605,Axel,2024-01-04,Useful admin button to delete all rewards of a specified type
+82793e7,Axel,2024-01-04,Small bugfixes (Json serialize and Start with rewards)
+e4123af,Axel,2024-01-04,Full functionality for Rewards
+701e8ff,Axel,2024-01-04,Rewards Setup and User editing has been heavily limited for admins
+df5a4a4,Axel,2024-01-03,Admin friendly changes
+2cc8d6d,Axel,2024-01-03,Admin Creating items with a select tag instead of input tag
+812b56b,Axel,2024-01-03,Core Setup Inventory
+ceb5dbc,Axel,2024-01-03,HouseDecorations in shop, inverntory, database
+ddde585,Axel,2023-12-27,added Decorations to shop
+4da1de4,ProgrammerGhostPrK,2023-12-21,Performance improvements to the store
+46b8aa9,ProgrammerGhostPrK,2023-12-21,Island buying and Adding owned and selected updates to store objects and character objects
+21c0557,ProgrammerGhostPrK,2023-12-20,Buy functionality added along with bug fixes
+dba504c,ProgrammerGhostPrK,2023-12-20,AddItemsOnfirstStartup
+66dacdb,ProgrammerGhostPrK,2023-12-19,store start
+a05275c,ProgrammerGhostPrK,2023-12-19,quicksave
+676ce17,ProgrammerGhostPrK,2023-12-19,islandpicking into accurate HomeIsland
+7d3082e,ProgrammerGhostPrK,2023-12-18,New Models added to dashboard and visualized uniquely
+ef04130,ProgrammerGhostPrK,2023-12-18,data annotation for new models
+efe4f14,ProgrammerGhostPrK,2023-12-18,Model aanpassingen aan de hand van nieuw klassendiagram
+a3f2164,ProgrammerGhostPrK,2023-12-14,Finished Character creation functionality, started islandpicking
+a4e4560,ProgrammerGhostPrK,2023-12-13,Adding clothing to a players outfit add adding bdyparts to a players body
+4a2b898,ProgrammerGhostPrK,2023-12-12,Image adding to database + Introduction layout improvement
+3f8a1fe,ProgrammerGhostPrK,2023-12-12,Created function for dialogue adding and added functions to show dialogue in introdcution
+6b9c28b,Ghostley | Axel,2023-12-11,Merge pull request #3 from ProgrammerGhostPrK/DevBranch
+841cb3f,Axel,2023-12-11,Using images from wwwroot and playgame page
+4535331,Axel,2023-12-11,registerpage and navigation enhanced
+4a9a343,Axel,2023-12-11,Authentication
+a2837d3,Ghostley | Axel,2023-12-11,Merge pull request #2 from ProgrammerGhostPrK/DevBranch
+02af5cf,Axel,2023-12-11,AdminDashboard completed
+120e3df,ProgrammerGhostPrK,2023-12-09,Prepared Admin dashboard
+e587895,ProgrammerGhostPrK,2023-12-09,Merge branch 'master' into DevBranch
+3e32358,ProgrammerGhostPrK,2023-12-09,Views created for Several Models (+ needed bugfixes)
+0c3781b,Axel,2023-12-07,connectionstrings gathered
+747a9af,Ghostley | Axel,2023-12-06,Merge pull request #1 from ProgrammerGhostPrK/DevBranch
+c310765,ProgrammerGhostPrK,2023-12-06,User View
+a9e3bec,ProgrammerGhostPrK,2023-12-06,Database Update
+a0d0b42,ProgrammerGhostPrK,2023-12-06,Data Annotation and nullables
+da0506f,ProgrammerGhostPrK,2023-12-06,Database setup with EF CORE and MySQL
+5449552,ProgrammerGhostPrK,2023-12-06,Models Added
+2ea70f7,ProgrammerGhostPrK,2023-11-20,Instantiate
+9f21615,ProgrammerGhostPrK,2023-11-20,Add project files.
+e8b7991,ProgrammerGhostPrK,2023-11-20,Add .gitattributes and .gitignore.
