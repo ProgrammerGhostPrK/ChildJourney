@@ -94,7 +94,7 @@
                             </button>
                         </div>
                     }
-                    else if (WeeklyRewards.FindIndex(a => a.Id == item.RewardId) + 1 == response.Daystreak && item.Type == "Weekly")
+                    else if (item.Reward.Day == response.lastWeekLogin && item.Type == "Weekly")
                     {
                         <div style="display:inline-block ; width:200px ; margin:0 0 30px 0;">
                             <button onclick="ClaimReward('@item.Id')" style="border-color:lightgreen; border-width:10px; background-color:white ">

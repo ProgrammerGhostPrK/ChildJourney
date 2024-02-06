@@ -39,6 +39,15 @@ namespace ChildJourney.Controllers
                 }
                 return View(user);
             }
+        public IActionResult Delete(int? id)
+        {
+            var user = _context.Users.Find(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
         public IActionResult Registreer()
         {
             return View();
