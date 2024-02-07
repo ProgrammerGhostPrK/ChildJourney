@@ -293,6 +293,7 @@ namespace ChildJourney.Controllers
                     }
                 }
                 user.lastMonthLogin = Day;
+                user.lastWeekLogin = user.Daystreak;
             }
             
             _context.SaveChanges();
